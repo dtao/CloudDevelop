@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  description: MyString
+  deadline: 2011-03-28 21:45:18
+  completed: false
+
+two:
+  description: MyString
+  deadline: 2011-03-28 21:45:18
+  completed: false

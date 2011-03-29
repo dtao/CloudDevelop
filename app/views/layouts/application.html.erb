@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CloudDevelop</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+
+<div class="top_menu">
+	<ul class="top_menu_list">
+		<li><%= link_to "Tasks", "tasks" %></li>
+	</ul>
+</div>
+
+<%= yield %>
+
+</body>
+</html>
