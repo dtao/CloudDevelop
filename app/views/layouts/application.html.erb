@@ -6,15 +6,76 @@
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
 </head>
-<body>
 
-<div class="top_menu">
-	<ul class="top_menu_list">
-		<li><%= link_to "Tasks", "tasks" %></li>
-	</ul>
+<body class="noheader">
+<div id="container">
+	<div id="header">
+    	<h1><a href="/">Collab<strong>Develop</strong></a></h1>
+        <h2>Everything you need in the sickest IDE ever</h2>
+        <div class="clear"></div>
+    </div>
+    <div id="nav">
+    	<ul class="sf-menu dropdown">
+        	<li><%= link_to "Tasks", "tasks" %></li>
+        </ul>
+    </div>
+        
+    <div id="body">            
+		<div id="content">
+            <div class="box">
+                <%= yield %>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <h4><span>Our <strong>Pages</strong></span></h4>
+                    <ul class="blocklist">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="examples.html">Examples</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Solutions</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </li>
+            </ul> 
+        </div>
+    	<div class="clear"></div>
+    </div>
 </div>
+ <div id="footer">
+      <div class="footer-content">
 
-<%= yield %>
+        <div class="footer-box">
+        </div>
+        
+        <div class="footer-box">
+        </div>
+        
+        <div class="footer-box">
+            <h4>Network sites</h4>
+            <ul>
+                <li><a href="http://www.spyka.net" title="spyka Webmaster resources">spyka webmaster</a></li>
+                <li><a href="http://www.justfreetemplates.com" title="free web templates">Free web templates</a></li>
 
+                <li><a href="http://www.spyka.net/forums" title="webmaster forums">Webmaster forums</a></li>
+                <li><a href="http://www.awesomestyles.com/mybb-themes" title="mybb themes">MyBB themes</a></li>
+                <li><a href="http://www.awesomestyles.com" title="free phpbb3 themes">phpBB3 styles</a></li>
+            </ul>	
+        </div>
+        
+        <div class="footer-box end-footer-box">
+        </div>
+
+        <div class="clear"></div> 
+    </div>
+    <div id="footer-links">
+
+    <!-- A link to http://www.spyka.net must remain. To remove link see http://www.spyka.net/licensing -->
+            <p>&copy; YourSite 2010. Website design by <a href="http://www.spyka.net">Free CSS Templates</a> | <a href="http://www.justfreetemplates.com">Free Web Templates</a></p>
+    </div>  
+</div>
 </body>
+
 </html>
