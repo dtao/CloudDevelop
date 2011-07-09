@@ -1,76 +1,332 @@
-<!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    
 <head>
-  <title>CloudDevelop</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
+
+<title>CloudDevelop</title>
+
+<%= stylesheet_link_tag "style" %>
+
+<%= javascript_include_tag "jquery/jquery-1.6.2" %>
+<%= stylesheet_link_tag "jquery/themes/base/jquery.ui.all" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.core" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.widget" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.mouse" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.draggable" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.resizable" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.position" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.autocomplete" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.button" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.dialog" %>
+
+<%= javascript_include_tag "codemirror/lib/codemirror" %>
+<%= stylesheet_link_tag "codemirror/codemirror" %>
+<%= javascript_include_tag "codemirror/mode/javascript/javascript" %>
+<%= javascript_include_tag "codemirror/mode/clike/clike" %>
+<%= stylesheet_link_tag "codemirror/theme/default" %>
+<%= stylesheet_link_tag "codemirror/theme/elegant" %>
+<%= stylesheet_link_tag "codemirror/theme/neat" %>
+<%= stylesheet_link_tag "codemirror/theme/night" %>
+
+<!-- jQuery styles -->
+<style type="text/css">
+    .ui-button { margin-left: -1px; }
+    .ui-button-icon-only .ui-button-text { padding: 0.35em; } 
+    .ui-autocomplete-input { margin-right: 0; padding: 0.48em 0 0.47em 0.45em; }
+</style>
+
+<!-- CodeMirror styles -->
+<style type="text/css">
+    .CodeMirror {
+        border: 1px solid #eee;
+    }
+    .CodeMirror-scroll {
+        height: auto;
+        min-height: 300px;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+</style>
+
+<script type="text/javascript"><!--
+    // To do: move this mess into its own file!
+    (function( $ ) {
+        $.widget( "ui.combobox", {
+            _create: function() {
+                var self = this,
+                    select = this.element.hide(),
+                    selected = select.children( ":selected" ),
+                    value = selected.val() ? selected.text() : "";
+                var input = this.input = $( "<input>" )
+                    .insertAfter( select )
+                    .val( value )
+                    .autocomplete({
+                        delay: 0,
+                        minLength: 0,
+                        source: function( request, response ) {
+                            var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+                            response( select.children( "option" ).map(function() {
+                                var text = $( this ).text();
+                                if ( this.value && ( !request.term || matcher.test(text) ) )
+                                    return {
+                                        label: text.replace(
+                                            new RegExp(
+                                                "(?![^&;]+;)(?!<[^<>]*)(" +
+                                                $.ui.autocomplete.escapeRegex(request.term) +
+                                                ")(?![^<>]*>)(?![^&;]+;)", "gi"
+                                            ), "<strong>$1</strong>" ),
+                                        value: text,
+                                        option: this
+                                    };
+                            }) );
+                        },
+                        select: function( event, ui ) {
+                            ui.item.option.selected = true;
+                            self._trigger( "selected", event, {
+                                item: ui.item.option
+                            });
+                            self._trigger( "select", event, ui );
+                        },
+                        change: function( event, ui ) {
+                            if ( !ui.item ) {
+                                var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "$", "i" ),
+                                    valid = false;
+                                select.children( "option" ).each(function() {
+                                    if ( $( this ).text().match( matcher ) ) {
+                                        this.selected = valid = true;
+                                        return false;
+                                    }
+                                });
+                                if ( !valid ) {
+                                    // remove invalid value, as it didn't match anything
+                                    $( this ).val( "" );
+                                    select.val( "" );
+                                    input.data( "autocomplete" ).term = "";
+                                    return false;
+                                }
+                            }
+                        }
+                    })
+                    .addClass( "ui-widget ui-widget-content ui-corner-left" );
+
+                input.data( "autocomplete" )._renderItem = function( ul, item ) {
+                    return $( "<li></li>" )
+                        .data( "item.autocomplete", item )
+                        .append( "<a>" + item.label + "</a>" )
+                        .appendTo( ul );
+                };
+
+                this.button = $( "<button type='button'>&nbsp;</button>" )
+                    .attr( "tabIndex", -1 )
+                    .attr( "title", "Show All Items" )
+                    .insertAfter( input )
+                    .button({
+                        icons: {
+                            primary: "ui-icon-triangle-1-s"
+                        },
+                        text: false
+                    })
+                    .removeClass( "ui-corner-all" )
+                    .addClass( "ui-corner-right ui-button-icon" )
+                    .click(function() {
+                        // close if already visible
+                        if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
+                            input.autocomplete( "close" );
+                            return;
+                        }
+
+                        // work around a bug (likely same cause as #5265)
+                        $( this ).blur();
+
+                        // pass empty string as value to search for, displaying all results
+                        input.autocomplete( "search", "" );
+                        input.focus();
+                    });
+            },
+
+            destroy: function() {
+                this.input.remove();
+                this.button.remove();
+                this.element.show();
+                $.Widget.prototype.destroy.call( this );
+            }
+        });
+    })( jQuery );
+    
+    $(document).ready(function() {
+        var codeEditor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+            lineNumbers: true
+        });
+        
+        function initComboBox(select, optionName) {
+            select.combobox();
+            select.bind("comboboxselect", function() {
+                var selectedValue = select.find("option:selected").val();
+                codeEditor.setOption(optionName, selectedValue);
+            });
+        }
+        
+        function initButton(button, clickCallback) {
+            button.button();
+            button.click(clickCallback);
+        }
+        
+        function initService() {
+            function createPromise() {
+                var successHandler, errorHandler;
+                
+                return {
+                    onSuccess: function(data) {
+                        successHandler(data);
+                    },
+                    onError: function(data) {
+                        errorHandler(data);
+                    },
+                    success: function(handler) {
+                        successHandler = handler;
+                        return this;
+                    },
+                    error: function(handler) {
+                        errorHandler = handler;
+                        return this;
+                    }
+                };
+            }
+            
+            function getLanguages() {
+                var promise = createPromise();
+                
+                $.ajax("http://ideone.com/api/1/service/getLanguages", {
+                    data: {
+                        user: "dtao",
+                        pass: "clouddevelop"
+                    },
+                    dataType: "xml",
+                    success: function(data, textStatus, jqXHR) {
+                        promise.onSuccess(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        promise.onError(textStatus);
+                    }
+                });
+                
+                return promise;
+            }
+            
+            function compile(code) {
+                var promise = createPromise();
+                
+                $.ajax("http://ideone.com/api/1/service/createSubmission", {
+                    data: {
+                        username: "dtao",
+                        password: "clouddevelop"
+                    },
+                    success: function(data) {
+                        promise.onSuccess(data);
+                    },
+                    error: function(data) {
+                        promise.onError(data);
+                    }
+                });
+                
+                return promise;
+            }
+            
+            return {
+                getLanguages: getLanguages,
+                compile: compile
+            };
+        }
+        
+        var ideoneService = initService();
+        
+        initComboBox($("#language-select"), "mode");
+        initComboBox($('#theme-select'), "theme");
+        
+        initButton($("#compile-button"), function() {
+            ideoneService.getLanguages()
+                .success(function(data) {
+                    alert(data);
+                })
+                .error(function(statusText) {
+                    alert(statusText);
+                });
+            //$("#console-dialog").dialog("open");
+        });
+        
+        $("#console-dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            height: 480,
+            width: 640,
+            dialogClass: "console",
+            buttons: {
+                Close: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+    });
+--></script>
+
 </head>
 
-<body class="noheader">
-<div id="container">
-	<div id="header">
-    	<h1><a href="/">Collab<strong>Develop</strong></a></h1>
-        <h2>Everything you need in the sickest IDE ever</h2>
-        <div class="clear"></div>
-    </div>
-    <div id="nav">
-    	<ul class="sf-menu dropdown">
-        	<li><%= link_to "Tasks", "tasks" %></li>
-			<li><%= link_to "Projects", "projects" %></li>
+<body>
+
+<div id="header">
+    <h1><a href="/"><span>Cloud</span>Develop</a></h1>
+    <div class="clear"></div>
+</div>
+
+<div id="navigation">
+    <div class="inner-navigation">
+        <ul>
+            <li><%= link_to "code", "code_snippets" %></li>
+            <li><%= link_to "projects", "projects" %></li>
         </ul>
     </div>
-        
-    <div id="body">
-		<div id="content">
-            <div class="box" style="min-height: 480px;">
-                <%= yield %>
+</div>
+    
+<div id="wrap">
+    
+    <div id="content">
+        <form>
+            <div id="toolbar-area">
+                <label for="language-select">Language</label>
+                <select name="language-select" id="language-select">
+                    <option value="clike">C/C++</option>
+                    <option value="javascript" selected="selected">JavaScript</option>
+                    <option value="php">PHP</option>
+                    <option value="python">Python</option>
+                </select>
+                
+                <label for="theme-select">Theme</label>
+                <select name="theme-select" id="theme-select">
+                    <option value="default" selected="selected">Default</option>
+                    <option value="night">Night</option>
+                    <option value="neat">Neat</option>
+                    <option value="elegant">Elegant</option>
+                </select>
             </div>
-        </div>
         
-        <!--<div class="sidebar">
-            <ul>
-                <li>
-                    <h4><span>Our <strong>Pages</strong></span></h4>
-                    <ul class="blocklist">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="examples.html">Examples</a></li>
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Solutions</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </li>
-            </ul> 
-        </div>-->
-    	<div class="clear"></div>
+            <textarea name="code-editor" id="code-editor"></textarea>
+        </form>
+        
+        <div id="button-area">
+            <button name="compile-button" id="compile-button">Compile</button>
+        </div>
+        <div class="clear"></div>
     </div>
+    
+    <div id="console-dialog" title="Console">
+        <pre id="console-output">Compiling...</pre>
+    </div>
+    
 </div>
- <div id="footer">
-      <div class="footer-content">
 
-        <div class="footer-box">
-        </div>
-        
-        <div class="footer-box">
-        </div>
-        
-        <div class="footer-box">
-            <!--<h4></h4>
-            <ul>
-			</ul>-->
-        </div>
-        
-        <div class="footer-box end-footer-box">
-        </div>
-
-        <div class="clear"></div> 
-    </div>
-    <div id="footer-links">
-
-    <!-- A link to http://www.spyka.net must remain. To remove link see http://www.spyka.net/licensing -->
-            <p>&copy; CloudDevelop 2011 | website design by <a href="http://www.spyka.net">spyka.net</a></p>
-    </div>
+<div class="footer">
+    <p>CloudDevelop uses <a href="http://ideone.com">ideone.com</a> &copy; by <a href="http://sphere-research.com">Sphere Research Labs</a></p>
 </div>
+
 </body>
 
 </html>

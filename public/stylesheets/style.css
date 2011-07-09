@@ -1,0 +1,300 @@
+body {
+    background-color: #D2DADF;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 1em;
+    margin: 0 auto;
+    padding: 0;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+:focus {
+    outline: medium none;
+}
+ul, ol {
+    margin: 10px 0 35px 40px;
+}
+p, ul, ol, blockquote {
+    font-size: 0.85em;
+    line-height: 1.9em;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+a {
+    color: #475864;
+    text-decoration: none;
+}
+a:hover {
+    color: #667F8F;
+}
+blockquote {
+    background: url("images/quote.png") no-repeat scroll left top #FFFFFF;
+    font-style: italic;
+    letter-spacing: 1px;
+    margin: 25px 0 25px 30px;
+    padding: 10px 0 10px 55px;
+}
+code {
+    border: 1px solid #DDDDDD;
+    display: block;
+    font-family: "Courier New",Courier,monospace;
+    letter-spacing: 1px;
+    margin: 25px 0 25px 30px;
+    padding: 15px 10px;
+}
+img {
+    border: medium none;
+}
+table {
+    width: 100%;
+}
+table tr th {
+    background: url("images/title-bg.png") repeat-x scroll left bottom #204C78;
+    border-bottom: 1px solid #0B1928;
+    border-top: 1px solid #0B1928;
+    color: #FFFFFF;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+    text-align: left;
+}
+table tr td {
+    border-bottom: 1px solid #C3D9EF;
+    color: #333333;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+}
+table tr.alt td {
+    background-color: #D7E6F4;
+}
+form input, form select, button {
+	display: inline;
+	margin: 10px;
+}
+form textarea {
+	display: block;
+	margin-bottom: 10px;
+}
+#toolbar-area {
+	text-align: center;
+} 
+#button-area {
+	text-align: center;
+}
+pre#console-output {
+	font-family: monospace;
+	height: 100%;
+}
+h1, h2, h4, h5 {
+    color: #333333;
+    margin-bottom: 10px;
+}
+h3 {
+    color: #333333;
+    margin-bottom: 15px;
+}
+h5 {
+    font-size: 0.85em;
+}
+.clear {
+    clear: both;
+}
+.break {
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    width: 0;
+}
+div#header {
+    background: url("images/header-hilight.png") no-repeat scroll left top transparent;
+    padding: 10px 30px;
+}
+div#header h1 {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+div#header h1, div#header h1 a {
+    border-bottom: medium none;
+    color: #445560;
+    font-size: 1.8em;
+    letter-spacing: -5px;
+    line-height: 1em;
+}
+div#header h1 a span {
+    color: #999999;
+}
+div#header div.search-form {
+    float: right;
+    width: 50%;
+}
+div#header div.search-form fieldset {
+    float: right;
+    margin: 0;
+}
+div#header div.search-form fieldset form {
+    float: right;
+    padding: 0;
+}
+div#header div.search-form fieldset form p {
+    background-color: #C3CED5;
+    border: 1px solid #B4C2CB;
+    margin: 0;
+    padding: 10px 15px;
+    text-align: right;
+}
+div#header div.search-form fieldset form p input.formbutton {
+    margin-left: 0;
+    padding: 1px 5px;
+}
+div#page-title {
+    background: url("images/title-bg.png") repeat-x scroll left bottom #698595;
+    border-top: 1px solid #000000;
+    color: #FFFFFF;
+    height: 100%;
+    padding: 20px 30px 0;
+}
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+div#navigation {
+    background: url("images/nav-left.png") no-repeat scroll left top #333333;
+    height: 40px;
+}
+div.inner-navigation {
+    background-image: url("images/nav-right.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    height: 40px;
+}
+div#navigation ul {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 0;
+}
+div#navigation ul li {
+    display: block;
+    float: left;
+}
+div#navigation ul li.selected {
+}
+div#navigation ul li a {
+    border-bottom: medium none;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font-size: 0.9em;
+    font-weight: bold;
+    height: 24px;
+    padding: 8px 20px;
+    text-transform: uppercase;
+}
+div#navigation ul li.selected a, div#navigation ul li.selected a:hover {
+    background: url("images/nav-selected.png") no-repeat scroll center bottom #474747;
+}
+div#navigation ul li a:hover {
+    background-color: #3B3B3B;
+}
+div#content {
+    background: url("images/lead-border.png") repeat-x scroll left top #FFFFFF;
+    clear: both;
+    padding: 10px;
+}
+div#page {
+    color: #555555;
+    font-size: 1em;
+    padding: 10px;
+}
+div#content h2 {
+    color: #4D616D;
+    font-size: 1.7em;
+    letter-spacing: -1px;
+}
+div#content h1 {
+    color: #474747;
+}
+div#content ul li > ul, div#content ol li > ul, ol li > ul, ul li > ul, div#content ol li > ol, div#content ul li > ol, ol li > ol, ul li > ol {
+    font-size: 1em;
+    list-style: square outside none;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+div#content ol li > ol, div#content ul li > ol, ol li > ol, ul li > ol {
+    list-style: decimal outside none;
+}
+div#page {
+    font-size: 0.95em;
+}
+div#content ul {
+    margin: 0 0 20px 30px;
+}
+div#content ul.servicelist {
+    list-style: none outside none;
+    margin-left: 0;
+}
+ul.servicelist li {
+    background: url("images/question-icon.gif") no-repeat scroll 0 20px transparent;
+    display: block;
+    padding: 0 0 0 60px;
+}
+ul.servicelist li.app-icon {
+    background-image: url("images/app-icon.gif");
+}
+ul.servicelist li.chart-icon {
+    background-image: url("images/chart-icon.gif");
+}
+ul.servicelist li.bulb-icon {
+    background-image: url("images/bulb-icon.gif");
+}
+ul.servicelist li.lock-icon {
+    background-image: url("images/lock-icon.gif");
+}
+ul.servicelist li span {
+    background: url("images/service-list-line.png") no-repeat scroll center bottom transparent;
+    display: block;
+    padding: 20px 0 23px;
+}
+ul.servicelist li.last span {
+    background-image: none;
+}
+div#sidebar ul.clientlist li a img {
+    display: block;
+    margin: 0 auto;
+}
+div.footer {
+    background: url("images/footer-bg.png") repeat-x scroll left top #D2DADF;
+    clear: both;
+    margin: 0 auto;
+    padding: 25px 30px 10px;
+}
+div.footer p {
+    color: #879DAB;
+    font-size: 0.8em;
+    margin: 0;
+}
+div.footer p a {
+    border-bottom: medium none;
+    color: #879DAB;
+    text-decoration: underline;
+}
+a.block-link span {
+    border-bottom: 1px solid #475864;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+a.block-link:hover span {
+    border-bottom: 1px solid #667F8F;
+}
+a.more-link, a.visit-link {
+    background: url("images/preview.gif") no-repeat scroll left center #FFFFFF;
+    height: 16px;
+    padding: 1px 0 2px 20px;
+}
+a.more-link {
+    background-image: url("images/read.gif");
+}

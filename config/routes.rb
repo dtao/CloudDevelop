@@ -1,4 +1,6 @@
 CloudDevelop::Application.routes.draw do
+  resources :code_snippets
+
   resources :projects
 
   resources :tasks
@@ -52,7 +54,7 @@ CloudDevelop::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "tasks#index"
+  root :to => "code_snippets#index"
 
   # See how all your routes lay out with "rake routes"
 
