@@ -1,21 +1,128 @@
-<%= form_for(@code_snippet) do |f| %>
-  <% if @code_snippet.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@code_snippet.errors.count, "error") %> prohibited this code_snippet from being saved:</h2>
+<% content_for :head_stuff do %>
+<%= javascript_include_tag "jquery/jquery-1.6.2" %>
+<%= stylesheet_link_tag "jquery/themes/base/jquery.ui.all" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.core" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.widget" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.mouse" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.draggable" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.resizable" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.position" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.autocomplete" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.button" %>
+<%= javascript_include_tag "jquery/ui/jquery.ui.dialog" %>
 
-      <ul>
-      <% @code_snippet.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= javascript_include_tag "codemirror/lib/codemirror" %>
+<%= stylesheet_link_tag "codemirror/codemirror" %>
+<%= javascript_include_tag "codemirror/mode/javascript/javascript" %>
+<%= javascript_include_tag "codemirror/mode/clike/clike" %>
+<%= stylesheet_link_tag "codemirror/theme/default" %>
+<%= stylesheet_link_tag "codemirror/theme/elegant" %>
+<%= stylesheet_link_tag "codemirror/theme/neat" %>
+<%= stylesheet_link_tag "codemirror/theme/night" %>
+
+<%= javascript_include_tag "combobox" %>
+<%= javascript_include_tag "service" %>
+
+<!-- jQuery styles -->
+<style type="text/css">
+    .ui-button { margin-left: -1px; }
+    .ui-button-icon-only .ui-button-text { padding: 0.35em; } 
+    .ui-autocomplete-input { margin-right: 0; padding: 0.48em 0 0.47em 0.45em; }
+</style>
+
+<!-- CodeMirror styles -->
+<style type="text/css">
+    .CodeMirror {
+        border: 1px solid #eee;
+    }
+    .CodeMirror-scroll {
+        height: auto;
+        min-height: 300px;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+</style>
+
+<script type="text/javascript"><!--
+    $(document).ready(function() {
+        var codeEditor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+            lineNumbers: true
+        });
+        
+        function initComboBox(select, optionName) {
+            select.combobox();
+            select.bind("comboboxselect", function() {
+                var selectedValue = select.find("option:selected").val();
+                codeEditor.setOption(optionName, selectedValue);
+            });
+        }
+        
+        function initButton(button, clickCallback) {
+            button.button();
+            button.click(clickCallback);
+        }
+        
+        initComboBox($("#language-select"), "mode");
+        initComboBox($('#theme-select'), "theme");
+        
+        initButton($("#compile-button"), function() {
+            var code = codeEditor.getValue();
+
+            $("#console-dialog").dialog("open");
+
+            ideoneService.execute(code)
+                .onSuccess(function(data) {
+                    $('#console-output').text(data.toString());
+                })
+                .onError(function(data) {
+                    $('#console-output').text(data.toString());
+                });
+        });
+        
+        $("#console-dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            height: 480,
+            width: 640,
+            dialogClass: "console",
+            buttons: {
+                Close: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+    });
+--></script>
+<% end %>
+
+<form>
+    <div id="toolbar-area">
+        <label for="language-select">Language</label>
+        <select name="language-select" id="language-select">
+            <option value="clike">C/C++</option>
+            <option value="javascript" selected="selected">JavaScript</option>
+            <option value="php">PHP</option>
+            <option value="python">Python</option>
+        </select>
+        
+        <label for="theme-select">Theme</label>
+        <select name="theme-select" id="theme-select">
+            <option value="default" selected="selected">Default</option>
+            <option value="night">Night</option>
+            <option value="neat">Neat</option>
+            <option value="elegant">Elegant</option>
+        </select>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :snippet %><br />
-    <%= f.text_field :snippet %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <textarea name="code-editor" id="code-editor"></textarea>
+</form>
+
+<div id="button-area">
+    <button name="compile-button" id="compile-button">Compile</button>
+</div>
+
+<% content_for :foot_stuff do %>
+<div id="console-dialog" title="Console">
+    <pre id="console-output">Compiling...</pre>
+</div>
 <% end %>
