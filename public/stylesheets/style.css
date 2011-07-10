@@ -28,13 +28,6 @@ a {
 a:hover {
     color: #667F8F;
 }
-blockquote {
-    background: url("images/quote.png") no-repeat scroll left top #FFFFFF;
-    font-style: italic;
-    letter-spacing: 1px;
-    margin: 25px 0 25px 30px;
-    padding: 10px 0 10px 55px;
-}
 code {
     border: 1px solid #DDDDDD;
     display: block;
@@ -50,7 +43,7 @@ table {
     width: 100%;
 }
 table tr th {
-    background: url("images/title-bg.png") repeat-x scroll left bottom #204C78;
+    background-color: #204C78;
     border-bottom: 1px solid #0B1928;
     border-top: 1px solid #0B1928;
     color: #FFFFFF;
@@ -107,7 +100,6 @@ h5 {
     width: 0;
 }
 div#header {
-    background: url("images/header-hilight.png") no-repeat scroll left top transparent;
     padding: 10px 30px;
 }
 div#header h1 {
@@ -149,7 +141,7 @@ div#header div.search-form fieldset form p input.formbutton {
     padding: 1px 5px;
 }
 div#page-title {
-    background: url("images/title-bg.png") repeat-x scroll left bottom #698595;
+    background-color: #698595;
     border-top: 1px solid #000000;
     color: #FFFFFF;
     height: 100%;
@@ -160,11 +152,10 @@ div#page-title {
     visibility: hidden;
 }
 div#navigation {
-    background: url("images/nav-left.png") no-repeat scroll left top #333333;
+    background-color: #333333;
     height: 40px;
 }
 div.inner-navigation {
-    background-image: url("images/nav-right.png");
     background-position: right top;
     background-repeat: no-repeat;
     height: 40px;
@@ -194,13 +185,13 @@ div#navigation ul li a {
     text-transform: uppercase;
 }
 div#navigation ul li.selected a, div#navigation ul li.selected a:hover {
-    background: url("images/nav-selected.png") no-repeat scroll center bottom #474747;
+    background-color: #474747;
 }
 div#navigation ul li a:hover {
     background-color: #3B3B3B;
 }
 div#content {
-    background: url("images/lead-border.png") repeat-x scroll left top #FFFFFF;
+    background-color: #FFFFFF;
     clear: both;
     padding: 10px;
 }
@@ -236,37 +227,12 @@ div#content ul.servicelist {
     list-style: none outside none;
     margin-left: 0;
 }
-ul.servicelist li {
-    background: url("images/question-icon.gif") no-repeat scroll 0 20px transparent;
-    display: block;
-    padding: 0 0 0 60px;
-}
-ul.servicelist li.app-icon {
-    background-image: url("images/app-icon.gif");
-}
-ul.servicelist li.chart-icon {
-    background-image: url("images/chart-icon.gif");
-}
-ul.servicelist li.bulb-icon {
-    background-image: url("images/bulb-icon.gif");
-}
-ul.servicelist li.lock-icon {
-    background-image: url("images/lock-icon.gif");
-}
-ul.servicelist li span {
-    background: url("images/service-list-line.png") no-repeat scroll center bottom transparent;
-    display: block;
-    padding: 20px 0 23px;
-}
-ul.servicelist li.last span {
-    background-image: none;
-}
 div#sidebar ul.clientlist li a img {
     display: block;
     margin: 0 auto;
 }
 div.footer {
-    background: url("images/footer-bg.png") repeat-x scroll left top #D2DADF;
+    background-color: #D2DADF;
     clear: both;
     margin: 0 auto;
     padding: 25px 30px 10px;
@@ -290,11 +256,6 @@ a.block-link span {
 a.block-link:hover span {
     border-bottom: 1px solid #667F8F;
 }
-a.more-link, a.visit-link {
-    background: url("images/preview.gif") no-repeat scroll left center #FFFFFF;
-    height: 16px;
-    padding: 1px 0 2px 20px;
-}
-a.more-link {
-    background-image: url("images/read.gif");
+.error {
+    color: #FF0000;
 }

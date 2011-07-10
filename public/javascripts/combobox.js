@@ -92,6 +92,10 @@
                 });
         },
 
+        id: function( id ) {
+            this.input.attr( "id", id );
+        },
+
         destroy: function() {
             this.input.remove();
             this.button.remove();
