@@ -29,11 +29,14 @@ ideoneService = (function() {
 		};
 	}
 
-	function execute(code) {
+	function execute(code, language) {
 		var promise = createPromise();
 
 		$.ajax("/code_snippets.js", {
-			data: { code_snippet: code },
+			data: {
+				code_snippet: code,
+				language: language
+			},
 			dataType: 'json',
 			type: 'post',
 			success: function(data, textStatus, jqXHR) {

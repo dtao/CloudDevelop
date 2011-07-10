@@ -45,41 +45,60 @@
 
 <script type="text/javascript"><!--
     $(document).ready(function() {
+        var modeMap = {
+            c: "clike",
+            cpp: "clike",
+            cs: "clike",
+            java: "clike",
+            javascript: "javascript",
+            php: "php",
+            python: "python"
+        };
+
+        var languageMap = {
+            c: 11,
+            cpp: 1,
+            cs: 27,
+            java: 10,
+            javascript: 35,
+            php: 29,
+            python: 4
+        };
+
         var codeEditor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
             lineNumbers: true
         });
         
-        function initComboBox(select, optionName) {
-            select.combobox();
-            select.bind("comboboxselect", function() {
-                var selectedValue = select.find("option:selected").val();
-                codeEditor.setOption(optionName, selectedValue);
-            });
-        }
-        
-        function initButton(button, clickCallback) {
-            button.button();
-            button.click(clickCallback);
-        }
-        
-        initComboBox($("#language-select"), "mode");
-        initComboBox($('#theme-select'), "theme");
-        
-        initButton($("#compile-button"), function() {
-            var code = codeEditor.getValue();
+        var languageSelect = $("#language-select").combobox();
+        languageSelect.bind("comboboxselect", function() {
+            var selectedLanguage = languageSelect.find("option:selected").val();
+            codeEditor.setOption("mode", modeMap[selectedLanguage]);
+        });
 
+        var themeSelect = $("#theme-select").combobox();
+        themeSelect.bind("comboboxselect", function() {
+            var selectedTheme = themeSelect.find("option:selected").val();
+            codeEditor.setOption("theme", selectedTheme);
+        });
+        
+        var compileButton = $('#compile-button').button();
+        compileButton.click(function() {
+            var code = codeEditor.getValue(),
+                language = languageMap[languageSelect.val()];
+
+            $('#console-output').text("Compiling...");
             $("#console-dialog").dialog("open");
 
-            ideoneService.execute(code)
+            ideoneService.execute(code, language)
                 .onSuccess(function(data) {
-                    $('#console-output').text(data.toString());
+                    $('#console-output').text(JSON.stringify(data));
                 })
                 .onError(function(data) {
-                    $('#console-output').text(data.toString());
+                    $('#console-output').text(JSON.stringify(data));
                 });
         });
         
-        $("#console-dialog").dialog({
+        var consoleDialog = $("#console-dialog").dialog({
             autoOpen: false,
             modal: true,
             height: 480,
@@ -99,7 +118,10 @@
     <div id="toolbar-area">
         <label for="language-select">Language</label>
         <select name="language-select" id="language-select">
-            <option value="clike">C/C++</option>
+            <option value="c">C</option>
+            <option value="cpp">C++</option>
+            <option value="cs">C#</option>
+            <option value="java">Java</option>
             <option value="javascript" selected="selected">JavaScript</option>
             <option value="php">PHP</option>
             <option value="python">Python</option>

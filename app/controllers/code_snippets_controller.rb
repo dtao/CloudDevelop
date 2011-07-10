@@ -25,11 +25,30 @@ class CodeSnippetsController < ApplicationController
   def create
     @code_snippet = CodeSnippet.new
 
-    @code_snippet.snippet = params[:code_snippet]
+    snippet = params[:code_snippet]
+    language = params[:language]
+
+    @code_snippet.snippet = snippet
 
     respond_to do |format|
       if @code_snippet.save
-        format.js { render :json => @code_snippet, :status => :created }
+        client = Savon::Client.new do
+          wsdl.document = "http://ideone.com/api/1/service.wsdl"
+        end
+        
+        response = client.request "createSubmission" do
+          soap.body = {
+            :user => "dtao",
+            :pass => "clouddevelop",
+            :sourceCode => snippet,
+            :language => language,
+            :input => "",
+            :run => true,
+            :private => true
+          }
+        end
+
+        format.js { render :json => response, :status => :created }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @code_snippet.errors, :status => :unprocessable_entity }
