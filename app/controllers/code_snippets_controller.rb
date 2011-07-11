@@ -89,6 +89,9 @@ class CodeSnippetsController < ApplicationController
           is_error = true
         when 12
           output = value_from_response(details_response.to_hash[:get_submission_details_response], "stderr")
+          unless output.is_a? String
+            output = "A runtime error occurred during execution.\n\n" + value_from_response(details_response.to_hash[:get_submission_details_response], "output")
+          end
           is_error = true
         when 13
           output = "Time limit exceeded :("
