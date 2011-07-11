@@ -2,7 +2,7 @@
     $.widget( "ui.combobox", {
         _create: function() {
             var self = this,
-                select = this.element.hide(),
+                select = this.select = this.element.hide(),
                 selected = select.children( ":selected" ),
                 value = selected.val() ? selected.text() : "";
             var input = this.input = $( "<input>" )
@@ -33,7 +33,7 @@
                         self._trigger( "selected", event, {
                             item: ui.item.option
                         });
-                        self._trigger( "select", event, ui );
+                        self._trigger( "update" );
                     },
                     change: function( event, ui ) {
                         if ( !ui.item ) {
@@ -92,8 +92,9 @@
                 });
         },
 
-        id: function( id ) {
-            this.input.attr( "id", id );
+        refresh: function() {
+            this.input.val( this.select.find( "option:selected" ).text() );
+            this._trigger( "update" );
         },
 
         destroy: function() {

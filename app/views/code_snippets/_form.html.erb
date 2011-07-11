@@ -70,14 +70,13 @@
         });
         
         var languageSelect = $("#language-select").combobox();
-        languageSelect.combobox("id", "language-combobox");
-        languageSelect.bind("comboboxselect", function() {
+        languageSelect.bind("comboboxupdate", function() {
             var selectedLanguage = languageSelect.find("option:selected").val();
             codeEditor.setOption("mode", modeMap[selectedLanguage]);
         });
 
         var themeSelect = $("#theme-select").combobox();
-        themeSelect.bind("comboboxselect", function() {
+        themeSelect.bind("comboboxupdate", function() {
             var selectedTheme = themeSelect.find("option:selected").val();
             codeEditor.setOption("theme", selectedTheme);
         });
@@ -120,7 +119,7 @@
 
         <% unless @code_snippet.nil? || @code_snippet.language.nil? %>
         languageSelect.val("<%= @code_snippet.language %>");
-        $("#language-combobox").val(languageSelect.find("option:selected").text());
+        languageSelect.combobox("refresh");
         <% end %>
     });
 --></script>
