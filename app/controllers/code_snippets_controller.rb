@@ -145,12 +145,22 @@ class CodeSnippetsController < ApplicationController
       1
     when "cs"
       27
+    when "haskell"
+      21
     when "java"
       10
+    when "javascript"
+      35
+    when "lua"
+      26
     when "php"
       29
     when "python"
       4
+    when "scheme"
+      33
+    when "smalltalk"
+      23
     end
   end
 

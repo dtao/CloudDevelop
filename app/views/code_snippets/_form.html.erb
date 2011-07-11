@@ -13,8 +13,14 @@
 
 <%= javascript_include_tag "codemirror/lib/codemirror" %>
 <%= stylesheet_link_tag "codemirror/codemirror" %>
-<%= javascript_include_tag "codemirror/mode/javascript/javascript" %>
 <%= javascript_include_tag "codemirror/mode/clike/clike" %>
+<%= javascript_include_tag "codemirror/mode/haskell/haskell" %>
+<%= javascript_include_tag "codemirror/mode/javascript/javascript" %>
+<%= javascript_include_tag "codemirror/mode/lua/lua" %>
+<%= javascript_include_tag "codemirror/mode/php/php" %>
+<%= javascript_include_tag "codemirror/mode/python/python" %>
+<%= javascript_include_tag "codemirror/mode/scheme/scheme" %>
+<%= javascript_include_tag "codemirror/mode/smalltalk/smalltalk" %>
 <%= stylesheet_link_tag "codemirror/theme/default" %>
 <%= stylesheet_link_tag "codemirror/theme/elegant" %>
 <%= stylesheet_link_tag "codemirror/theme/neat" %>
@@ -49,10 +55,14 @@
             c: "text/x-csrc",
             cpp: "text/x-c++src",
             cs: "text/x-csharp",
+            haskell: "text/x-haskell",
             java: "text/x-java",
-            javascript: "javascript",
-            php: "php",
-            python: "python"
+            javascript: "text/javascript",
+            lua: "text/x-lua",
+            php: "text/x-php",
+            python: "text/x-python",
+            scheme: "text/x-scheme",
+            smalltalk: "text/x-stsrc"
         };
 
         var codeEditor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
@@ -123,10 +133,14 @@
             <option value="c">C</option>
             <option value="cpp">C++</option>
             <option value="cs">C#</option>
+            <option value="haskell">Haskell</option>
             <option value="java">Java</option>
             <option value="javascript">JavaScript</option>
+            <option value="lua">Lua</option>
             <option value="php">PHP</option>
             <option value="python">Python</option>
+            <option value="scheme">Scheme</option>
+            <option value="smalltalk">Smalltalk</option>
         </select>
         
         <label for="theme-select">Theme</label>
