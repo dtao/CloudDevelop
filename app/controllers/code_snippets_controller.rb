@@ -32,84 +32,103 @@ class CodeSnippetsController < ApplicationController
     @code_snippet.language = language
 
     respond_to do |format|
-      if @code_snippet.save
-        client = Savon::Client.new do
-          wsdl.document = "http://ideone.com/api/1/service.wsdl"
-        end
-        
-        submission_response = client.request "createSubmission" do
-          soap.body = {
-            :user => "dtao",
-            :pass => "clouddevelop",
-            :sourceCode => snippet,
-            :language => language_code(language),
-            :input => "",
-            :run => true,
-            :private => true
-          }
-        end
+      output = ""
+      info = ""
+      is_error = false
 
-        link = link_from_submission_response(submission_response)
-
-        finished = false
-        until finished
-          status_response = client.request "getSubmissionStatus" do
+      begin
+        if @code_snippet.save
+          client = Savon::Client.new do
+            wsdl.document = "http://ideone.com/api/1/service.wsdl"
+          end
+          
+          submission_response = client.request "createSubmission" do
             soap.body = {
               :user => "dtao",
               :pass => "clouddevelop",
-              :link => link
+              :sourceCode => snippet,
+              :language => language_code(language),
+              :input => "",
+              :run => true,
+              :private => true
             }
           end
 
-          if status_from_status_response(status_response) == 0
-            finished = true
-          else
-            sleep 3
+          link = link_from_submission_response(submission_response)
+
+          finished = false
+          until finished
+            status_response = client.request "getSubmissionStatus" do
+              soap.body = {
+                :user => "dtao",
+                :pass => "clouddevelop",
+                :link => link
+              }
+            end
+
+            if status_from_status_response(status_response) == 0
+              finished = true
+            else
+              sleep 3
+            end
           end
-        end
 
-        details_response = client.request "getSubmissionDetails" do
-          soap.body = {
-            :user => "dtao",
-            :pass => "clouddevelop",
-            :link => link,
-            :withSource => false,
-            :withInput => false,
-            :withOutput => true,
-            :withStderr => true,
-            :withCmpinfo => true
-          }
-        end
-
-        is_error = false
-
-        case result_from_details_response(details_response)
-        when 11
-          output = value_from_response(details_response.to_hash[:get_submission_details_response], "cmpinfo")
-          is_error = true
-        when 12
-          output = value_from_response(details_response.to_hash[:get_submission_details_response], "stderr")
-          unless output.is_a? String
-            output = "A runtime error occurred during execution.\n\n" + value_from_response(details_response.to_hash[:get_submission_details_response], "output")
+          details_response = client.request "getSubmissionDetails" do
+            soap.body = {
+              :user => "dtao",
+              :pass => "clouddevelop",
+              :link => link,
+              :withSource => false,
+              :withInput => false,
+              :withOutput => true,
+              :withStderr => true,
+              :withCmpinfo => true
+            }
           end
-          is_error = true
-        when 13
-          output = "Time limit exceeded :("
-        when 17
-          output = "Memory limit exceeded :("
-        when 19
-          output = "Illegal system call :("
-        when 20
-          output = "Internal error :("
-        else
+
           output = value_from_response(details_response.to_hash[:get_submission_details_response], "output")
-        end
+          unless output.is_a? String
+            output = ""
+          end
 
-        format.js { render :json => { :output => output, :isError => is_error }, :status => :created }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @code_snippet.errors, :status => :unprocessable_entity }
+          case result_from_details_response(details_response)
+          when 11
+            info = value_from_response(details_response.to_hash[:get_submission_details_response], "cmpinfo")
+            unless info.is_a? String && info.strip.length > 0
+              info = "An error occurred during compilation."
+            end
+            is_error = true
+          when 12
+            info = value_from_response(details_response.to_hash[:get_submission_details_response], "stderr")
+            unless info.is_a? String && info.strip.length > 0
+              info = "A runtime error occurred during execution."
+            end
+            is_error = true
+          when 13
+            info = "Time limit exceeded :("
+          when 17
+            info = "Memory limit exceeded :("
+          when 19
+            info = "Illegal system call :("
+          when 20
+            info = "Internal error :("
+          else
+            info = "Snippet Id for future reference: #{@code_snippet.id}."
+          end
+        else
+          info = "There was an error saving the code snippet :("
+          is_error = true
+        end
+      rescue Exception => e
+        info = "The CloudDevelop server experienced an error: #{e.message}."
+        is_error = true
       end
+
+      puts "Info: #{info}"
+      puts "Output: #{output}"
+      puts "Error? #{is_error}"
+
+      format.js { render :json => { :output => output, :info => info, :isError => is_error }, :status => :created }
     end
   end
 

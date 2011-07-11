@@ -78,14 +78,16 @@
                 language = languageSelect.val();
 
             $("#console-output").removeClass("error");
+            $("#console-info").text("");
             $("#console-output").text("Compiling...");
             $("#console-dialog").dialog("open");
 
             ideoneService.execute(code, language)
                 .onSuccess(function(data) {
                     if (data.isError) {
-                        $("#console-output").addClass("error");
+                        $("#console-info").addClass("error");
                     }
+                    $("#console-info").text(data.info);
                     $("#console-output").text(data.output);
                 })
                 .onError(function(data) {
@@ -145,6 +147,7 @@
 
 <% content_for :foot_stuff do %>
 <div id="console-dialog" title="Console">
+    <div id="console-info"></div>
     <pre id="console-output">Compiling...</pre>
 </div>
 <% end %>

@@ -43,7 +43,11 @@ ideoneService = (function() {
 				promise.success(data);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				promise.error(textStatus);
+				if (errorThrown) {
+					promise.error(errorThrown);
+				} else {
+					promise.error(textStatus);
+				}
 			}
 		});
 
