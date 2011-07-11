@@ -10,10 +10,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110710071447) do
+ActiveRecord::Schema.define(:version => 20110711160856) do
 
   create_table "code_snippets", :force => true do |t|
-    t.string   "snippet"
+    t.text     "snippet",    :limit => 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "language"
