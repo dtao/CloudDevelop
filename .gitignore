@@ -1,10 +1,9 @@
-.DS_Store
-*.DS_Store
 *.lock
 *.rbproj
 *.sln
 *.suo
 .bundle
+.DS_Store
 config/database.yml
 db/*.sqlite3
 log/*.log
