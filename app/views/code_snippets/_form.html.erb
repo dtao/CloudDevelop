@@ -118,7 +118,7 @@
             }
         });
 
-        <% unless @code_snippet.language.nil? %>
+        <% unless @code_snippet.nil? || @code_snippet.language.nil? %>
         languageSelect.val("<%= @code_snippet.language %>");
         $("#language-combobox").val(languageSelect.find("option:selected").text());
         <% end %>
@@ -152,7 +152,7 @@
         </select>
     </div>
 
-    <textarea name="code-editor" id="code-editor"><%= @code_snippet.snippet %></textarea>
+    <textarea name="code-editor" id="code-editor"><%= @code_snippet ? @code_snippet.snippet : "" %></textarea>
 </form>
 
 <div id="button-area">
