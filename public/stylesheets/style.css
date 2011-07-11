@@ -259,3 +259,6 @@ a.block-link:hover span {
 .error {
     color: #FF0000;
 }
+#console-info {
+    margin-bottom: 10px;
+}

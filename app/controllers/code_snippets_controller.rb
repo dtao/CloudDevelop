@@ -91,20 +91,25 @@ class CodeSnippetsController < ApplicationController
             output = ""
           end
 
+          error_output = value_from_response(details_response.to_hash[:get_submission_details_response], "stderr")
+          if error_output.is_a? String
+            unless output.empty?
+              output = error_output + "\n\n" + output
+            else
+              output = error_output
+            end
+          end
+
           case result_from_details_response(details_response)
           when 11
             info = "An error occurred during compilation."
-            error_output = value_from_response(details_response.to_hash[:get_submission_details_response], "cmpinfo")
-            if error_output.is_a? String
-              output = error_output + "\n\n" + output
+            output = value_from_response(details_response.to_hash[:get_submission_details_response], "cmpinfo")
+            unless output.is_a? String
+              output = ""
             end
             is_error = true
           when 12
             info = "A runtime error occurred during execution."
-            error_output = value_from_response(details_response.to_hash[:get_submission_details_response], "stderr")
-            if error_output.is_a? String
-              output = error_output + "\n\n" + output
-            end
             is_error = true
           when 13
             info = "Time limit exceeded :("
@@ -123,12 +128,9 @@ class CodeSnippetsController < ApplicationController
         end
       rescue Exception => e
         info = "The CloudDevelop server experienced an error: #{e.message}."
+        output = e.backtrace.inspect
         is_error = true
       end
-
-      puts "Info: #{info}"
-      puts "Output: #{output}"
-      puts "Error? #{is_error}"
 
       format.js { render :json => { :output => output, :info => info, :isError => is_error }, :status => :created }
     end

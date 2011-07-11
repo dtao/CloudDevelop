@@ -78,8 +78,8 @@
                 language = languageSelect.val();
 
             $("#console-info").removeClass("error");
-            $("#console-info").text("");
-            $("#console-output").text("Compiling...");
+            $("#console-info").text("Compiling...");
+            $("#console-output").text("");
             $("#console-dialog").dialog("open");
 
             ideoneService.execute(code, language)
