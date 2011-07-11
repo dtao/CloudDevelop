@@ -93,15 +93,17 @@ class CodeSnippetsController < ApplicationController
 
           case result_from_details_response(details_response)
           when 11
-            info = value_from_response(details_response.to_hash[:get_submission_details_response], "cmpinfo")
-            unless info.is_a? String
-              info = "An error occurred during compilation."
+            info = "An error occurred during compilation."
+            error_output = value_from_response(details_response.to_hash[:get_submission_details_response], "cmpinfo")
+            if error_output.is_a? String
+              output = error_output + "\n\n" + output
             end
             is_error = true
           when 12
-            info = value_from_response(details_response.to_hash[:get_submission_details_response], "stderr")
-            unless info.is_a? String
-              info = "A runtime error occurred during execution."
+            info = "A runtime error occurred during execution."
+            error_output = value_from_response(details_response.to_hash[:get_submission_details_response], "stderr")
+            if error_output.is_a? String
+              output = error_output + "\n\n" + output
             end
             is_error = true
           when 13
