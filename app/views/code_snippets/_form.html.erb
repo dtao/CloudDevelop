@@ -51,6 +51,19 @@
 </style>
 
 <script type="text/javascript"><!--
+    function onCompiling() {
+        $("#console-info").removeClass("error");
+        $("#console-info").text("");
+        $("#console-output").text("");
+        $("#console-loading-container").show();
+        $("#console-container").hide();
+    }
+
+    function onCompiled() {
+        $("#console-loading-container").hide();
+        $("#console-container").show();
+    }
+
     $(document).ready(function() {
         var modeMap = {
             c: "text/x-csrc",
@@ -87,13 +100,12 @@
             var code = codeEditor.getValue(),
                 language = languageSelect.val();
 
-            $("#console-info").removeClass("error");
-            $("#console-info").text("Compiling...");
-            $("#console-output").text("");
+            onCompiling();
             $("#console-dialog").dialog("open");
 
             ideoneService.execute(code, language)
                 .onSuccess(function(data) {
+                    onCompiled();
                     if (data.isError) {
                         $("#console-info").addClass("error");
                     }
@@ -101,6 +113,7 @@
                     $("#console-output").text(data.output);
                 })
                 .onError(function(data) {
+                    onCompiled();
                     $("#console-output").text(JSON.stringify(data));
                 });
         });
@@ -161,7 +174,15 @@
 
 <% content_for :foot_stuff do %>
 <div id="console-dialog" title="Console">
-    <div id="console-info"></div>
-    <pre id="console-output">Compiling...</pre>
+    <div id="console-loading-container">
+        <div id="console-loading">
+            <%= image_tag("loading.gif") %><br />
+            Compiling...
+        </div>
+    </div>
+    <div id="console-container">
+        <div id="console-info"></div>
+        <pre id="console-output"></pre>
+    </div>
 </div>
 <% end %>
