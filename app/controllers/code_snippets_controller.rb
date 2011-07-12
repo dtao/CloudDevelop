@@ -44,8 +44,8 @@ class CodeSnippetsController < ApplicationController
           
           submission_response = client.request "createSubmission" do
             soap.body = {
-              :user => "dtao",
-              :pass => "clouddevelop",
+              :user => ENV["IDEONE_USER"],
+              :pass => ENV["IDEONE_PASS"],
               :sourceCode => snippet,
               :language => language_code(language),
               :input => "",
@@ -60,8 +60,8 @@ class CodeSnippetsController < ApplicationController
           until finished
             status_response = client.request "getSubmissionStatus" do
               soap.body = {
-                :user => "dtao",
-                :pass => "clouddevelop",
+                :user => ENV["IDEONE_USER"],
+                :pass => ENV["IDEONE_PASS"],
                 :link => link
               }
             end
@@ -75,8 +75,8 @@ class CodeSnippetsController < ApplicationController
 
           details_response = client.request "getSubmissionDetails" do
             soap.body = {
-              :user => "dtao",
-              :pass => "clouddevelop",
+              :user => ENV["IDEONE_USER"],
+              :pass => ENV["IDEONE_PASS"],
               :link => link,
               :withSource => false,
               :withInput => false,
