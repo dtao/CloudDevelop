@@ -157,6 +157,8 @@ class CodeSnippetsController < ApplicationController
       29
     when "python"
       4
+    when "ruby"
+      17
     when "scheme"
       33
     when "smalltalk"
