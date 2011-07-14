@@ -19,24 +19,13 @@ CodeMirror.defineMode("ruby", function(config) {
   var wordOperators = wordRegexp(['and', 'or', 'not', '&&', '||']);
   var commonKeywords = wordRegexp(['alias', 'BEGIN', 'begin', 'break', 'case',
     'def', 'defined', 'do', 'else', 'elsif', 'END',
-    'end', 'ensure', 'false', 'for', 'if', 'in',
-    'next', 'nil', 'redo', 'rescue', 'retry', 'return',
-    'self', 'super', 'then', 'true', 'undef', 'unless',
-    'until', 'when', 'while', 'yield', 'require', 'load',
-    'raise', 'lambda', 'try', 'module', 'class']);
-  var indentationWords = wordRegexp(['begin', 'class', 'def', 'do', 'if', 'unless', 'until', 'while', 'try']);
-  var sketchupClasses = wordRegexp(['Animation','AppObserver','ArcCurve','Array','AttributeDictionaries',
-    'AttributeDictionary','Behavior','BoundingBox','Camera','Color','Command','ComponentDefinition',
-    'ComponentInstance','ConstructionLine','ConstructionPoint','Curve','DefinitionList','DefinitionObserver',
-    'DefinitionsObserver','Drawingelement','Edge','EdgeUse','Entities','EntitiesObserver','Entity',
-    'EntityObserver','Face','Geom','Group','Image','Importer','InputPoint','InstanceObserver',
-    'LatLong','Layer','Layers','LayersObserver','Length','Loop','Material','Materials',
-    'MaterialsObserver','Menu','Model','ModelObserver','Numeric','OptionsManager','OptionsProvider',
-    'OptionsProviderObserver','Page','Pages','PagesObserver','PickHelper','Point3d','PolygonMesh',
-    'RenderingOptions','RenderingOptionsObserver','SectionPlane','Selection','SelectionObserver',
-    'Set','ShadowInfo','ShadowInfoObserver','Sketchup','SketchupExtension','String','Style','Styles',
-    'Text','Texture','TextureWriter','Tool','Toolbar','Tools','ToolsObserver','Transformation','UI',
-    'UTM','UVHelper','Vector3d','Vertex','View','ViewObserver','WebDialog']);
+    'end', 'ensure', 'for', 'if', 'in', 'lambda', 'load',
+    'next', 'raise', 'redo', 'rescue', 'retry', 'return',
+    'self', 'super', 'then', 'try', 'undef', 'unless',
+    'until', 'when', 'while', 'yield']);
+  var specialConstants = wordRegexp(['true', 'false', 'nil']);
+  var metaKeywords = wordRegexp(['require', 'class', 'module', 'private']);
+  var indentationWords = wordRegexp(['begin', 'class', 'def', 'do', 'if', 'module', 'unless', 'until', 'while', 'try']);
 
   return {
     startState: function() {
@@ -64,7 +53,7 @@ CodeMirror.defineMode("ruby", function(config) {
           return "comment";
 
         } else if (ch == "@") { /* Detect decorators. */
-          if (stream.peek().match(/\w/)) {
+          if (stream.peek().match(/[@\w]/)) {
             stream.eatWhile(/\w/);
             return "tag";
           }
@@ -102,15 +91,20 @@ CodeMirror.defineMode("ruby", function(config) {
         
         } else if (ch.match(/\w/)) { /* Detect keywords and SU classes. */
           stream.eatWhile(/\w/);
+          if (stream.current().match(indentationWords)) {
+            increaseIndent(state);
+          } else if (stream.current() === "end") {
+            decreaseIndent(state);
+          }
+
           if (stream.current().match(commonKeywords)) {
-            if (stream.current().match(indentationWords)) {
-              increaseIndent(state);
-            } else if (stream.current() === "end") {
-              decreaseIndent(state);
-            }
             return "keyword";
-          } else if (stream.current().match(sketchupClasses)) {
-            return "meta";
+
+          } else if (stream.current().match(specialConstants)) {
+            return "atom";
+            
+          } else if (stream.current().match(metaKeywords)) {
+            return "def";
           }
         }
       } else { /* We are in a multi-line string */
@@ -126,7 +120,7 @@ CodeMirror.defineMode("ruby", function(config) {
     indent: function(state, textAfter) {
       var indentLevel = state.indentLevel;
 
-      if (textAfter.match(/\}|end/)) {
+      if (textAfter.match(/^\s*\}|end$/)) {
         indentLevel -= 1;
       }
 
