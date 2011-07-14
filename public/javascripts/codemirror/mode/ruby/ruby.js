@@ -25,7 +25,7 @@ CodeMirror.defineMode("ruby", function(config) {
     'until', 'when', 'while', 'yield']);
   var specialConstants = wordRegexp(['true', 'false', 'nil']);
   var metaKeywords = wordRegexp(['require', 'class', 'module', 'private']);
-  var indentationWords = wordRegexp(['begin', 'class', 'def', 'do', 'if', 'module', 'unless', 'until', 'while', 'try']);
+  var indentationWords = wordRegexp(['begin', 'case', 'class', 'def', 'do', 'if', 'module', 'unless', 'until', 'while', 'try']);
 
   return {
     startState: function() {
@@ -104,7 +104,7 @@ CodeMirror.defineMode("ruby", function(config) {
             return "atom";
             
           } else if (stream.current().match(metaKeywords)) {
-            return "def";
+            return "keyword";
           }
         }
       } else { /* We are in a multi-line string */
@@ -120,13 +120,13 @@ CodeMirror.defineMode("ruby", function(config) {
     indent: function(state, textAfter) {
       var indentLevel = state.indentLevel;
 
-      if (textAfter.match(/^\s*\}|end$/)) {
+      if (textAfter.match(/^\s*(\}|end|else|elsif\s|when\s|rescue)/)) {
         indentLevel -= 1;
       }
 
       return indentLevel * indentUnit;
     },
-    electricChars: "}end"
+    electricChars: "}de "
   };
 });
 
