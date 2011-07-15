@@ -120,7 +120,7 @@ CodeMirror.defineMode("ruby", function(config) {
     indent: function(state, textAfter) {
       var indentLevel = state.indentLevel;
 
-      if (textAfter.match(/^\s*(\}|end|else|elsif\s|when\s|rescue)/)) {
+      if (textAfter.match(/^\s*(\}|end|else|elsif\s|when\s|rescue|ensure)/)) {
         indentLevel -= 1;
       }
 
