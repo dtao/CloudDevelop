@@ -193,7 +193,7 @@ div#navigation ul li a:hover {
 div#content {
     background-color: #FFFFFF;
     clear: both;
-    padding: 10px;
+    padding: 0 10px;
 }
 div#page {
     color: #555555;
@@ -235,7 +235,7 @@ div.footer {
     background-color: #D2DADF;
     clear: both;
     margin: 0 auto;
-    padding: 25px 30px 10px;
+    padding: 10px 20px;
 }
 div.footer p {
     color: #879DAB;
