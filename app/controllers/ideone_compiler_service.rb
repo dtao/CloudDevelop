@@ -14,10 +14,13 @@ class IdeoneCompilerService
         wsdl.document = "http://ideone.com/api/1/service.wsdl"
       end
       
+      user = @user
+      pass = @pass
+      
       submission_response = client.request "createSubmission" do
         soap.body = {
-          :user => @user,
-          :pass => @pass,
+          :user => user,
+          :pass => pass,
           :sourceCode => code,
           :language => language_code(language),
           :input => "",
@@ -33,14 +36,14 @@ class IdeoneCompilerService
       until finished
         status_response = client.request "getSubmissionStatus" do
           soap.body = {
-            :user => @user,
-            :pass => @pass,
+            :user => user,
+            :pass => pass,
             :link => link
           }
         end
   
         status_response_hash = status_response.to_hash[:get_submission_status_response]
-        if value_from_response(status_response_hash, "status") == 0
+        if value_from_response(status_response_hash, "status").to_i == 0
           finished = true
         else
           sleep 3
@@ -49,8 +52,8 @@ class IdeoneCompilerService
   
       details_response = client.request "getSubmissionDetails" do
         soap.body = {
-          :user => ENV["IDEONE_USER"],
-          :pass => ENV["IDEONE_PASS"],
+          :user => user,
+          :pass => pass,
           :link => link,
           :withSource => false,
           :withInput => false,
@@ -75,7 +78,7 @@ class IdeoneCompilerService
         end
       end
   
-      case result_from_details_response(details_response)
+      case value_from_response(details_response_hash, "result")
       when 11
         info = "An error occurred during compilation."
         output = value_from_response(details_response_hash, "cmpinfo")
@@ -143,7 +146,8 @@ class IdeoneCompilerService
   def value_from_response(hash, key)
     value = ""
 
-    hash[:return][:item].each do |item|
+    items = hash[:return][:item]
+    items.each do |item|
       if item[:key] == key
         value = item[:value]
         break
