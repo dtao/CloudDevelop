@@ -130,6 +130,8 @@ class IdeoneCompilerService
       35
     when "lua"
       26
+    when "perl"
+      54
     when "php"
       29
     when "python"
