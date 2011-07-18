@@ -1,35 +1,32 @@
 <% content_for :head_stuff do %>
 <%= stylesheet_link_tag "jquery/themes/base/jquery.ui.all" %>
 <%= javascript_include_tag "jquery/jquery-1.6.2" %>
-<%= javascript_include_tag "jquery/ui/jquery.ui.core" %>
-<%= javascript_include_tag "jquery/ui/jquery.ui.widget" %>
-<%= javascript_include_tag "jquery/ui/jquery.ui.mouse" %>
-<%= javascript_include_tag "jquery/ui/jquery.ui.draggable" %>
-<%= javascript_include_tag "jquery/ui/jquery.ui.resizable" %>
-<%= javascript_include_tag "jquery/ui/jquery.ui.position" %>
-<%= javascript_include_tag "jquery/ui/jquery.ui.autocomplete" %>
-<%= javascript_include_tag "jquery/ui/jquery.ui.button" %>
-<%= javascript_include_tag "jquery/ui/jquery.ui.dialog" %>
+<%
+    ['core', 'widget', 'mouse', 'draggable', 'resizable', 'position', 'autocomplete', 'button', 'dialog'].each do |file|
+        %><%= javascript_include_tag "jquery/ui/jquery.ui.#{file}" %><%
+    end
+%>
 
 <%= stylesheet_link_tag "codemirror/codemirror" %>
-<%= stylesheet_link_tag "codemirror/theme/default" %>
-<%= stylesheet_link_tag "codemirror/theme/elegant" %>
-<%= stylesheet_link_tag "codemirror/theme/neat" %>
-<%= stylesheet_link_tag "codemirror/theme/night" %>
+<%
+    ['default', 'elegant', 'neat', 'night'].each do |theme|
+        %><%= stylesheet_link_tag "codemirror/theme/#{theme}" %><%
+    end
+%>
+
 <%= javascript_include_tag "codemirror/lib/codemirror" %>
-<%= javascript_include_tag "codemirror/mode/clike/clike" %>
-<%= javascript_include_tag "codemirror/mode/haskell/haskell" %>
-<%= javascript_include_tag "codemirror/mode/javascript/javascript" %>
-<%= javascript_include_tag "codemirror/mode/lua/lua" %>
-<%= javascript_include_tag "codemirror/mode/perl/perl" %>
-<%= javascript_include_tag "codemirror/mode/php/php" %>
-<%= javascript_include_tag "codemirror/mode/python/python" %>
-<%= javascript_include_tag "codemirror/mode/ruby/ruby" %>
-<%= javascript_include_tag "codemirror/mode/scheme/scheme" %>
-<%= javascript_include_tag "codemirror/mode/smalltalk/smalltalk" %>
+<%
+    ['clike', 'haskell', 'javascript', 'lua', 'perl', 'php', 'python', 'ruby', 'scheme', 'smalltalk'].each do |mode|
+        %><%= javascript_include_tag "codemirror/mode/#{mode}/#{mode}" %><%
+    end
+%>
 
 <%= javascript_include_tag "combobox" %>
 <%= javascript_include_tag "service" %>
+
+<%
+    @menu_items = ['new', 'open', 'save']
+%>
 
 <!-- jQuery styles -->
 <style type="text/css">

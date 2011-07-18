@@ -20,7 +20,11 @@
 <div id="navigation">
     <div class="inner-navigation">
         <ul>
-            <li><a href="/">code</a></li>
+            <% unless @menu_items.nil? %>
+            <% @menu_items.each do |menu_item| %>
+            <li><a href=\"javascript:void(0);\"><%= menu_item %></a></li>
+            <% end %>
+            <% end %>
         </ul>
     </div>
 </div>
