@@ -1,0 +1,15 @@
+.cm-s-solarized { background: #fdf6e3; color: #586e75; }
+.cm-s-solarized span.cm-keyword { color: #268bd2; }
+.cm-s-solarized span.cm-number { color: #2aa198; }
+.cm-s-solarized span.cm-def { color: #2aa198; }
+.cm-s-solarized span.cm-builtin { color: #2aa198; }
+.cm-s-solarized span.cm-atom { color: #859900; }
+.cm-s-solarized span.cm-operator { color: #859900; }
+.cm-s-solarized span.cm-qualifier { color: #859900; }
+.cm-s-solarized span.cm-variable { color: #859900; }
+.cm-s-solarized span.cm-property { color: #b58900; }
+.cm-s-solarized span.cm-comment { color: #93a1a1; }
+.cm-s-solarized span.cm-string { color: #dc322f; }
+.cm-s-solarized span.cm-meta { color: #d33682; }
+.cm-s-solarized span.cm-tag { color: #cb4b16; }
+.cm-s-solarized span.cm-attribute { color: #6c71c4; }

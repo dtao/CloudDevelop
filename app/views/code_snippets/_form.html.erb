@@ -9,7 +9,7 @@
 
 <%= stylesheet_link_tag "codemirror/codemirror" %>
 <%
-    ['default', 'elegant', 'neat', 'night'].each do |theme|
+    ['default', 'elegant', 'neat', 'night', 'solarized'].each do |theme|
         %><%= stylesheet_link_tag "codemirror/theme/#{theme}" %><%
     end
 %>
@@ -162,9 +162,10 @@
         <label for="theme-select">Theme</label>
         <select name="theme-select" id="theme-select">
             <option value="default" selected="selected">Default</option>
-            <option value="night">Night</option>
-            <option value="neat">Neat</option>
             <option value="elegant">Elegant</option>
+            <option value="neat">Neat</option>
+            <option value="night">Night</option>
+            <option value="solarized">Solarized</option>
         </select>
     </div>
 
