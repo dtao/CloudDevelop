@@ -22,7 +22,7 @@
         <ul>
             <% unless @menu_items.nil? %>
             <% @menu_items.each do |menu_item| %>
-            <li><a href="javascript:void(0);"><%= menu_item %></a></li>
+            <li><a id="<%= menu_item + '-menu-item' %>" href="javascript:void(0);"><%= menu_item %></a></li>
             <% end %>
             <% end %>
         </ul>
