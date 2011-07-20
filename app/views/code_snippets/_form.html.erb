@@ -17,10 +17,16 @@
   end
 %>
 
+<%= javascript_include_tag "service" %>
+<%= javascript_include_tag "codeEditor" %>
 <%= javascript_include_tag "combobox" %>
 <%= javascript_include_tag "languageSelect" %>
 <%= javascript_include_tag "themeSelect" %>
-<%= javascript_include_tag "service" %>
+<%= javascript_include_tag "compileButton" %>
+<%= javascript_include_tag "dialogBase" %>
+<%= javascript_include_tag "consoleDialog" %>
+<%= javascript_include_tag "newDialog" %>
+<%= javascript_include_tag "openDialog" %>
 
 <%
   @menu_items = ['new', 'open', 'save']
@@ -48,148 +54,27 @@
 </style>
 
 <script type="text/javascript"><!--
-  function loadCodeSnippet(editor, select, codeSnippet) {
-    if (!codeSnippet) {
-      editor.setValue("");
-      return;
-    }
-
-    editor.setValue(codeSnippet.snippet);
-    if (codeSnippet.language) {
-      select.selectLanguage(codeSnippet.language);
-    }
-  }
-  
-  function onLoading(dialogName) {
-    $("#" + dialogName + "-info").removeClass("error");
-    $("#" + dialogName + "-info").text("");
-    $("#" + dialogName + "-output").text("");
-    $("#" + dialogName + "-loading-container").show();
-    $("#" + dialogName + "-container").hide();
-  }
-
-  function onLoaded(dialogName) {
-    $("#" + dialogName + "-loading-container").hide();
-    $("#" + dialogName + "-container").show();
-  }
-
   $(document).ready(function() {
-    var codeEditor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
-      lineNumbers: true,
-      onChange: function() {
-        var fileInfoBox = $("#file-info-box > p");
-        if (fileInfoBox) {
-          var text = fileInfoBox.text();
-          if (text.indexOf("*", text.length - 1) === -1) {
-            fileInfoBox.text(text + "*");
-          }
-        }
-      }
-    });
+    var codeEditor = clouddevelop.codeEditor($("#code-editor"));
     
     var languageSelect = clouddevelop.languageSelect($("#language-select"), codeEditor);
     var themeSelect = clouddevelop.themeSelect($("#theme-select"), codeEditor);
     
-    var compileButton = $("#compile-button").button();
-    compileButton.click(function() {
-      var code = codeEditor.getValue(),
-        language = languageSelect.selectedLanguage();
+    var consoleDialog = clouddevelop.consoleDialog("console");
+    var compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog);
 
-      onLoading("console");
-      $("#console-dialog").dialog("open");
-
-      clouddevelop.service.compile(code, language)
-        .onSuccess(function(data) {
-          onLoaded("console");
-          if (data.isError) {
-            $("#console-info").addClass("error");
-          }
-          $("#console-info").text(data.info);
-          $("#console-output").text(data.output);
-        })
-        .onError(function(data) {
-          onLoaded("console");
-          $("#console-output").text(JSON.stringify(data));
-        });
-    });
-    
-    var consoleDialog = $("#console-dialog").dialog({
-      autoOpen: false,
-      modal: true,
-      height: 480,
-      width: 640,
-      dialogClass: "console",
-      buttons: {
-        Close: function() {
-          $(this).dialog("close");
-        }
-      }
-    });
-
-    var newDialog = $("#new-dialog").dialog({
-      autoOpen: false,
-      modal: true,
-      height: "auto",
-      width: "auto",
-      buttons: {
-        OK: function() {
-          var fileName = $("#new-file-name").val();
-          if (fileName === "") {
-            return false;
-          }
-          loadCodeSnippet(codeEditor, languageSelect, null);
-          $("#file-info-box").empty().append($("<p>").text(fileName));
-          $(this).dialog("close");
-        },
-        Cancel: function() {
-          $(this).dialog("close");
-        }
-      }
-    });
+    var newDialog = clouddevelop.newDialog("new");
 
     $("#new-menu-item").click(function() {
       $("#new-file-name").text("");
-      newDialog.dialog("option", "title", "New File");
-      newDialog.dialog("open");
+      newDialog.show();
     });
 
-    var openDialog = $("#open-dialog").dialog({
-      autoOpen: false,
-      modal: true,
-      height: "auto",
-      width: "auto",
-      buttons: {
-        OK: function() {
-          var self = this,
-            fileName = $("#open-file-name").val();
-          if (fileName === "") {
-            return false;
-          }
-
-          onLoading("open");
-
-          clouddevelop.service.open(fileName)
-            .onSuccess(function(result) {
-              onLoaded("open");
-              loadCodeSnippet(codeEditor, languageSelect, result);
-              $("#file-info-box").empty().append($("<p>").text(fileName));
-              $(self).dialog("close");
-            })
-            .onError(function(result) {
-              alert(result);
-            });
-        },
-        Cancel: function() {
-          $(this).dialog("close");
-        }
-      }
-    });
+    var openDialog = clouddevelop.openDialog("open");
 
     $("#open-menu-item").click(function() {
-      onLoaded("open");
       $("#open-file-name").text("");
-      openDialog.dialog("option", "title", "Open File");
-      openDialog.dialog("open");
+      openDialog.show();
     });
 
     <% unless @code_snippet.nil? || @code_snippet.language.nil? %>
@@ -249,14 +134,14 @@
   </div>
 </div>
 
-<div id="new-dialog">
+<div id="new-dialog" title="New File">
   <form>
     <label for="new-file-name">Enter a file name</label>
     <input id="new-file-name" name="new-file-name" type="text"></input>
   </form>
 </div>
 
-<div id="open-dialog">
+<div id="open-dialog" title="Open File">
   <div id="open-loading-container">
     <div id="open-loading">
       <%= image_tag("loading.gif") %><br />

@@ -17,11 +17,11 @@ clouddevelop = clouddevelop || {};
     smalltalk: "text/x-stsrc"
   };
 
-  clouddevelop.languageSelect = function($select, editor) {
+  clouddevelop.languageSelect = function($select, codeEditor) {
   	var $combobox = $select.combobox();
     $select.bind("comboboxupdate", function() {
       var selectedLanguage = $combobox.val();
-      editor.setOption("mode", modeMap[selectedLanguage]);
+      codeEditor.setMode(modeMap[selectedLanguage]);
     });
 
     function selectedLanguage() {
