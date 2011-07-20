@@ -1,4 +1,4 @@
-var clouddevelop = clouddevelop || {};
+clouddevelop = clouddevelop || {};
 
 clouddevelop.service = (function() {
 	function createPromise() {

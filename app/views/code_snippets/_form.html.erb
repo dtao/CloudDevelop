@@ -1,11 +1,7 @@
 <% content_for :head_stuff do %>
 <%= stylesheet_link_tag "jquery/themes/base/jquery.ui.all" %>
 <%= javascript_include_tag "jquery/jquery-1.6.2" %>
-<%
-  ['core', 'widget', 'mouse', 'draggable', 'resizable', 'position', 'autocomplete', 'button', 'dialog'].each do |file|
-    %><%= javascript_include_tag "jquery/ui/jquery.ui.#{file}" %><%
-  end
-%>
+<%= javascript_include_tag "jquery/ui/jquery-ui" %>
 
 <%= stylesheet_link_tag "codemirror/codemirror" %>
 <%
@@ -22,6 +18,8 @@
 %>
 
 <%= javascript_include_tag "combobox" %>
+<%= javascript_include_tag "languageSelect" %>
+<%= javascript_include_tag "themeSelect" %>
 <%= javascript_include_tag "service" %>
 
 <%
@@ -58,13 +56,8 @@
 
     editor.setValue(codeSnippet.snippet);
     if (codeSnippet.language) {
-      selectLanguage(select, codeSnippet.language);
+      select.selectLanguage(codeSnippet.language);
     }
-  }
-
-  function selectLanguage(select, language) {
-    select.val(language);
-    select.combobox("refresh");
   }
   
   function onLoading(dialogName) {
@@ -81,22 +74,6 @@
   }
 
   $(document).ready(function() {
-    var modeMap = {
-      c: "text/x-csrc",
-      cpp: "text/x-c++src",
-      cs: "text/x-csharp",
-      haskell: "text/x-haskell",
-      java: "text/x-java",
-      javascript: "text/javascript",
-      lua: "text/x-lua",
-      perl: "text/x-perl",
-      php: "text/x-php",
-      python: "text/x-python",
-      ruby: "text/x-ruby",
-      scheme: "text/x-scheme",
-      smalltalk: "text/x-stsrc"
-    };
-
     var codeEditor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
       lineNumbers: true,
       onChange: function() {
@@ -110,22 +87,13 @@
       }
     });
     
-    var languageSelect = $("#language-select").combobox();
-    languageSelect.bind("comboboxupdate", function() {
-      var selectedLanguage = languageSelect.find("option:selected").val();
-      codeEditor.setOption("mode", modeMap[selectedLanguage]);
-    });
-
-    var themeSelect = $("#theme-select").combobox();
-    themeSelect.bind("comboboxupdate", function() {
-      var selectedTheme = themeSelect.find("option:selected").val();
-      codeEditor.setOption("theme", selectedTheme);
-    });
+    var languageSelect = clouddevelop.languageSelect($("#language-select"), codeEditor);
+    var themeSelect = clouddevelop.themeSelect($("#theme-select"), codeEditor);
     
     var compileButton = $("#compile-button").button();
     compileButton.click(function() {
       var code = codeEditor.getValue(),
-        language = languageSelect.val();
+        language = languageSelect.selectedLanguage();
 
       onLoading("console");
       $("#console-dialog").dialog("open");
@@ -225,7 +193,7 @@
     });
 
     <% unless @code_snippet.nil? || @code_snippet.language.nil? %>
-    selectLanguage(languageSelect, "<%= @code_snippet.language %>");
+    languageSelect.selectLanguage("<%= @code_snippet.language %>");
     <% end %>
   });
 --></script>
