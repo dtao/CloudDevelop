@@ -130,7 +130,7 @@
       onLoading("console");
       $("#console-dialog").dialog("open");
 
-      clouddevelop.service.execute(code, language)
+      clouddevelop.service.compile(code, language)
         .onSuccess(function(data) {
           onLoaded("console");
           if (data.isError) {
