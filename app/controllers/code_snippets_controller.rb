@@ -17,6 +17,7 @@ class CodeSnippetsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.js   { render :json => @code_snippet }
       format.xml  { render :xml => @code_snippet }
     end
   end

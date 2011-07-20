@@ -117,28 +117,17 @@ div#header h1, div#header h1 a {
 div#header h1 a span {
     color: #999999;
 }
-div#header div.search-form {
+div#header #file-info-box {
     float: right;
     width: 50%;
 }
-div#header div.search-form fieldset {
+div#header #file-info-box p {
     float: right;
-    margin: 0;
-}
-div#header div.search-form fieldset form {
-    float: right;
-    padding: 0;
-}
-div#header div.search-form fieldset form p {
     background-color: #C3CED5;
     border: 1px solid #B4C2CB;
     margin: 0;
     padding: 10px 15px;
     text-align: right;
-}
-div#header div.search-form fieldset form p input.formbutton {
-    margin-left: 0;
-    padding: 1px 5px;
 }
 div#page-title {
     background-color: #698595;
@@ -259,11 +248,11 @@ a.block-link:hover span {
 .error {
     color: #FF0000;
 }
-#console-loading-container {
+#console-loading-container, #open-loading-container {
     position: relative;
     height: 100%;
 }
-#console-loading {
+#console-loading, #open-loading {
     position: absolute;
     text-align: center;
     font-size: small;
@@ -274,7 +263,7 @@ a.block-link:hover span {
     width: 150px;
     margin-left: -75px;
 }
-#console-container {
+#console-container, #open-container {
     height: 100%;
 }
 #console-info {

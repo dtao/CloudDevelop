@@ -2,191 +2,304 @@
 <%= stylesheet_link_tag "jquery/themes/base/jquery.ui.all" %>
 <%= javascript_include_tag "jquery/jquery-1.6.2" %>
 <%
-    ['core', 'widget', 'mouse', 'draggable', 'resizable', 'position', 'autocomplete', 'button', 'dialog'].each do |file|
-        %><%= javascript_include_tag "jquery/ui/jquery.ui.#{file}" %><%
-    end
+  ['core', 'widget', 'mouse', 'draggable', 'resizable', 'position', 'autocomplete', 'button', 'dialog'].each do |file|
+    %><%= javascript_include_tag "jquery/ui/jquery.ui.#{file}" %><%
+  end
 %>
 
 <%= stylesheet_link_tag "codemirror/codemirror" %>
 <%
-    ['default', 'elegant', 'neat', 'night', 'solarized'].each do |theme|
-        %><%= stylesheet_link_tag "codemirror/theme/#{theme}" %><%
-    end
+  ['default', 'elegant', 'neat', 'night', 'solarized'].each do |theme|
+    %><%= stylesheet_link_tag "codemirror/theme/#{theme}" %><%
+  end
 %>
 
 <%= javascript_include_tag "codemirror/lib/codemirror" %>
 <%
-    ['clike', 'haskell', 'javascript', 'lua', 'perl', 'php', 'python', 'ruby', 'scheme', 'smalltalk'].each do |mode|
-        %><%= javascript_include_tag "codemirror/mode/#{mode}/#{mode}" %><%
-    end
+  ['clike', 'haskell', 'javascript', 'lua', 'perl', 'php', 'python', 'ruby', 'scheme', 'smalltalk'].each do |mode|
+    %><%= javascript_include_tag "codemirror/mode/#{mode}/#{mode}" %><%
+  end
 %>
 
 <%= javascript_include_tag "combobox" %>
 <%= javascript_include_tag "service" %>
 
 <%
-    @menu_items = ['new', 'open', 'save']
+  @menu_items = ['new', 'open', 'save']
 %>
 
 <!-- jQuery styles -->
 <style type="text/css">
-    .ui-button { margin-left: -1px; }
-    .ui-button-icon-only .ui-button-text { padding: 0.35em; } 
-    .ui-autocomplete-input { margin-right: 0; padding: 0.48em 0 0.47em 0.45em; }
+  .ui-button { margin-left: -1px; }
+  .ui-button-icon-only .ui-button-text { padding: 0.35em; } 
+  .ui-autocomplete-input { margin-right: 0; padding: 0.48em 0 0.47em 0.45em; }
 </style>
 
 <!-- CodeMirror styles -->
 <style type="text/css">
-    .CodeMirror {
-        border: 1px solid #eee;
-    }
-    .CodeMirror-scroll {
-        font-family: Consolas, Inconsolata, monospace;
-        height: auto;
-        min-height: 300px;
-        overflow-y: hidden;
-        overflow-x: auto;
-    }
+  .CodeMirror {
+    border: 1px solid #eee;
+  }
+  .CodeMirror-scroll {
+    font-family: Consolas, Inconsolata, monospace;
+    height: auto;
+    min-height: 300px;
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
 </style>
 
 <script type="text/javascript"><!--
-    function onCompiling() {
-        $("#console-info").removeClass("error");
-        $("#console-info").text("");
-        $("#console-output").text("");
-        $("#console-loading-container").show();
-        $("#console-container").hide();
+  function loadCodeSnippet(editor, select, codeSnippet) {
+    if (!codeSnippet) {
+      editor.setValue("");
+      return;
     }
 
-    function onCompiled() {
-        $("#console-loading-container").hide();
-        $("#console-container").show();
+    editor.setValue(codeSnippet.snippet);
+    if (codeSnippet.language) {
+      selectLanguage(select, codeSnippet.language);
     }
+  }
 
-    $(document).ready(function() {
-        var modeMap = {
-            c: "text/x-csrc",
-            cpp: "text/x-c++src",
-            cs: "text/x-csharp",
-            haskell: "text/x-haskell",
-            java: "text/x-java",
-            javascript: "text/javascript",
-            lua: "text/x-lua",
-            perl: "text/x-perl",
-            php: "text/x-php",
-            python: "text/x-python",
-            ruby: "text/x-ruby",
-            scheme: "text/x-scheme",
-            smalltalk: "text/x-stsrc"
-        };
+  function selectLanguage(select, language) {
+    select.val(language);
+    select.combobox("refresh");
+  }
+  
+  function onLoading(dialogName) {
+    $("#" + dialogName + "-info").removeClass("error");
+    $("#" + dialogName + "-info").text("");
+    $("#" + dialogName + "-output").text("");
+    $("#" + dialogName + "-loading-container").show();
+    $("#" + dialogName + "-container").hide();
+  }
 
-        var codeEditor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
-            lineNumbers: true
-        });
-        
-        var languageSelect = $("#language-select").combobox();
-        languageSelect.bind("comboboxupdate", function() {
-            var selectedLanguage = languageSelect.find("option:selected").val();
-            codeEditor.setOption("mode", modeMap[selectedLanguage]);
-        });
+  function onLoaded(dialogName) {
+    $("#" + dialogName + "-loading-container").hide();
+    $("#" + dialogName + "-container").show();
+  }
 
-        var themeSelect = $("#theme-select").combobox();
-        themeSelect.bind("comboboxupdate", function() {
-            var selectedTheme = themeSelect.find("option:selected").val();
-            codeEditor.setOption("theme", selectedTheme);
-        });
-        
-        var compileButton = $("#compile-button").button();
-        compileButton.click(function() {
-            var code = codeEditor.getValue(),
-                language = languageSelect.val();
+  $(document).ready(function() {
+    var modeMap = {
+      c: "text/x-csrc",
+      cpp: "text/x-c++src",
+      cs: "text/x-csharp",
+      haskell: "text/x-haskell",
+      java: "text/x-java",
+      javascript: "text/javascript",
+      lua: "text/x-lua",
+      perl: "text/x-perl",
+      php: "text/x-php",
+      python: "text/x-python",
+      ruby: "text/x-ruby",
+      scheme: "text/x-scheme",
+      smalltalk: "text/x-stsrc"
+    };
 
-            onCompiling();
-            $("#console-dialog").dialog("open");
-
-            ideoneService.execute(code, language)
-                .onSuccess(function(data) {
-                    onCompiled();
-                    if (data.isError) {
-                        $("#console-info").addClass("error");
-                    }
-                    $("#console-info").text(data.info);
-                    $("#console-output").text(data.output);
-                })
-                .onError(function(data) {
-                    onCompiled();
-                    $("#console-output").text(JSON.stringify(data));
-                });
-        });
-        
-        var consoleDialog = $("#console-dialog").dialog({
-            autoOpen: false,
-            modal: true,
-            height: 480,
-            width: 640,
-            dialogClass: "console",
-            buttons: {
-                Close: function() {
-                    $(this).dialog("close");
-                }
-            }
-        });
-
-        <% unless @code_snippet.nil? || @code_snippet.language.nil? %>
-        languageSelect.val("<%= @code_snippet.language %>");
-        languageSelect.combobox("refresh");
-        <% end %>
+    var codeEditor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+      lineNumbers: true,
+      onChange: function() {
+        var fileInfoBox = $("#file-info-box > p");
+        if (fileInfoBox) {
+          var text = fileInfoBox.text();
+          if (text.indexOf("*", text.length - 1) === -1) {
+            fileInfoBox.text(text + "*");
+          }
+        }
+      }
     });
+    
+    var languageSelect = $("#language-select").combobox();
+    languageSelect.bind("comboboxupdate", function() {
+      var selectedLanguage = languageSelect.find("option:selected").val();
+      codeEditor.setOption("mode", modeMap[selectedLanguage]);
+    });
+
+    var themeSelect = $("#theme-select").combobox();
+    themeSelect.bind("comboboxupdate", function() {
+      var selectedTheme = themeSelect.find("option:selected").val();
+      codeEditor.setOption("theme", selectedTheme);
+    });
+    
+    var compileButton = $("#compile-button").button();
+    compileButton.click(function() {
+      var code = codeEditor.getValue(),
+        language = languageSelect.val();
+
+      onLoading("console");
+      $("#console-dialog").dialog("open");
+
+      clouddevelop.service.execute(code, language)
+        .onSuccess(function(data) {
+          onLoaded("console");
+          if (data.isError) {
+            $("#console-info").addClass("error");
+          }
+          $("#console-info").text(data.info);
+          $("#console-output").text(data.output);
+        })
+        .onError(function(data) {
+          onLoaded("console");
+          $("#console-output").text(JSON.stringify(data));
+        });
+    });
+    
+    var consoleDialog = $("#console-dialog").dialog({
+      autoOpen: false,
+      modal: true,
+      height: 480,
+      width: 640,
+      dialogClass: "console",
+      buttons: {
+        Close: function() {
+          $(this).dialog("close");
+        }
+      }
+    });
+
+    var newDialog = $("#new-dialog").dialog({
+      autoOpen: false,
+      modal: true,
+      height: "auto",
+      width: "auto",
+      buttons: {
+        OK: function() {
+          var fileName = $("#new-file-name").val();
+          if (fileName === "") {
+            return false;
+          }
+          loadCodeSnippet(codeEditor, languageSelect, null);
+          $("#file-info-box").empty().append($("<p>").text(fileName));
+          $(this).dialog("close");
+        },
+        Cancel: function() {
+          $(this).dialog("close");
+        }
+      }
+    });
+
+    $("#new-menu-item").click(function() {
+      $("#new-file-name").text("");
+      newDialog.dialog("option", "title", "New File");
+      newDialog.dialog("open");
+    });
+
+    var openDialog = $("#open-dialog").dialog({
+      autoOpen: false,
+      modal: true,
+      height: "auto",
+      width: "auto",
+      buttons: {
+        OK: function() {
+          var self = this,
+            fileName = $("#open-file-name").val();
+          if (fileName === "") {
+            return false;
+          }
+
+          onLoading("open");
+
+          clouddevelop.service.open(fileName)
+            .onSuccess(function(result) {
+              onLoaded("open");
+              loadCodeSnippet(codeEditor, languageSelect, result);
+              $("#file-info-box").empty().append($("<p>").text(fileName));
+              $(self).dialog("close");
+            })
+            .onError(function(result) {
+              alert(result);
+            });
+        },
+        Cancel: function() {
+          $(this).dialog("close");
+        }
+      }
+    });
+
+    $("#open-menu-item").click(function() {
+      onLoaded("open");
+      $("#open-file-name").text("");
+      openDialog.dialog("option", "title", "Open File");
+      openDialog.dialog("open");
+    });
+
+    <% unless @code_snippet.nil? || @code_snippet.language.nil? %>
+    selectLanguage(languageSelect, "<%= @code_snippet.language %>");
+    <% end %>
+  });
 --></script>
 <% end %>
 
 <form>
-    <div id="toolbar-area">
-        <label for="language-select">Language</label>
-        <select name="language-select" id="language-select">
-            <option value="c">C</option>
-            <option value="cpp">C++</option>
-            <option value="cs">C#</option>
-            <option value="haskell">Haskell</option>
-            <option value="java">Java</option>
-            <option value="javascript">JavaScript</option>
-            <option value="lua">Lua</option>
-            <option value="perl">Perl</option>
-            <option value="php">PHP</option>
-            <option value="python">Python</option>
-            <option value="ruby">Ruby</option>
-            <option value="scheme">Scheme</option>
-            <option value="smalltalk">Smalltalk</option>
-        </select>
-        
-        <label for="theme-select">Theme</label>
-        <select name="theme-select" id="theme-select">
-            <option value="default" selected="selected">Default</option>
-            <option value="elegant">Elegant</option>
-            <option value="neat">Neat</option>
-            <option value="night">Night</option>
-            <option value="solarized">Solarized</option>
-        </select>
-    </div>
+  <div id="toolbar-area">
+    <label for="language-select">Language</label>
+    <select name="language-select" id="language-select">
+      <option value="c">C</option>
+      <option value="cpp">C++</option>
+      <option value="cs">C#</option>
+      <option value="haskell">Haskell</option>
+      <option value="java">Java</option>
+      <option value="javascript">JavaScript</option>
+      <option value="lua">Lua</option>
+      <option value="perl">Perl</option>
+      <option value="php">PHP</option>
+      <option value="python">Python</option>
+      <option value="ruby">Ruby</option>
+      <option value="scheme">Scheme</option>
+      <option value="smalltalk">Smalltalk</option>
+    </select>
+    
+    <label for="theme-select">Theme</label>
+    <select name="theme-select" id="theme-select">
+      <option value="default" selected="selected">Default</option>
+      <option value="elegant">Elegant</option>
+      <option value="neat">Neat</option>
+      <option value="night">Night</option>
+      <option value="solarized">Solarized</option>
+    </select>
+  </div>
 
-    <textarea name="code-editor" id="code-editor"><%= @code_snippet ? @code_snippet.snippet : "" %></textarea>
+  <textarea name="code-editor" id="code-editor"><%= @code_snippet ? @code_snippet.snippet : "" %></textarea>
 </form>
 
 <div id="button-area">
-    <button name="compile-button" id="compile-button">Compile</button>
+  <button name="compile-button" id="compile-button">Compile</button>
 </div>
 
 <% content_for :foot_stuff do %>
 <div id="console-dialog" title="Console">
-    <div id="console-loading-container">
-        <div id="console-loading">
-            <%= image_tag("loading.gif") %><br />
-            Compiling...
-        </div>
+  <div id="console-loading-container">
+    <div id="console-loading">
+      <%= image_tag("loading.gif") %><br />
+      Compiling...
     </div>
-    <div id="console-container">
-        <div id="console-info"></div>
-        <pre id="console-output"></pre>
+  </div>
+  <div id="console-container">
+    <div id="console-info"></div>
+    <pre id="console-output"></pre>
+  </div>
+</div>
+
+<div id="new-dialog">
+  <form>
+    <label for="new-file-name">Enter a file name</label>
+    <input id="new-file-name" name="new-file-name" type="text"></input>
+  </form>
+</div>
+
+<div id="open-dialog">
+  <div id="open-loading-container">
+    <div id="open-loading">
+      <%= image_tag("loading.gif") %><br />
+      Loading...
     </div>
+  </div>
+  <div id="open-container">
+    <form>
+      <label for="open-file-name">Enter a file name</label>
+      <input id="open-file-name" name="open-file-name" type="text"></input>
+    </form>
+  </div>
 </div>
 <% end %>

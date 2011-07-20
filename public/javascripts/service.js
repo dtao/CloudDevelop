@@ -1,4 +1,6 @@
-ideoneService = (function() {
+var clouddevelop = clouddevelop || {};
+
+clouddevelop.service = (function() {
 	function createPromise() {
 		var successHandler = function() {},
 			errorHandler = function() {};
@@ -29,7 +31,24 @@ ideoneService = (function() {
 		};
 	}
 
-	function execute(code, language) {
+	function open(id) {
+		var promise = createPromise();
+
+		$.ajax("/code_snippets/" + id + ".js", {
+			dataType: 'json',
+			type: 'get',
+			success: function(data, textStatus, jqXHR) {
+				promise.success(data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				promise.error(errorThrown || textStatus);
+			}
+		});
+
+		return promise;
+	}
+
+	function compile(code, language) {
 		var promise = createPromise();
 
 		$.ajax("/code_snippets.js", {
@@ -43,11 +62,7 @@ ideoneService = (function() {
 				promise.success(data);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				if (errorThrown) {
-					promise.error(errorThrown);
-				} else {
-					promise.error(textStatus);
-				}
+				promise.error(errorThrown || textStatus);
 			}
 		});
 
@@ -55,6 +70,7 @@ ideoneService = (function() {
 	}
 
 	return {
-		execute: execute
+		open: open,
+		compile: compile
 	};
 }());
