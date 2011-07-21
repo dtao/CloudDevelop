@@ -65,6 +65,7 @@ class IdeoneCompilerService
   
       details_response_hash = details_response.to_hash[:get_submission_details_response]
       output = value_from_response(details_response_hash, "output")
+
       unless output.is_a? String
         output = ""
       end
@@ -77,8 +78,9 @@ class IdeoneCompilerService
           output = error_output
         end
       end
-  
-      case value_from_response(details_response_hash, "result")
+
+      result = value_from_response(details_response_hash, "result").to_i
+      case result
       when 11
         info = "An error occurred during compilation."
         output = value_from_response(details_response_hash, "cmpinfo")
@@ -105,7 +107,7 @@ class IdeoneCompilerService
       output = e.backtrace.inspect
       is_error = true
     end
-    
+
     return {
       :info => info,
       :output => output,
