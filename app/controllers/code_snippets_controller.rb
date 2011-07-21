@@ -52,9 +52,9 @@ class CodeSnippetsController < ApplicationController
 
     original_snippet = @code_snippet.snippet
     new_snippet = params[:code_snippet]
-    diff = Differ.diff_by_line(original_snippet, new_snippet)
+    diff = Diff::LCS.diff(original_snippet, new_snippet)
 
-    @code_snippet.updates << diff.to_s
+    @code_snippet.updates << structure_diff(diff)
     @code_snippet.version += 1
     @code_snippet.latest = new_snippet
 
@@ -67,7 +67,31 @@ class CodeSnippetsController < ApplicationController
     end
 
     respond_to do |format|
-      format.js { render :json => result, :status => :ok }
+      format.js { render :json => result }
     end
+  end
+
+  private
+  def structure_diff(diff)
+    segments = []
+
+    diff.each do |segment|
+      changes = []
+      segment.each do |change|
+        changes << structure_change(change)
+      end
+
+      segments << changes
+    end
+
+    segments
+  end
+
+  def structure_change(change)
+    {
+      :action => change.action,
+      :element => change.element,
+      :position => change.position
+    }
   end
 end
