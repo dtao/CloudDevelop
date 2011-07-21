@@ -3,7 +3,8 @@ clouddevelop = clouddevelop || {};
 (function() {
 	clouddevelop.dialogBase = function($dialog, options) {
 		var $loadingContainer = $dialog.find(".loading-container"),
-			$contentContainer = $dialog.find(".content-container");
+			$contentContainer = $dialog.find(".content-container"),
+			$info = $contentContainer.find(".info");
 		
 		$dialog.dialog(options);
 
@@ -25,11 +26,16 @@ clouddevelop = clouddevelop || {};
       $contentContainer.show();
     }
 
+    function displayInfo(info) {
+    	$info.text(info || "");
+    }
+
 		return {
 			show: show,
 			hide: hide,
 			showLoading: showLoading,
-			reveal: reveal
+			reveal: reveal,
+			displayInfo: displayInfo
 		};
 	};
 })();

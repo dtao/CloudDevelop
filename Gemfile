@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+source 'http://gems.github.com'
 
 gem 'rails', '3.0.5'
 
@@ -21,6 +22,7 @@ gem 'sqlite3'
 gem 'savon'
 gem 'mongoid', '~> 2.0'
 gem 'bson_ext', '~> 1.3'
+gem 'pvande-differ', :require => 'differ'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators

@@ -1,9 +1,7 @@
 CloudDevelop::Application.routes.draw do
   resources :code_snippets
 
-  resources :projects
-
-  resources :tasks
+  resources :compile
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

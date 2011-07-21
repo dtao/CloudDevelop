@@ -51,6 +51,27 @@ clouddevelop.service = (function() {
 	function compile(code, language) {
 		var promise = createPromise();
 
+		$.ajax("/compile.js", {
+			data: {
+				code_snippet: code,
+				language: language
+			},
+			dataType: 'json',
+			type: 'post',
+			success: function(data, textStatus, jqXHR) {
+				promise.success(data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				promise.error(errorThrown || textStatus);
+			}
+		});
+
+		return promise;
+	}
+
+	function save(code, language) {
+		var promise = createPromise();
+
 		$.ajax("/code_snippets.js", {
 			data: {
 				code_snippet: code,
@@ -69,8 +90,31 @@ clouddevelop.service = (function() {
 		return promise;
 	}
 
+	function update(id, code) {
+		var promise = createPromise();
+
+		$.ajax("/code_snippets/" + id + ".js", {
+			data: {
+				id: id,
+				code_snippet: code
+			},
+			dataType: 'json',
+			type: 'put',
+			success: function(data, textStatus, jqXHR) {
+				promise.success(data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				promise.error(errorThrown || textStatus);
+			}
+		});
+
+		return promise;
+	}
+
 	return {
 		open: open,
-		compile: compile
+		compile: compile,
+		save: save,
+		update: update
 	};
 }());

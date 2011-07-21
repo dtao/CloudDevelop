@@ -4,8 +4,8 @@ clouddevelop = clouddevelop || {};
   var options = {
     autoOpen: false,
     modal: true,
-    height: 480,
     width: 640,
+    height: 480,
     dialogClass: "console",
     buttons: {
       Close: function() {
@@ -25,8 +25,9 @@ clouddevelop = clouddevelop || {};
       } else {
         $info.removeClass("error");
       }
-      $info.text(info);
-      $output.text(output);
+      
+      $info.text(info || "");
+      $output.text(output || "No output");
     }
 
     return $.extend(consoleDialog, {

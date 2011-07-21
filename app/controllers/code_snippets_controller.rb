@@ -2,11 +2,8 @@ class CodeSnippetsController < ApplicationController
   # GET /code_snippets
   # GET /code_snippets.xml
   def index
-    @code_snippet = CodeSnippet.last
-
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @code_snippet }
     end
   end
 
@@ -31,21 +28,46 @@ class CodeSnippetsController < ApplicationController
 
     @code_snippet.snippet = snippet
     @code_snippet.language = language
+    @code_snippet.version = 1
+    @code_snippet.updates = []
+    @code_snippet.latest = snippet
 
-    service = IdeoneCompilerService.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"])
-    result = service.compile(snippet, language)
-      
+    result = { :codeSnippet => @code_snippet }
+
     if @code_snippet.save
-      if result[:info].nil?
-        result[:info] = "Snippet Id for future reference: #{@code_snippet.id}."
-      end
+      result[:id] = @code_snippet.id
+      result[:info] = "Snippet Id for future reference: #{@code_snippet.id}."
     else
       result[:info] = "Unable to save code snippet :("
-      result[:isError] = true
     end
     
     respond_to do |format|
       format.js { render :json => result, :status => :created }
+    end
+  end
+
+  # PUT /code_snippets.js
+  def update
+    @code_snippet = CodeSnippet.find(params[:id])
+
+    original_snippet = @code_snippet.snippet
+    new_snippet = params[:code_snippet]
+    diff = Differ.diff_by_line(original_snippet, new_snippet)
+
+    @code_snippet.updates << diff.to_s
+    @code_snippet.version += 1
+    @code_snippet.latest = new_snippet
+
+    result = { :id => @code_snippet.id, :codeSnippet => @code_snippet }
+
+    if @code_snippet.save
+      result[:info] = "Snippet Id: #{@code_snippet.id}, version ##{@code_snippet.version}"
+    else
+      result[:info] = "Unable to update code snippet :("
+    end
+
+    respond_to do |format|
+      format.js { render :json => result, :status => :ok }
     end
   end
 end

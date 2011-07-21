@@ -15,6 +15,10 @@ clouddevelop = clouddevelop || {};
       }
     });
 
+    function clear() {
+      codeMirror.setValue("");
+    }
+
     function getValue() {
       return codeMirror.getValue();
     }
@@ -25,7 +29,7 @@ clouddevelop = clouddevelop || {};
         return;
       }
 
-      codeMirror.setValue(codeSnippet.snippet);
+      codeMirror.setValue(codeSnippet.latest);
     }
 
     function setMode(mode) {
@@ -37,6 +41,7 @@ clouddevelop = clouddevelop || {};
     }
 
     return {
+      clear: clear,
       getValue: getValue,
       loadCodeSnippet: loadCodeSnippet,
       setMode: setMode,

@@ -19,13 +19,13 @@
 
 <%
   ['service', 'codeEditor', 'combobox', 'languageSelect', 'themeSelect', 'compileButton',
-    'dialogBase', 'consoleDialog', 'openDialog'].each do |file|
+    'dialogBase', 'consoleDialog', 'openDialog', 'saveDialog'].each do |file|
     %><%= javascript_include_tag file %><%
   end
 %>
 
 <%
-  @menu_items = ['open', 'save']
+  @menu_items = ['new', 'open', 'save']
 %>
 
 <!-- jQuery styles -->
@@ -50,13 +50,22 @@
 </style>
 
 <script type="text/javascript"><!--
+  function displaySnippetInfo(id, codeSnippet) {
+    var $fileInfoBox = $("#file-info-box").empty();
+    if (codeSnippet) {
+      $fileInfoBox.append($("<p>").text("Snippet Id: " + id + ", version #" + codeSnippet.version));
+    }
+  }
+
   $(document).ready(function() {
     var codeEditor = clouddevelop.codeEditor($("#code-editor")),
       languageSelect = clouddevelop.languageSelect($("#language-select")),
       themeSelect = clouddevelop.themeSelect($("#theme-select")),
       consoleDialog = clouddevelop.consoleDialog($("#console-dialog")),
       compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog),
-      openDialog = clouddevelop.openDialog($("#open-dialog"));
+      openDialog = clouddevelop.openDialog($("#open-dialog")),
+      saveDialog = clouddevelop.saveDialog($("#save-dialog")),
+      currentSnippetId = null;
     
     languageSelect.onSelectedLanguageChanged(function(language, mode) {
       codeEditor.setMode(mode);
@@ -66,12 +75,24 @@
       codeEditor.setTheme(theme);
     });
 
-    openDialog.onSnippetLoaded(function(snippetId, codeSnippet) {
+    openDialog.onSnippetLoaded(function(id, codeSnippet) {
+      currentSnippetId = id;
       codeEditor.loadCodeSnippet(codeSnippet);
       if (codeSnippet.language) {
         languageSelect.selectLanguage(codeSnippet.language);
       }
-      $("#file-info-box").empty().append($("<p>").text(snippetId));
+      displaySnippetInfo(id, codeSnippet);
+    });
+
+    saveDialog.onSnippetSaved(function(id, codeSnippet) {
+      currentSnippetId = id;
+      displaySnippetInfo(id, codeSnippet);
+    });
+
+    $("#new-menu-item").click(function() {
+      currentSnippetId = null;
+      displaySnippetInfo(null);
+      codeEditor.clear();
     });
 
     $("#open-menu-item").click(function() {
@@ -79,6 +100,21 @@
       openDialog.shrink();
       openDialog.reveal();
       openDialog.show();
+    });
+
+    $("#save-menu-item").click(function() {
+      var code = codeEditor.getValue(),
+        language = languageSelect.selectedLanguage();
+      
+      if (code === "") {
+        return;
+      }
+      
+      if (currentSnippetId) {
+        saveDialog.update(currentSnippetId, code);
+      } else {
+        saveDialog.save(code, language);
+      }
     });
 
     <% unless @code_snippet.nil? || @code_snippet.language.nil? %>
@@ -146,10 +182,23 @@
     </div>
   </div>
   <div class="content-container">
+    <div class="info"></div>
     <form>
       <label for="snippet-id">Enter a snippet Id:</label>
       <input name="snipped-id" class="snippet-id" type="text"></input>
     </form>
+  </div>
+</div>
+
+<div id="save-dialog" title="Save Snippet">
+  <div class="loading-container">
+    <div class="loading">
+      <%= image_tag("loading.gif") %><br />
+      Saving...
+    </div>
+  </div>
+  <div class="content-container">
+    <div class="info"></div>
   </div>
 </div>
 <% end %>
