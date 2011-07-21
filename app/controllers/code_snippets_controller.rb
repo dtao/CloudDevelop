@@ -73,18 +73,15 @@ class CodeSnippetsController < ApplicationController
 
   private
   def structure_diff(diff)
-    segments = []
+    changes = []
 
     diff.each do |segment|
-      changes = []
       segment.each do |change|
         changes << format_change(change)
       end
-
-      segments << changes
     end
 
-    segments
+    changes
   end
 
   def format_change(change)
