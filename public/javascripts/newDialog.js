@@ -5,24 +5,28 @@ clouddevelop = clouddevelop || {};
     autoOpen: false,
     modal: true,
     height: "auto",
-    width: "auto",
-    buttons: {
+    width: "auto"
+  };
+
+  clouddevelop.newDialog = function(dialogName, codeEditor, languageSelect) {
+    var newDialog = clouddevelop.dialogBase(dialogName, options),
+      $dialog = $("#" + dialogName + "-dialog");
+
+    $dialog.dialog("option", "buttons", {
       OK: function() {
         var fileName = $("#new-file-name").val();
         if (fileName === "") {
           return false;
         }
-        loadCodeSnippet(codeEditor, languageSelect, null);
+        codeEditor.loadCodeSnippet(languageSelect, null);
         $("#file-info-box").empty().append($("<p>").text(fileName));
-        $(this).dialog("close");
+        newDialog.hide();
       },
       Cancel: function() {
-        $(this).dialog("close");
+        newDialog.hide();
       }
-    }
-  };
+    });
 
-  clouddevelop.newDialog = function(dialogName) {
-    return clouddevelop.dialogBase(dialogName, options);
+    return newDialog;
   };
 })();

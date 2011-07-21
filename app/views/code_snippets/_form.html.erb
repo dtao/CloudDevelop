@@ -17,16 +17,12 @@
   end
 %>
 
-<%= javascript_include_tag "service" %>
-<%= javascript_include_tag "codeEditor" %>
-<%= javascript_include_tag "combobox" %>
-<%= javascript_include_tag "languageSelect" %>
-<%= javascript_include_tag "themeSelect" %>
-<%= javascript_include_tag "compileButton" %>
-<%= javascript_include_tag "dialogBase" %>
-<%= javascript_include_tag "consoleDialog" %>
-<%= javascript_include_tag "newDialog" %>
-<%= javascript_include_tag "openDialog" %>
+<%
+  ['service', 'codeEditor', 'combobox', 'languageSelect', 'themeSelect', 'compileButton',
+    'dialogBase', 'consoleDialog', 'newDialog', 'openDialog'].each do |file|
+    %><%= javascript_include_tag file %><%
+  end
+%>
 
 <%
   @menu_items = ['new', 'open', 'save']
@@ -63,17 +59,19 @@
     var consoleDialog = clouddevelop.consoleDialog("console");
     var compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog);
 
-    var newDialog = clouddevelop.newDialog("new");
+    var newDialog = clouddevelop.newDialog("new", codeEditor, languageSelect);
 
     $("#new-menu-item").click(function() {
-      $("#new-file-name").text("");
+      $("#new-file-name").val("");
       newDialog.show();
     });
 
-    var openDialog = clouddevelop.openDialog("open");
+    var openDialog = clouddevelop.openDialog("open", codeEditor, languageSelect);
 
     $("#open-menu-item").click(function() {
-      $("#open-file-name").text("");
+      $("#open-file-name").val("");
+      openDialog.shrink();
+      openDialog.reveal();
       openDialog.show();
     });
 
