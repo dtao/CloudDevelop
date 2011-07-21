@@ -50,7 +50,7 @@ class CodeSnippetsController < ApplicationController
   def update
     @code_snippet = CodeSnippet.find(params[:id])
 
-    original_snippet = @code_snippet.snippet
+    original_snippet = @code_snippet.latest
     new_snippet = params[:code_snippet]
     diff = Diff::LCS.diff(original_snippet, new_snippet)
 
