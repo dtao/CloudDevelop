@@ -8,15 +8,15 @@ clouddevelop = clouddevelop || {};
     width: "auto"
   };
 
-  clouddevelop.openDialog = function(dialogName, codeEditor, languageSelect) {
-    var openDialog = clouddevelop.dialogBase(dialogName, options),
-      $dialog = $("#" + dialogName + "-dialog");
+  clouddevelop.openDialog = function($dialog, codeEditor, languageSelect) {
+    var openDialog = clouddevelop.dialogBase($dialog, options);
 
     $dialog.dialog("option", "buttons", {
       OK: function() {
         var self = this,
-          fileName = $("#open-file-name").val();
-        if (fileName === "") {
+          snippetId = $dialog.find(".snippet-id").val();
+        
+        if (snippetId === "") {
           return false;
         }
 
@@ -25,10 +25,10 @@ clouddevelop = clouddevelop || {};
 
         openDialog.showLoading();
 
-        clouddevelop.service.open(fileName)
+        clouddevelop.service.open(snippetId)
           .onSuccess(function(result) {
             codeEditor.loadCodeSnippet(languageSelect, result);
-            $("#file-info-box").empty().append($("<p>").text(fileName));
+            $("#file-info-box").empty().append($("<p>").text(snippetId));
             openDialog.hide();
           })
           .onError(function(result) {
@@ -41,11 +41,18 @@ clouddevelop = clouddevelop || {};
       }
     });
 
-    openDialog.shrink = function() {
+    function clear() {
+      $dialog.find("input").val("");
+    }
+
+    function shrink() {
       $dialog.dialog("option", "width", "auto");
       $dialog.dialog("option", "height", "auto");
     };
 
-    return openDialog;
+    return $.extend(openDialog, {
+      clear: clear,
+      shrink: shrink
+    });
   };
 })();

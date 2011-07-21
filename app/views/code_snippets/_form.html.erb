@@ -19,13 +19,13 @@
 
 <%
   ['service', 'codeEditor', 'combobox', 'languageSelect', 'themeSelect', 'compileButton',
-    'dialogBase', 'consoleDialog', 'newDialog', 'openDialog'].each do |file|
+    'dialogBase', 'consoleDialog', 'openDialog'].each do |file|
     %><%= javascript_include_tag file %><%
   end
 %>
 
 <%
-  @menu_items = ['new', 'open', 'save']
+  @menu_items = ['open', 'save']
 %>
 
 <!-- jQuery styles -->
@@ -51,25 +51,15 @@
 
 <script type="text/javascript"><!--
   $(document).ready(function() {
-    var codeEditor = clouddevelop.codeEditor($("#code-editor"));
-    
-    var languageSelect = clouddevelop.languageSelect($("#language-select"), codeEditor);
-    var themeSelect = clouddevelop.themeSelect($("#theme-select"), codeEditor);
-    
-    var consoleDialog = clouddevelop.consoleDialog("console");
-    var compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog);
-
-    var newDialog = clouddevelop.newDialog("new", codeEditor, languageSelect);
-
-    $("#new-menu-item").click(function() {
-      $("#new-file-name").val("");
-      newDialog.show();
-    });
-
-    var openDialog = clouddevelop.openDialog("open", codeEditor, languageSelect);
+    var codeEditor = clouddevelop.codeEditor($("#code-editor")),
+      languageSelect = clouddevelop.languageSelect($("#language-select"), codeEditor),
+      themeSelect = clouddevelop.themeSelect($("#theme-select"), codeEditor),
+      consoleDialog = clouddevelop.consoleDialog($("#console-dialog")),
+      compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog),
+      openDialog = clouddevelop.openDialog($("#open-dialog"), codeEditor, languageSelect);
 
     $("#open-menu-item").click(function() {
-      $("#open-file-name").val("");
+      openDialog.clear();
       openDialog.shrink();
       openDialog.reveal();
       openDialog.show();
@@ -120,36 +110,29 @@
 
 <% content_for :foot_stuff do %>
 <div id="console-dialog" title="Console">
-  <div id="console-loading-container">
-    <div id="console-loading">
+  <div class="loading-container">
+    <div class="loading">
       <%= image_tag("loading.gif") %><br />
       Compiling...
     </div>
   </div>
-  <div id="console-container">
-    <div id="console-info"></div>
-    <pre id="console-output"></pre>
+  <div class="content-container">
+    <div class="info"></div>
+    <pre class="output"></pre>
   </div>
 </div>
 
-<div id="new-dialog" title="New File">
-  <form>
-    <label for="new-file-name">Enter a file name</label>
-    <input id="new-file-name" name="new-file-name" type="text"></input>
-  </form>
-</div>
-
-<div id="open-dialog" title="Open File">
-  <div id="open-loading-container">
-    <div id="open-loading">
+<div id="open-dialog" title="Open Snippet">
+  <div class="loading-container">
+    <div class="loading">
       <%= image_tag("loading.gif") %><br />
       Loading...
     </div>
   </div>
-  <div id="open-container">
+  <div class="content-container">
     <form>
-      <label for="open-file-name">Enter a file name</label>
-      <input id="open-file-name" name="open-file-name" type="text"></input>
+      <label for="snippet-id">Enter a snippet Id:</label>
+      <input name="snipped-id" class="snippet-id" type="text"></input>
     </form>
   </div>
 </div>

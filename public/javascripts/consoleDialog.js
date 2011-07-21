@@ -14,7 +14,23 @@ clouddevelop = clouddevelop || {};
     }
   };
 
-  clouddevelop.consoleDialog = function(dialogName) {
-    return clouddevelop.dialogBase(dialogName, options);
+  clouddevelop.consoleDialog = function($dialog) {
+    var consoleDialog = clouddevelop.dialogBase($dialog, options),
+      $info = $dialog.find(".info"),
+      $output = $dialog.find(".output");
+
+    function display(info, output, isError) {
+      if (isError) {
+        $info.addClass("error");
+      } else {
+        $info.removeClass("error");
+      }
+      $info.text(info);
+      $output.text(output);
+    }
+
+    return $.extend(consoleDialog, {
+      display: display
+    });
   };
 })();

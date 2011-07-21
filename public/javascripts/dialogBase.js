@@ -1,46 +1,35 @@
 clouddevelop = clouddevelop || {};
 
 (function() {
-	clouddevelop.dialogBase = function(dialogName, options) {
-		var $container = $("#" + dialogName + "-dialog");
-
-		$container.dialog(options);
+	clouddevelop.dialogBase = function($dialog, options) {
+		var $loadingContainer = $dialog.find(".loading-container"),
+			$contentContainer = $dialog.find(".content-container");
+		
+		$dialog.dialog(options);
 
 		function show() {
-			$container.dialog("open");
+			$dialog.dialog("open");
 		}
 
 		function hide() {
-			$container.dialog("close");
+			$dialog.dialog("close");
 		}
 
 		function showLoading() {
-	    $("#" + dialogName + "-info").removeClass("error");
-	    $("#" + dialogName + "-info").text("");
-	    $("#" + dialogName + "-output").text("");
-	    $("#" + dialogName + "-loading-container").show();
-	    $("#" + dialogName + "-container").hide();
+	    $loadingContainer.show();
+	    $contentContainer.hide();
 		}
 
-		function reveal() {
-	    $("#" + dialogName + "-loading-container").hide();
-	    $("#" + dialogName + "-container").show();
-		}
-
-		function display(info, output, isError) {
-			if (isError) {
-        $("#" + dialogName + "-info").addClass("error");
-			}
-      $("#" + dialogName + "-info").text(data.info);
-      $("#" + dialogName + "-output").text(data.output);
-		}
+    function reveal() {
+      $loadingContainer.hide();
+      $contentContainer.show();
+    }
 
 		return {
 			show: show,
 			hide: hide,
 			showLoading: showLoading,
-			reveal: reveal,
-			display: display
+			reveal: reveal
 		};
 	};
 })();

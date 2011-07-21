@@ -75,9 +75,30 @@ form textarea {
 #button-area {
 	text-align: center;
 }
-pre#console-output {
+#console-dialog .content-container pre.output {
 	font-family: monospace;
 	height: 100%;
+}
+#console-dialog .console-container .info {
+    margin-bottom: 10px;
+}
+.loading-container {
+    position: relative;
+    height: 100%;
+}
+.loading {
+    position: absolute;
+    text-align: center;
+    font-size: small;
+    top: 50%;
+    left: 50%;
+    height: 10px;
+    margin-top: -5px;
+    width: 150px;
+    margin-left: -75px;
+}
+.content-container {
+    height: 100%;
 }
 h1, h2, h4, h5 {
     color: #333333;
@@ -247,25 +268,4 @@ a.block-link:hover span {
 }
 .error {
     color: #FF0000;
-}
-#console-loading-container, #open-loading-container {
-    position: relative;
-    height: 100%;
-}
-#console-loading, #open-loading {
-    position: absolute;
-    text-align: center;
-    font-size: small;
-    top: 50%;
-    left: 50%;
-    height: 10px;
-    margin-top: -5px;
-    width: 150px;
-    margin-left: -75px;
-}
-#console-container, #open-container {
-    height: 100%;
-}
-#console-info {
-    margin-bottom: 10px;
 }
