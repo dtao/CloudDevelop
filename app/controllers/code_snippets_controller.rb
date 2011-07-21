@@ -78,7 +78,7 @@ class CodeSnippetsController < ApplicationController
     diff.each do |segment|
       changes = []
       segment.each do |change|
-        changes << structure_change(change)
+        changes << format_change(change)
       end
 
       segments << changes
@@ -87,11 +87,7 @@ class CodeSnippetsController < ApplicationController
     segments
   end
 
-  def structure_change(change)
-    {
-      :action => change.action,
-      :element => change.element,
-      :position => change.position
-    }
+  def format_change(change)
+    "#{change.position}#{change.action}#{change.element}"
   end
 end
