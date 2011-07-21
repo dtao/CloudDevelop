@@ -52,11 +52,27 @@
 <script type="text/javascript"><!--
   $(document).ready(function() {
     var codeEditor = clouddevelop.codeEditor($("#code-editor")),
-      languageSelect = clouddevelop.languageSelect($("#language-select"), codeEditor),
-      themeSelect = clouddevelop.themeSelect($("#theme-select"), codeEditor),
+      languageSelect = clouddevelop.languageSelect($("#language-select")),
+      themeSelect = clouddevelop.themeSelect($("#theme-select")),
       consoleDialog = clouddevelop.consoleDialog($("#console-dialog")),
       compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog),
-      openDialog = clouddevelop.openDialog($("#open-dialog"), codeEditor, languageSelect);
+      openDialog = clouddevelop.openDialog($("#open-dialog"));
+    
+    languageSelect.onSelectedLanguageChanged(function(language, mode) {
+      codeEditor.setMode(mode);
+    });
+
+    themeSelect.onSelectedThemeChanged(function(theme) {
+      codeEditor.setTheme(theme);
+    });
+
+    openDialog.onSnippetLoaded(function(snippetId, codeSnippet) {
+      codeEditor.loadCodeSnippet(codeSnippet);
+      if (codeSnippet.language) {
+        languageSelect.selectLanguage(codeSnippet.language);
+      }
+      $("#file-info-box").empty().append($("<p>").text(snippetId));
+    });
 
     $("#open-menu-item").click(function() {
       openDialog.clear();

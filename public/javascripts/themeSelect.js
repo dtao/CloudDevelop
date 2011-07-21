@@ -1,11 +1,21 @@
 clouddevelop = clouddevelop || {};
 
 (function() {
-	clouddevelop.themeSelect = function($select, codeEditor) {
-		var $combobox = $select.combobox();
+	clouddevelop.themeSelect = function($select) {
+		var $combobox = $select.combobox(),
+			selectedThemeChangedHandler = $.noop;
+		
 	  $combobox.bind("comboboxupdate", function() {
 	    var selectedTheme = $combobox.val();
-	    codeEditor.setTheme(selectedTheme);
+	    selectedThemeChangedHandler(selectedTheme);
 	  });
+
+	  function onSelectedThemeChanged(handler) {
+	  	selectedThemeChangedHandler = handler;
+	  }
+
+	  return {
+	  	onSelectedThemeChanged: onSelectedThemeChanged
+	  };
 	};
 })();

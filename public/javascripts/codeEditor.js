@@ -19,16 +19,13 @@ clouddevelop = clouddevelop || {};
       return codeMirror.getValue();
     }
 
-    function loadCodeSnippet(languageSelect, codeSnippet) {
+    function loadCodeSnippet(codeSnippet) {
       if (!codeSnippet) {
         codeMirror.setValue("");
         return;
       }
 
       codeMirror.setValue(codeSnippet.snippet);
-      if (codeSnippet.language) {
-        languageSelect.selectLanguage(codeSnippet.language);
-      }
     }
 
     function setMode(mode) {

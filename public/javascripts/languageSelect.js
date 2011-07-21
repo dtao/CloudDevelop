@@ -17,11 +17,15 @@ clouddevelop = clouddevelop || {};
     smalltalk: "text/x-stsrc"
   };
 
-  clouddevelop.languageSelect = function($select, codeEditor) {
-  	var $combobox = $select.combobox();
+  clouddevelop.languageSelect = function($select) {
+  	var $combobox = $select.combobox(),
+      selectedLanguageChangedHandler = $.noop;
+    
     $select.bind("comboboxupdate", function() {
-      var selectedLanguage = $combobox.val();
-      codeEditor.setMode(modeMap[selectedLanguage]);
+      var selectedLanguage = $combobox.val(),
+        mode = modeMap[selectedLanguage];
+      
+      selectedLanguageChangedHandler(selectedLanguage, mode);
     });
 
     function selectedLanguage() {
@@ -33,9 +37,14 @@ clouddevelop = clouddevelop || {};
 	    $combobox.combobox("refresh");
     }
 
+    function onSelectedLanguageChanged(handler) {
+      selectedLanguageChangedHandler = handler;
+    }
+
     return {
     	selectedLanguage: selectedLanguage,
-    	selectLanguage: selectLanguage
+    	selectLanguage: selectLanguage,
+      onSelectedLanguageChanged: onSelectedLanguageChanged
     };
   };
 })();

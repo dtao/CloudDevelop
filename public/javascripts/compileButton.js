@@ -3,6 +3,7 @@ clouddevelop = clouddevelop || {};
 (function() {
 	clouddevelop.compileButton = function($input, codeEditor, languageSelect, consoleDialog) {
 		$button = $input.button();
+    
     $button.click(function() {
       var code = codeEditor.getValue(),
         language = languageSelect.selectedLanguage();
