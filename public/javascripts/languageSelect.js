@@ -14,7 +14,8 @@ clouddevelop = clouddevelop || {};
     python: "text/x-python",
     ruby: "text/x-ruby",
     scheme: "text/x-scheme",
-    smalltalk: "text/x-stsrc"
+    smalltalk: "text/x-stsrc",
+    vb: "text/x-vb"
   };
 
   clouddevelop.languageSelect = function($select) {

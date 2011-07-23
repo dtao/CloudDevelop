@@ -144,6 +144,8 @@ class IdeoneCompilerService
       33
     when "smalltalk"
       23
+    when "vb"
+      101
     end
   end
   

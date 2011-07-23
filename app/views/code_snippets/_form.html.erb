@@ -12,7 +12,7 @@
 
 <%= javascript_include_tag "codemirror/lib/codemirror" %>
 <%
-  ['clike', 'haskell', 'javascript', 'lua', 'perl', 'php', 'python', 'ruby', 'scheme', 'smalltalk'].each do |mode|
+  ['clike', 'haskell', 'javascript', 'lua', 'perl', 'php', 'python', 'ruby', 'scheme', 'smalltalk', 'vb'].each do |mode|
     %><%= javascript_include_tag "codemirror/mode/#{mode}/#{mode}" %><%
   end
 %>
@@ -141,6 +141,7 @@
       <option value="ruby">Ruby</option>
       <option value="scheme">Scheme</option>
       <option value="smalltalk">Smalltalk</option>
+      <option value="vb">Visual Basic</option>
     </select>
     
     <label for="theme-select">Theme</label>
