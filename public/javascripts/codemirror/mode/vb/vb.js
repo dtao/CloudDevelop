@@ -102,7 +102,7 @@ CodeMirror.defineMode("vb", function(config) {
         
         } else if (ch.match(/\w/)) { /* Detect keywords and SU classes. */
           stream.eatWhile(/\w/);
-          if (stream.current() === 'End') {
+          if (stream.current().match(/[Ee]nd|[Nn]ext/)) {
             state.endingBlock = true;
             decreaseIndent(state);
           } else if (stream.current().match(indentationWords)) {
@@ -136,13 +136,13 @@ CodeMirror.defineMode("vb", function(config) {
     indent: function(state, textAfter) {
       var indentLevel = state.indentLevel;
 
-      if (textAfter.match(/^\s*(End|Wend|Else|ElseIf\s|Case\s|Catch|Finally)/)) {
+      if (textAfter.match(/^\s*(End|Wend|Else|ElseIf\s|Next|Case\s|Catch|Finally)/)) {
         indentLevel -= 1;
       }
 
       return indentLevel * indentUnit;
     },
-    electricChars: "dehy "
+    electricChars: "dehty "
   };
 });
 
