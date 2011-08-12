@@ -34,7 +34,7 @@ clouddevelop.service = (function() {
 	function open(id) {
 		var promise = createPromise();
 
-		$.ajax("/code_snippets/" + id + ".js", {
+		$.ajax("/snippet/" + id + ".js", {
 			dataType: 'json',
 			type: 'get',
 			success: function(data, textStatus, jqXHR) {
@@ -51,7 +51,7 @@ clouddevelop.service = (function() {
 	function compile(code, language) {
 		var promise = createPromise();
 
-		$.ajax("/compile.js", {
+		$.ajax("/compile", {
 			data: {
 				code_snippet: code,
 				language: language
@@ -72,7 +72,7 @@ clouddevelop.service = (function() {
 	function save(code, language) {
 		var promise = createPromise();
 
-		$.ajax("/code_snippets.js", {
+		$.ajax("/", {
 			data: {
 				code_snippet: code,
 				language: language
@@ -93,7 +93,7 @@ clouddevelop.service = (function() {
 	function update(id, code) {
 		var promise = createPromise();
 
-		$.ajax("/code_snippets/" + id + ".js", {
+		$.ajax("/", {
 			data: {
 				id: id,
 				code_snippet: code

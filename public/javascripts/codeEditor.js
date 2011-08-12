@@ -48,4 +48,4 @@ clouddevelop = clouddevelop || {};
       setTheme: setTheme
     };
   };
-})();
+}());

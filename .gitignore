@@ -1,13 +1,1 @@
-*.rbproj
-*.sln
-*.suo
-.bundle
 .DS_Store
-.project
-config/database.yml
-db/*.sqlite3
-db/*.sqlite
-log/*.log
-tmp/
-
-languages.xml

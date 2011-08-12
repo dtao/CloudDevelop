@@ -1,0 +1,112 @@
+!!! 5
+%html
+  %head
+    %title CloudDevelop
+
+    %link(rel="stylesheet" href="/stylesheets/clouddevelop.css")
+    %script(type="text/javascript")
+      // Is this the right way to do this?
+      // It doesn't feel right, but I don't even know.
+      var clouddevelop = {};
+
+    %link(rel="stylesheet" href="/stylesheets/jquery/jquery-ui.min.css")
+    %script(type="text/javascript" src="/javascripts/jquery/jquery-1.6.2.min.js")
+    %script(type="text/javascript" src="/javascripts/jquery/jquery-ui-1.8.14.min.js")
+
+    %link(rel="stylesheet" href="/stylesheets/codemirror/codemirror.css")
+    - ['default', 'elegant', 'neat', 'night', 'solarized'].each do |theme|
+      %link(rel="stylesheet" href="/stylesheets/codemirror/theme/#{theme}.css")
+
+    %script(type="text/javascript" src="/javascripts/codemirror/lib/codemirror.js")
+    - ['clike', 'haskell', 'javascript', 'lua', 'perl', 'php', 'python', 'ruby', 'scheme', 'smalltalk', 'vb'].each do |mode|
+      %script(type="text/javascript" src="/javascripts/codemirror/mode/#{mode}/#{mode}.js")
+    
+    - ['service', 'codeEditor', 'combobox', 'languageSelect', 'themeSelect', 'compileButton',
+      'dialogBase', 'consoleDialog', 'openDialog', 'saveDialog'].each do |file|
+      %script(type="text/javascript" src="/javascripts/#{file}.js")
+    
+    %link(rel="stylesheet" href="/stylesheets/extra_styles.css")
+    %script(type="text/javascript" src="/javascripts/index.js")
+  
+  %body
+    #header
+      %h1 <a href="/"><span>Cloud</span>Develop</a>
+      #file-info-box
+      .clear
+    
+    #navigation
+      .inner-navigation
+        %ul
+          %li <a id="new-menu-item" href="javascript:void(0);">New</a>
+          %li <a id="open-menu-item" href="javascript:void(0);">Open</a>
+          %li <a id="save-menu-item" href="javascript:void(0);">Save</a>
+    
+    #wrap
+      #content
+        %form
+          #toolbar-area
+            %label(for="language-select") Language
+            %select#language-select(name="language-select")
+              %option(value="c") C
+              %option(value="cpp") C++
+              %option(value="cs") C#
+              %option(value="haskell") Haskell
+              %option(value="java") Java
+              %option(value="javascript") JavaScript
+              %option(value="lua") Lua
+              %option(value="perl") Perl
+              %option(value="php") PHP
+              %option(value="python") Python
+              %option(value="ruby") Ruby
+              %option(value="scheme") Scheme
+              %option(value="smalltalk") Smalltalk
+              %option(value="vb") Visual Basic
+            %label(for="theme-select") Theme
+            %select#theme-select(name="theme-select")
+              %option(value="default" selected="selected") Default
+              %option(value="elegant") Elegant
+              %option(value="neat") Neat
+              %option(value="night") Night
+              %option(value="solarized") Solarized
+          
+          %textarea#code-editor(name="code-editor")
+        
+        #button-area
+          %button#compile-button(name="compile-button") Compile
+          
+        .clear
+
+    #console-dialog(title="Console")
+      .loading-container
+        .loading
+          %img(src="/images/loading.gif")
+          Compiling...
+      .content-container
+        .info
+        %pre.output
+    
+    #open-dialog(title="Open Snippet")
+      .loading-container
+        .loading
+          %img(src="/images/loading.gif")
+          Loading...
+      .content-container
+        .info
+        %form
+          %label(for="snippet-id") Enter a snippet Id:
+          %input.snippet-id(name="snippet-id" type="text")
+    
+    #save-dialog(title="Save Snippet")
+      .loading-container
+        .loading
+          %img(src="/images/loading.gif")
+          Saving...
+    
+    .footer
+      %p
+        CloudDevelop uses
+        <a href="http://jquery.com/">jQuery</a>,
+        <a href="http://codemirror.net/">CodeMirror</a>, and
+        <a href="http://ideone.com">ideone.com</a> &copy; by <a href="http://sphere-research.com">Sphere Research Labs</a>.
+        Site developed by <a href="http://philosopherdeveloper.wordpress.com/">Daniel Tao</a>
+        (<a href="https://github.com/dtao">dtao</a>).
