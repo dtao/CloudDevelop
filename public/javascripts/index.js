@@ -1,8 +1,12 @@
 function displaySnippetInfo(id, codeSnippet) {
   var $fileInfoBox = $("#file-info-box").empty();
   if (codeSnippet) {
-    $fileInfoBox.append($("<p>").text("Snippet Id: " + id + ", version #" + codeSnippet.version));
+    $fileInfoBox.append($('<p>').html('Snippet Id: <a href="/' + id + '">' + id + '</a>, version #' + codeSnippet.version));
   }
+}
+
+var selectLanguage = function(language) {
+  // Do nothing (this is a placeholder).
 }
 
 $(document).ready(function() {
@@ -64,4 +68,9 @@ $(document).ready(function() {
       saveDialog.save(code, language);
     }
   });
+
+  // Big-time hack!
+  selectLanguage = function(language) {
+    languageSelect.selectLanguage(language);
+  };
 });

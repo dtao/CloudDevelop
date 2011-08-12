@@ -27,6 +27,12 @@
     
     %link(rel="stylesheet" href="/stylesheets/extra_styles.css")
     %script(type="text/javascript" src="/javascripts/index.js")
+
+    - unless @code_snippet.nil?
+      :javascript
+        $(document).ready(function() {
+          selectLanguage("#{@code_snippet.language}");
+        });
   
   %body
     #header
@@ -69,7 +75,7 @@
               %option(value="night") Night
               %option(value="solarized") Solarized
           
-          %textarea#code-editor(name="code-editor")
+          %textarea#code-editor(name="code-editor")= @code_snippet ? @code_snippet.snippet : ""
         
         #button-area
           %button#compile-button(name="compile-button") Compile
@@ -101,6 +107,8 @@
         .loading
           %img(src="/images/loading.gif")
           Saving...
+      .content-container
+        .info
     
     .footer
       %p
