@@ -8,8 +8,7 @@ require 'code_snippet'
 require 'ideone_compiler_service'
 
 configure do
-    set :environment, :development
-    Mongoid.load!("config/mongoid.yml")
+    Mongoid.load!('config/mongoid.yml')
 end
 
 get '/' do

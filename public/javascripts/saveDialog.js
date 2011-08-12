@@ -70,4 +70,4 @@ clouddevelop = clouddevelop || {};
       onSnippetSaved: onSnippetSaved
     });
   };
-})();
+}());

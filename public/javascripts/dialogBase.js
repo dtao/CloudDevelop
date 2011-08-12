@@ -38,4 +38,4 @@ clouddevelop = clouddevelop || {};
 			displayInfo: displayInfo
 		};
 	};
-})();
+}());
