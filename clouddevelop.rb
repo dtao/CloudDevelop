@@ -4,8 +4,8 @@ require 'sinatra'
 require 'mongoid'
 require 'savon'
 require 'diff/lcs'
-require 'code_snippet'
-require 'ideone_compiler_service'
+require './code_snippet'
+require './ideone_compiler_service'
 
 configure do
     Mongoid.load!('config/mongoid.yml')
