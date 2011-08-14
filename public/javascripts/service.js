@@ -34,7 +34,7 @@ clouddevelop.service = (function() {
 	function open(id) {
 		var promise = createPromise();
 
-		$.ajax("/snippet/" + id + ".js", {
+		$.ajax("/snippet/" + id, {
 			dataType: 'json',
 			type: 'get',
 			success: function(data, textStatus, jqXHR) {

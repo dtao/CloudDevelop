@@ -1,7 +1,7 @@
-function displaySnippetInfo(id, codeSnippet) {
+function displaySnippetInfo(id, version) {
   var $fileInfoBox = $("#file-info-box").empty();
-  if (codeSnippet) {
-    $fileInfoBox.append($('<p>').html('Snippet Id: <a href="/' + id + '">' + id + '</a>, version #' + codeSnippet.version));
+  if (version) {
+    $fileInfoBox.append($('<p>').html('Snippet Id: <a href="/' + id + '">' + id + '</a>, version #' + version));
   }
 }
 
@@ -33,18 +33,12 @@ $(document).ready(function() {
     if (codeSnippet.language) {
       languageSelect.selectLanguage(codeSnippet.language);
     }
-    displaySnippetInfo(id, codeSnippet);
+    displaySnippetInfo(id, codeSnippet.version);
   });
 
   saveDialog.onSnippetSaved(function(id, codeSnippet) {
     currentSnippetId = id;
-    displaySnippetInfo(id, codeSnippet);
-  });
-
-  $("#new-menu-item").click(function() {
-    currentSnippetId = null;
-    displaySnippetInfo(null);
-    codeEditor.clear();
+    displaySnippetInfo(id, codeSnippet.version);
   });
 
   $("#open-menu-item").click(function() {

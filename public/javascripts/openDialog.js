@@ -21,20 +21,7 @@ clouddevelop = clouddevelop || {};
           return false;
         }
 
-        $dialog.dialog("option", "width", 480);
-        $dialog.dialog("option", "height", 360);
-
-        openDialog.showLoading();
-
-        clouddevelop.service.open(snippetId)
-          .onSuccess(function(result) {
-            snippetLoadedHandler(snippetId, result);
-            openDialog.hide();
-          })
-          .onError(function(result) {
-            openDialog.reveal();
-            alert(result);
-          });
+        window.location = "/" + snippetId;
       },
       Cancel: function() {
         openDialog.hide();

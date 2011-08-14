@@ -16,7 +16,12 @@ get '/' do
 end
 
 get '/:snippet_id' do |snippet_id|
-    @code_snippet = CodeSnippet.find(snippet_id)
+    begin
+        @code_snippet = CodeSnippet.find(snippet_id)
+    rescue
+        @alert = "There isn't any code snippet with Id '#{snippet_id}'!"
+    end
+
     haml :index
 end
 

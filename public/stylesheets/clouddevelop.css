@@ -69,6 +69,12 @@ form textarea {
   display: block;
   margin-bottom: 10px;
 }
+#alert {
+  background: red;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
 #toolbar-area {
   text-align: center;
 } 
