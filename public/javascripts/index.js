@@ -17,7 +17,25 @@ $(document).ready(function() {
     compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog),
     openDialog = clouddevelop.openDialog($("#open-dialog")),
     saveDialog = clouddevelop.saveDialog($("#save-dialog")),
+    $window = $(window),
+    $header = $('#header'),
+    $navigation = $('#navigation'),
+    $toolbar = $('#toolbar-area'),
+    $codeMirror = $('.CodeMirror-scroll'),
+    $button = $('#button-area'),
+    $footer = $('.footer'),
     currentSnippetId = null;
+  
+  function resize() {
+    var windowHeight = $window.height(),
+        headerHeight = $header.outerHeight(true),
+        navigationHeight = $navigation.outerHeight(true),
+        toolbarHeight = $toolbar.outerHeight(true),
+        buttonHeight = $button.outerHeight(true),
+        footerHeight = $footer.outerHeight(true);
+    
+    $codeMirror.height( windowHeight - headerHeight - navigationHeight - toolbarHeight - buttonHeight - footerHeight );
+  }
   
   languageSelect.onSelectedLanguageChanged(function(language, mode) {
     codeEditor.setMode(mode);
@@ -62,6 +80,10 @@ $(document).ready(function() {
       saveDialog.save(code, language);
     }
   });
+
+  $(window).resize(resize);
+
+  resize();
 
   // Big-time hack!
   selectLanguage = function(language) {

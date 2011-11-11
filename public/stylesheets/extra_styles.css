@@ -1,4 +1,5 @@
 /* jQuery styles */
+.ui-widget { font-size: 0.88em; }
 .ui-button { margin-left: -1px; }
 .ui-button-icon-only .ui-button-text { padding: 0.35em; } 
 .ui-autocomplete-input { margin-right: 0; padding: 0.48em 0 0.47em 0.45em; }
