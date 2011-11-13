@@ -1,0 +1,11 @@
+%script(type="text/javascript" src="/javascripts/start.js")
+
+%body
+  %div#start-dialog(title="CloudDevelop")
+    %table.container-table
+      %tr
+        %td
+          %form#start-form(method="post" action="/#{@collaboration.collaboration_id}/enter")
+            %label(for="name") Enter your name:
+            %br
+            %input#name.text.ui-widget-content.ui-corner-all(type="text" name="name")

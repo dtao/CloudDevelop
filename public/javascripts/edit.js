@@ -25,8 +25,14 @@ $(document).ready(function() {
       $footer = $('.footer'),
       currentSnippetId = null,
       pusher = new Pusher($('#pusher-api-key').val()),
-      channelId = window.location.pathname.match(/\/(\d+)/)[1]
-      channel = pusher.subscribe(channelId);
+      infoFromPath = window.location.pathname.match(/\/(\d+)\/(.*)/),
+      collaborationId,
+      contributor,
+      channel;
+  
+  collaborationId = infoFromPath[1];
+  contributor = infoFromPath[2];
+  channel = pusher.subscribe(collaborationId);
   
   languageSelect.onSelectedLanguageChanged(function(language, mode) {
     codeEditor.setMode(mode);
@@ -37,15 +43,26 @@ $(document).ready(function() {
   });
 
   channel.bind('update', function(data) {
-    codeEditor.setText(data.text);
+    if (data.contributor !== contributor) {
+      codeEditor.applyChange(data.change);
+    }
   });
 
-  codeEditor.onChange(function() {
+  channel.bind('new_contributor', function(data) {
+    $('<li>').text(data.contributor).appendTo($('.collaborators-list'));
+  });
+
+  codeEditor.onChange(function(change) {
     $.ajax('/collaborate', {
       type: 'post',
       data: {
-        channel_id: channelId,
-        text: codeEditor.getText()
+        collaboration_id: collaborationId,
+        contributor: contributor,
+        change: {
+          from: change.from,
+          to: change.to,
+          text: change.text.join("\n")
+        }
       }
     });
   });

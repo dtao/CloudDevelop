@@ -39,9 +39,35 @@ post '/start' do
     end
 end
 
-get %r{\/(\d+)} do |collaboration_id|
+post '/*/enter' do |collaboration_id|
+    name = params[:name]
+    collaboration = Collaboration.first :conditions => { :collaboration_id => collaboration_id }
+
+    original_name = name
+    i = 1
+    while collaboration.contributors.include?(name)
+        name = "#{original_name}#{i}"
+        i += 1
+    end
+
+    collaboration.push :contributors, name
+    Pusher[collaboration_id].trigger('new_contributor', {
+        'contributor' => name
+    })
+
+    redirect "/#{collaboration_id}/#{name}"
+end
+
+get %r{^\/(\d+)$} do |collaboration_id|
+    @template = :enter
+    @collaboration = Collaboration.first :conditions => { :collaboration_id => collaboration_id }
+    haml :index
+end
+
+get %r{\/(\d+)\/(.*)} do |collaboration_id, contributor|
     @template = :edit
     @collaboration = Collaboration.first :conditions => { :collaboration_id => collaboration_id }
+    @contributor = contributor
     haml :index
 end
 
@@ -60,55 +86,6 @@ get '/snippet/:snippet_id' do |snippet_id|
     haml :index
 end
 
-post '/' do
-    content_type :json
-
-    snippet = params[:code_snippet]
-    language = params[:language]
-
-    @code_snippet = CodeSnippet.new
-    @code_snippet.snippet = snippet
-    @code_snippet.language = language
-    @code_snippet.version = 1
-    @code_snippet.updates = []
-    @code_snippet.latest = snippet
-
-    result = { :codeSnippet => @code_snippet }
-
-    if @code_snippet.save
-      result[:id] = @code_snippet.id
-      result[:info] = "Snippet Id for future reference: #{@code_snippet.id}."
-    else
-      result[:info] = "Unable to save code snippet :("
-    end
-
-    result.to_json
-end
-
-put '/' do
-    content_type :json
-
-    @code_snippet = CodeSnippet.find(params[:id])
-
-    original_snippet = @code_snippet.latest
-    new_snippet = params[:code_snippet]
-    diff = Diff::LCS.diff(original_snippet, new_snippet)
-
-    @code_snippet.updates << structure_diff(diff)
-    @code_snippet.version += 1
-    @code_snippet.latest = new_snippet
-
-    result = { :id => @code_snippet.id, :codeSnippet => @code_snippet }
-
-    if @code_snippet.save
-      result[:info] = "Snippet Id: #{@code_snippet.id}, version ##{@code_snippet.version}"
-    else
-      result[:info] = "Unable to update code snippet :("
-    end
-
-    result.to_json
-end
-
 post '/compile' do
     content_type :json
 
@@ -120,12 +97,11 @@ post '/compile' do
 end
 
 post '/collaborate' do
-    channel_id = params[:channel_id]
-    puts "Received '#{params[:text]}' on channel '#{channel_id}'"
-    Pusher[channel_id].trigger('update', {
-        'text' => params[:text]
+    collaboration_id = params[:collaboration_id]
+    Pusher[collaboration_id].trigger('update', {
+        'contributor' => params[:contributor],
+        'change' => params[:change]
     })
-    puts "Sent '#{params[:text]}' through channel '#{channel_id}'"
 end
 
 def structure_diff(diff)
