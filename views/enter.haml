@@ -5,7 +5,7 @@
     %table.container-table
       %tr
         %td
-          %form#start-form(method="post" action="/#{@collaboration.collaboration_id}/enter")
+          %form#start-form(method="post" action="/#{@collaboration.id}/enter")
             %label(for="name") Enter your name:
             %br
             %input#name.text.ui-widget-content.ui-corner-all(type="text" name="name")

@@ -25,14 +25,19 @@ $(document).ready(function() {
       $footer = $('.footer'),
       currentSnippetId = null,
       pusher = new Pusher($('#pusher-api-key').val()),
-      infoFromPath = window.location.pathname.match(/\/(\d+)\/(.*)/),
+      infoFromPath = window.location.pathname.match(/\/([a-z0-9]+)\/(.*)/),
       collaborationId,
       contributor,
-      channel;
+      channel,
+      changeId = 0;
   
   collaborationId = infoFromPath[1];
   contributor = infoFromPath[2];
   channel = pusher.subscribe(collaborationId);
+
+  if (contributor !== $('#current-owner').val()) {
+    codeEditor.setReadOnly(true);
+  }
   
   languageSelect.onSelectedLanguageChanged(function(language, mode) {
     codeEditor.setMode(mode);
@@ -44,7 +49,7 @@ $(document).ready(function() {
 
   channel.bind('update', function(data) {
     if (data.contributor !== contributor) {
-      codeEditor.applyChange(data.change);
+      codeEditor.applyChange(data);
     }
   });
 
@@ -52,17 +57,41 @@ $(document).ready(function() {
     $('<li>').text(data.contributor).appendTo($('.collaborators-list'));
   });
 
-  codeEditor.onChange(function(change) {
-    $.ajax('/collaborate', {
+  channel.bind('change_control', function(data) {
+    if (data.contributor === contributor) {
+      codeEditor.setReadOnly(false);
+      alert("You have been given control.");
+    }
+  });
+
+  codeEditor.onChange(function() {
+    $.ajax('/update', {
+      type: 'post',
+      data: {
+        change_id: changeId++,
+        collaboration_id: collaborationId,
+        contributor: contributor,
+        content: codeEditor.getText()
+      }
+    });
+  });
+
+  $(document).delegate('.contributor-link', 'click', function() {
+    var selectedContributor = $(this).text();
+
+    if (selectedContributor === contributor) {
+      return;
+    }
+
+    codeEditor.setReadOnly(true);
+    $.ajax('/change_control', {
       type: 'post',
       data: {
         collaboration_id: collaborationId,
-        contributor: contributor,
-        change: {
-          from: change.from,
-          to: change.to,
-          text: change.text.join("\n")
-        }
+        contributor: selectedContributor
+      },
+      complete: function() {
+        alert("Gave control to " + selectedContributor + ".");
       }
     });
   });

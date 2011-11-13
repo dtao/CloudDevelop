@@ -3,7 +3,8 @@ clouddevelop = clouddevelop || {};
 (function() {
   clouddevelop.codeEditor = function($textarea) {
     var changeHandler = $.noop,
-        applyingChange = false,
+        applyingChanges = false,
+        lastChangeId = null,
         codeMirror = CodeMirror.fromTextArea($textarea.get(0), {
           lineNumbers: true,
           onChange: function(editor, change) {
@@ -11,7 +12,7 @@ clouddevelop = clouddevelop || {};
             // this function only gets passed the editor. HOWEVER, digging into
             // the source I see that it ALSO gets passed the data of what text
             // was changed. (Muhahaha!)
-            if (!applyingChange) {
+            if (!applyingChanges) {
               changeHandler(change);
             }
           }
@@ -33,10 +34,19 @@ clouddevelop = clouddevelop || {};
       codeMirror.setValue(text);
     }
 
+    function setReadOnly(readOnly) {
+      codeMirror.setOption('readOnly', readOnly);
+    }
+
     function applyChange(change) {
-      applyingChange = true;
-      codeMirror.replaceRange(change.text, change.from, change.to);
-      applyingChange = false;
+      if (change.changeId < lastChangeId) {
+        return;
+      }
+
+      applyingChanges = true;
+      codeMirror.setValue(change.content);
+      lastChangeId = change.changeId;
+      applyingChanges = false;
     }
 
     function loadCodeSnippet(codeSnippet) {
@@ -61,6 +71,7 @@ clouddevelop = clouddevelop || {};
       clear: clear,
       getText: getText,
       setText: setText,
+      setReadOnly: setReadOnly,
       applyChange: applyChange,
       loadCodeSnippet: loadCodeSnippet,
       setMode: setMode,

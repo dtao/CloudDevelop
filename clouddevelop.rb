@@ -28,11 +28,12 @@ post '/start' do
     name = params[:name]
 
     collaboration = Collaboration.new
-    collaboration.source = ''
+    collaboration.content = ''
     collaboration.contributors = [name]
+    collaboration.owner = name
 
     if collaboration.save
-        redirect "/#{collaboration.collaboration_id}/#{name}"
+        redirect "/#{collaboration.id}/#{name}"
     else
         @error = 'Unable to start a new session :('
         redirect '/'
@@ -41,7 +42,7 @@ end
 
 post '/*/enter' do |collaboration_id|
     name = params[:name]
-    collaboration = Collaboration.first :conditions => { :collaboration_id => collaboration_id }
+    collaboration = Collaboration.find(collaboration_id)
 
     original_name = name
     i = 1
@@ -58,32 +59,43 @@ post '/*/enter' do |collaboration_id|
     redirect "/#{collaboration_id}/#{name}"
 end
 
-get %r{^\/(\d+)$} do |collaboration_id|
+get %r{^\/([a-z0-9]+)$} do |collaboration_id|
     @template = :enter
-    @collaboration = Collaboration.first :conditions => { :collaboration_id => collaboration_id }
+    @collaboration = Collaboration.find(collaboration_id)
     haml :index
 end
 
-get %r{\/(\d+)\/(.*)} do |collaboration_id, contributor|
+get %r{\/([a-z0-9]+)\/(.*)} do |collaboration_id, contributor|
     @template = :edit
-    @collaboration = Collaboration.first :conditions => { :collaboration_id => collaboration_id }
+    @collaboration = Collaboration.find(collaboration_id)
     @contributor = contributor
     haml :index
 end
 
-get '/snippet/*.js' do |snippet_id|
-    content_type :json
-    CodeSnippet.find(snippet_id).to_json
+post '/update' do
+    collaboration_id = params[:collaboration_id]
+    content = params[:content]
+
+    collaboration = Collaboration.find(collaboration_id)
+    collaboration.content = content
+
+    Pusher[collaboration_id].trigger('update', {
+        'contributor' => params[:contributor],
+        'content' => content,
+        'changeId' => params[:change_id].to_i
+    })
 end
 
-get '/snippet/:snippet_id' do |snippet_id|
-    begin
-        @code_snippet = CodeSnippet.find(snippet_id)
-    rescue
-        @alert = "There isn't any code snippet with ID '#{snippet_id}'!"
-    end
+post '/change_control' do
+    collaboration_id = params[:collaboration_id]
+    owner = params[:contributor]
 
-    haml :index
+    collaboration = Collaboration.find(collaboration_id)
+    collaboration.owner = owner
+
+    Pusher[collaboration_id].trigger('change_control', {
+        'contributor' => owner
+    })
 end
 
 post '/compile' do
@@ -94,28 +106,4 @@ post '/compile' do
 
     service = IdeoneCompilerService.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"])
     service.compile(snippet, language).to_json
-end
-
-post '/collaborate' do
-    collaboration_id = params[:collaboration_id]
-    Pusher[collaboration_id].trigger('update', {
-        'contributor' => params[:contributor],
-        'change' => params[:change]
-    })
-end
-
-def structure_diff(diff)
-    changes = []
-
-    diff.each do |segment|
-        segment.each do |change|
-            changes << format_change(change)
-        end
-    end
-
-    changes
-end
-
-def format_change(change)
-    "#{change.position}#{change.action}#{change.element}"
 end

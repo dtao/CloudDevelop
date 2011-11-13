@@ -12,13 +12,6 @@
 
 %script(type="text/javascript" src="/javascripts/edit.js")
 
-- unless @code_snippet.nil?
-  :javascript
-    $(document).ready(function() {
-      selectLanguage("#{@code_snippet.language}");
-      displaySnippetInfo("#{@code_snippet.id}", #{@code_snippet.version});
-    });
-
 %body
   #header
     %h1 <a href="/"><span>Cloud</span>Develop</a>
@@ -27,9 +20,14 @@
   #navigation
     .inner-navigation
       %ul.collaborators-list
-        %li collaborating:
+        %li Contributors:
         - @collaboration.contributors.each do |contributor|
-          %li= contributor
+          %li
+            - puts "Contributor: #{contributor}, owner: #{@collaboration.owner}, current: #{@contributor}"
+            - if contributor == @collaboration.owner
+              = "#{contributor} (editing)"
+            - else
+              %a.contributor-link= contributor
   
   #wrap
     - unless @alert.nil?
@@ -79,6 +77,7 @@
   
   / This is totally a hack. Whatever.
   %input#pusher-api-key(type="hidden" value="#{ENV["PUSHER_API_KEY"]}")
+  %input#current-owner(type="hidden" value="#{@collaboration.owner}")
   
   .footer
     %p

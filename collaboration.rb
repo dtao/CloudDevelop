@@ -1,8 +1,7 @@
 class Collaboration
   include Mongoid::Document
 
-  field :source, :type => String
+  field :content, :type => String
   field :contributors, :type => Array
-
-  auto_increment :collaboration_id
+  field :owner, :type => String
 end
