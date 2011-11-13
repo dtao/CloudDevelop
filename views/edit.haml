@@ -15,6 +15,9 @@
 %body
   #header
     %h1 <a href="/"><span>Cloud</span>Develop</a>
+    #link
+      %p
+        %a(href="/#{@collaboration.id}") Link to this session
     .clear
   
   #access-control
@@ -57,7 +60,6 @@
             %option(value="neat") Neat
             %option(value="night") Night
             %option(value="solarized") Solarized
-          %a(href="/#{@collaboration.id}") Link to this session
         
         %textarea#code-editor(name="code-editor")= @code_snippet ? @code_snippet.latest : ""
       

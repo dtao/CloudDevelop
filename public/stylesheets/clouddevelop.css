@@ -153,11 +153,11 @@ div#header h1, div#header h1 a {
 div#header h1 a span {
     color: #999999;
 }
-div#header #file-info-box {
+div#header #link {
     float: right;
     width: 50%;
 }
-div#header #file-info-box p {
+div#header #link p {
     float: right;
     background-color: #C3CED5;
     border: 1px solid #B4C2CB;
