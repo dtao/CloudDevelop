@@ -200,8 +200,11 @@ ul.contributor-list li {
     font-size: 0.9em;
     font-weight: bold;
     height: 24px;
-    padding: 8px 20px;
+    padding: 8px 20px 8px 0px;
     text-transform: uppercase;
+}
+ul.contributor-list li.left-most {
+    padding: 8px 20px;
 }
 div#content {
     background-color: #FFFFFF;

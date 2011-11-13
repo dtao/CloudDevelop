@@ -23,7 +23,7 @@
   #access-control
     .inner-access-control
       %ul.contributor-list
-        %li Contributors:
+        %li.left-most Contributors:
         - @collaboration.contributors.each do |contributor|
           %li
             - if contributor == @collaboration.owner

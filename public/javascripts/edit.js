@@ -23,7 +23,7 @@ $(document).ready(function() {
       changeId = 0;
   
   function refreshContributorList(contributors) {
-    $('<li>').text('Contributors:').appendTo($contributorList.empty());
+    $('<li>').addClass('left-most').text('Contributors:').appendTo($contributorList.empty());
 
     for (var i = 0; i < contributors.length; i++) {
       if (contributors[i] === currentOwner) {
