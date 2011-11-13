@@ -61,6 +61,15 @@ table tr td {
 table tr.alt td {
     background-color: #D7E6F4;
 }
+table.container-table {
+    height: 100%;
+    width: 100%;
+}
+table.container-table tr td {
+    border: none;
+    text-align: center;
+    vertical-align: center;
+}
 form input, form select, button {
   display: inline;
   margin: 10px;
@@ -176,20 +185,14 @@ div.inner-navigation {
     background-repeat: no-repeat;
     height: 40px;
 }
-div#navigation ul {
+ul.collaborators-list {
     list-style: none outside none;
     margin: 0;
     padding: 0;
     position: relative;
     top: 0;
 }
-div#navigation ul li {
-    display: block;
-    float: left;
-}
-div#navigation ul li.selected {
-}
-div#navigation ul li a {
+ul.collaborators-list li {
     border-bottom: medium none;
     color: #FFFFFF;
     display: block;
@@ -199,12 +202,6 @@ div#navigation ul li a {
     height: 24px;
     padding: 8px 20px;
     text-transform: uppercase;
-}
-div#navigation ul li.selected a, div#navigation ul li.selected a:hover {
-    background-color: #474747;
-}
-div#navigation ul li a:hover {
-    background-color: #3B3B3B;
 }
 div#content {
     background-color: #FFFFFF;

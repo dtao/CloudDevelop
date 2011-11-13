@@ -2,25 +2,28 @@ clouddevelop = clouddevelop || {};
 
 (function() {
   clouddevelop.codeEditor = function($textarea) {
-    var codeMirror = CodeMirror.fromTextArea($textarea.get(0), {
-      lineNumbers: true,
-      onChange: function() {
-        var fileInfoBox = $("#file-info-box > p");
-        if (fileInfoBox) {
-          var text = fileInfoBox.text();
-          if (text.indexOf("*", text.length - 1) === -1) {
-            fileInfoBox.text(text + "*");
+    var changeHandler = $.noop,
+        codeMirror = CodeMirror.fromTextArea($textarea.get(0), {
+          lineNumbers: true,
+          onChange: function() {
+            changeHandler();
           }
-        }
-      }
-    });
+        });
+    
+    function onChange(handler) {
+      changeHandler = handler;
+    }
 
     function clear() {
       codeMirror.setValue("");
     }
 
-    function getValue() {
+    function getText() {
       return codeMirror.getValue();
+    }
+
+    function setText(text) {
+      codeMirror.setValue(text);
     }
 
     function loadCodeSnippet(codeSnippet) {
@@ -41,8 +44,10 @@ clouddevelop = clouddevelop || {};
     }
 
     return {
+      onChange: onChange,
       clear: clear,
-      getValue: getValue,
+      getText: getText,
+      setText: setText,
       loadCodeSnippet: loadCodeSnippet,
       setMode: setMode,
       setTheme: setTheme

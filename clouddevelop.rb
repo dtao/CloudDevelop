@@ -2,34 +2,62 @@ require 'rubygems'
 require 'sinatra'
 
 require 'mongoid'
+require 'mongoid_auto_inc'
 require 'savon'
 require 'diff/lcs'
+require 'pusher'
 require './code_snippet'
+require './collaboration'
 require './ideone_compiler_service'
 
 configure do
+    ENV['RACK_ENV'] = 'development'
+
     Mongoid.load!('config/mongoid.yml')
+    Pusher.app_id = ENV['PUSHER_APP_ID']
+    Pusher.key = ENV['PUSHER_API_KEY']
+    Pusher.secret = ENV['PUSHER_SECRET']
 end
 
 get '/' do
-	haml :index
-end
-
-get '/:snippet_id' do |snippet_id|
-    begin
-        @code_snippet = CodeSnippet.find(snippet_id)
-    rescue
-        @alert = "There isn't any code snippet with Id '#{snippet_id}'!"
-    end
-
+    @template = :start
     haml :index
 end
 
-# I don't know what the 'Sinatra' way of doing this is...
-get '/snippet/:snippet_id' do |snippet_id|
-    content_type :json
+post '/start' do
+    name = params[:name]
 
+    collaboration = Collaboration.new
+    collaboration.source = ''
+    collaboration.contributors = [name]
+
+    if collaboration.save
+        redirect "/#{collaboration.collaboration_id}/#{name}"
+    else
+        @error = 'Unable to start a new session :('
+        redirect '/'
+    end
+end
+
+get %r{\/(\d+)} do |collaboration_id|
+    @template = :edit
+    @collaboration = Collaboration.first :conditions => { :collaboration_id => collaboration_id }
+    haml :index
+end
+
+get '/snippet/*.js' do |snippet_id|
+    content_type :json
     CodeSnippet.find(snippet_id).to_json
+end
+
+get '/snippet/:snippet_id' do |snippet_id|
+    begin
+        @code_snippet = CodeSnippet.find(snippet_id)
+    rescue
+        @alert = "There isn't any code snippet with ID '#{snippet_id}'!"
+    end
+
+    haml :index
 end
 
 post '/' do
@@ -89,6 +117,15 @@ post '/compile' do
 
     service = IdeoneCompilerService.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"])
     service.compile(snippet, language).to_json
+end
+
+post '/collaborate' do
+    channel_id = params[:channel_id]
+    puts "Received '#{params[:text]}' on channel '#{channel_id}'"
+    Pusher[channel_id].trigger('update', {
+        'text' => params[:text]
+    })
+    puts "Sent '#{params[:text]}' through channel '#{channel_id}'"
 end
 
 def structure_diff(diff)
