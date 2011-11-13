@@ -1,10 +1,3 @@
-function displaySnippetInfo(id, version) {
-  var $fileInfoBox = $("#file-info-box").empty();
-  if (version) {
-    $fileInfoBox.append($('<p>').html('Snippet Id: <a href="/' + id + '">' + id + '</a>, version #' + version));
-  }
-}
-
 var selectLanguage = function(language) {
   // Do nothing (this is a placeholder).
 }
@@ -19,6 +12,7 @@ $(document).ready(function() {
       $window = $(window),
       $header = $('#header'),
       $navigation = $('#navigation'),
+      $contributorList = $('.contributor-list'),
       $toolbar = $('#toolbar-area'),
       $codeMirror = $('.CodeMirror-scroll'),
       $button = $('#button-area'),
@@ -29,13 +23,29 @@ $(document).ready(function() {
       collaborationId,
       contributor,
       channel,
+      currentOwner,
       changeId = 0;
+  
+  function refreshContributorList(contributors) {
+    $('<li>').text('Contributors:').appendTo($contributorList.empty());
+
+    for (var i = 0; i < contributors.length; i++) {
+      if (contributors[i] === currentOwner) {
+        $('<li>').text(currentOwner + ' (editing)').appendTo($contributorList);
+      } else if (contributors[i] === contributor) {
+        $('<li>').text(contributor).appendTo($contributorList);
+      } else {
+        $('<li>').append($('<a class="contributor-link">').text(contributors[i])).appendTo($contributorList);
+      }
+    }
+  }
   
   collaborationId = infoFromPath[1];
   contributor = infoFromPath[2];
   channel = pusher.subscribe(collaborationId);
+  currentOwner = $('#current-owner').val();
 
-  if (contributor !== $('#current-owner').val()) {
+  if (contributor !== currentOwner) {
     codeEditor.setReadOnly(true);
   }
   
@@ -45,23 +55,6 @@ $(document).ready(function() {
 
   themeSelect.onSelectedThemeChanged(function(theme) {
     codeEditor.setTheme(theme);
-  });
-
-  channel.bind('update', function(data) {
-    if (data.contributor !== contributor) {
-      codeEditor.applyChange(data);
-    }
-  });
-
-  channel.bind('new_contributor', function(data) {
-    $('<li>').text(data.contributor).appendTo($('.collaborators-list'));
-  });
-
-  channel.bind('change_control', function(data) {
-    if (data.contributor === contributor) {
-      codeEditor.setReadOnly(false);
-      alert("You have been given control.");
-    }
   });
 
   codeEditor.onChange(function() {
@@ -77,8 +70,14 @@ $(document).ready(function() {
   });
 
   $(document).delegate('.contributor-link', 'click', function() {
-    var selectedContributor = $(this).text();
+    var selectedContributor;
 
+    // Only the current owner can assign a new owner.
+    if (contributor !== currentOwner) {
+      return;
+    }
+
+    selectedContributor = $(this).text();
     if (selectedContributor === contributor) {
       return;
     }
@@ -88,12 +87,29 @@ $(document).ready(function() {
       type: 'post',
       data: {
         collaboration_id: collaborationId,
-        contributor: selectedContributor
-      },
-      complete: function() {
-        alert("Gave control to " + selectedContributor + ".");
+        owner: selectedContributor
       }
     });
+  });
+
+  channel.bind('update', function(data) {
+    if (data.contributor !== contributor) {
+      codeEditor.applyChange(data);
+    }
+  });
+
+  channel.bind('new_contributor', function(data) {
+    $('<li>').text(data.contributor).appendTo($('.collaborators-list'));
+  });
+
+  channel.bind('change_control', function(data) {
+    currentOwner = data.owner;
+
+    if (contributor === currentOwner) {
+      codeEditor.setReadOnly(false);
+    }
+
+    refreshContributorList(data.contributors);
   });
 
   // Big-time hack!

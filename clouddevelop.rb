@@ -88,13 +88,14 @@ end
 
 post '/change_control' do
     collaboration_id = params[:collaboration_id]
-    owner = params[:contributor]
+    owner = params[:owner]
 
     collaboration = Collaboration.find(collaboration_id)
-    collaboration.owner = owner
+    collaboration.set :owner, owner
 
     Pusher[collaboration_id].trigger('change_control', {
-        'contributor' => owner
+        'contributors' => collaboration.contributors,
+        'owner' => owner
     })
 end
 
