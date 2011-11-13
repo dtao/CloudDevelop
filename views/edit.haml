@@ -17,13 +17,12 @@
     %h1 <a href="/"><span>Cloud</span>Develop</a>
     .clear
   
-  #navigation
-    .inner-navigation
+  #access-control
+    .inner-access-control
       %ul.contributor-list
         %li Contributors:
         - @collaboration.contributors.each do |contributor|
           %li
-            - puts "Contributor: #{contributor}, owner: #{@collaboration.owner}, current: #{@contributor}"
             - if contributor == @collaboration.owner
               = "#{contributor} (editing)"
             - else
@@ -58,6 +57,7 @@
             %option(value="neat") Neat
             %option(value="night") Night
             %option(value="solarized") Solarized
+          %a(href="/#{@collaboration.id}") Link to this session
         
         %textarea#code-editor(name="code-editor")= @code_snippet ? @code_snippet.latest : ""
       

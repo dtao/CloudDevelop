@@ -176,11 +176,11 @@ div#page-title {
     display: none;
     visibility: hidden;
 }
-div#navigation {
+div#access-control {
     background-color: #333333;
     height: 40px;
 }
-div.inner-navigation {
+div.inner-access-control {
     background-position: right top;
     background-repeat: no-repeat;
     height: 40px;

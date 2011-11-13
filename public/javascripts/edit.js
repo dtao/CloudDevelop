@@ -1,7 +1,3 @@
-var selectLanguage = function(language) {
-  // Do nothing (this is a placeholder).
-}
-
 $(document).ready(function() {
   var codeEditor = clouddevelop.codeEditor($("#code-editor")),
       languageSelect = clouddevelop.languageSelect($("#language-select")),
@@ -32,8 +28,6 @@ $(document).ready(function() {
     for (var i = 0; i < contributors.length; i++) {
       if (contributors[i] === currentOwner) {
         $('<li>').text(currentOwner + ' (editing)').appendTo($contributorList);
-      } else if (contributors[i] === contributor) {
-        $('<li>').text(contributor).appendTo($contributorList);
       } else {
         $('<li>').append($('<a class="contributor-link">').text(contributors[i])).appendTo($contributorList);
       }
@@ -111,9 +105,4 @@ $(document).ready(function() {
 
     refreshContributorList(data.contributors);
   });
-
-  // Big-time hack!
-  selectLanguage = function(language) {
-    languageSelect.selectLanguage(language);
-  };
 });
