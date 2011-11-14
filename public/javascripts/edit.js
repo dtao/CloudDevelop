@@ -15,7 +15,14 @@ $(document).ready(function() {
       changeId = 0;
 
   function addContributor(contributor) {
-    $('<li>').append($('<a class="contributor-link">').text(contributor)).appendTo($contributorList);
+    var $contributorItem = $('<li>').append($('<a href="javascript:void(0);" class="contributor-link">').text(contributor)),
+        $instructionItem = $contributorList.find('.instruction');
+    
+    if ($instructionItem.length) {
+      $contributorItem.insertBefore($instructionItem);
+    } else {
+      $contributorItem.appendTo($contributorList);
+    }
   }
   
   function refreshContributorList(contributors) {
@@ -28,6 +35,14 @@ $(document).ready(function() {
         addContributor(contributors[i]);
       }
     }
+
+    if (isOwner()) {
+      $('<li>').addClass('instruction').text('(Click on a name to assign control.)').appendTo($contributorList);
+    }
+  }
+
+  function isOwner() {
+    return contributor == currentOwner;
   }
 
   function publishUpdate() {
@@ -73,7 +88,7 @@ $(document).ready(function() {
   
   languageSelect.onSelectedLanguageChanged(function(language, mode) {
     codeEditor.setMode(mode);
-    if (contributor === currentOwner) {
+    if (isOwner()) {
       publishLanguageChange();
     }
   });
@@ -88,7 +103,7 @@ $(document).ready(function() {
     var selectedContributor;
 
     // Only the current owner can assign a new owner.
-    if (contributor !== currentOwner) {
+    if (!isOwner()) {
       return;
     }
 
@@ -108,7 +123,7 @@ $(document).ready(function() {
   });
 
   pusherChannel.bind('change_language', function(data) {
-    if (contributor !== currentOwner) {
+    if (!isOwner()) {
       languageSelect.selectLanguage(data.language);
     }
   });
@@ -120,7 +135,7 @@ $(document).ready(function() {
   pusherChannel.bind('change_control', function(data) {
     currentOwner = data.owner;
 
-    if (contributor === currentOwner) {
+    if (isOwner()) {
       codeEditor.setReadOnly(false);
     }
 

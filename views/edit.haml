@@ -25,10 +25,17 @@
         %li.left-most Contributors:
         - @collaboration.contributors.each do |contributor|
           %li
-            - if contributor == @collaboration.owner
-              = "#{contributor} (editing)"
+            - if contributor == @contributor
+              - if contributor == @collaboration.owner
+                .current= "#{contributor} (you) (editing)"
+              - else
+                .current= "#{contributor} (you)"
+            - elsif contributor == @collaboration.owner
+              .owner= "#{contributor} (editing)"
             - else
               %a.contributor-link(href="javascript:void(0);")= contributor
+        - if @contributor == @collaboration.owner
+          %li.instruction (Click on a name to assign control.)
   
   #wrap
     - unless @alert.nil?
