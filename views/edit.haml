@@ -1,13 +1,12 @@
 %link(rel="stylesheet" href="/stylesheets/codemirror/codemirror.css")
-- ['default', 'elegant', 'neat', 'night', 'solarized'].each do |theme|
+- %w{default elegant neat night solarized}.each do |theme|
   %link(rel="stylesheet" href="/stylesheets/codemirror/theme/#{theme}.css")
 
 %script(type="text/javascript" src="/javascripts/codemirror/lib/codemirror.js")
-- ['clike', 'haskell', 'javascript', 'lua', 'perl', 'php', 'python', 'ruby', 'scheme', 'smalltalk', 'vb'].each do |mode|
+- %w{clike haskell javascript lua perl php python ruby scheme smalltalk vb}.each do |mode|
   %script(type="text/javascript" src="/javascripts/codemirror/mode/#{mode}/#{mode}.js")
 
-- ['service', 'codeEditor', 'combobox', 'languageSelect', 'themeSelect', 'compileButton',
-  'dialogBase', 'consoleDialog', 'openDialog', 'saveDialog'].each do |file|
+- %w{service codeEditor combobox languageSelect themeSelect compileButton dialogBase consoleDialog throttle}.each do |file|
   %script(type="text/javascript" src="/javascripts/#{file}.js")
 
 %script(type="text/javascript" src="/javascripts/edit.js")
@@ -61,7 +60,7 @@
             %option(value="night") Night
             %option(value="solarized") Solarized
         
-        %textarea#code-editor(name="code-editor")= @code_snippet ? @code_snippet.latest : ""
+        %textarea#code-editor(name="code-editor")= @collaboration.content
       
       #button-area
         %button#compile-button(name="compile-button") Compile
