@@ -28,7 +28,7 @@
             - if contributor == @collaboration.owner
               = "#{contributor} (editing)"
             - else
-              %a.contributor-link= contributor
+              %a.contributor-link(href="javascript:void(0);")= contributor
   
   #wrap
     - unless @alert.nil?
@@ -38,20 +38,8 @@
         #toolbar-area
           %label(for="language-select") Language
           %select#language-select(name="language-select")
-            %option(value="c") C
-            %option(value="cpp") C++
-            %option(value="cs") C#
-            %option(value="haskell") Haskell
-            %option(value="java") Java
-            %option(value="javascript") JavaScript
-            %option(value="lua") Lua
-            %option(value="perl") Perl
-            %option(value="php") PHP
-            %option(value="python") Python
-            %option(value="ruby") Ruby
-            %option(value="scheme") Scheme
-            %option(value="smalltalk") Smalltalk
-            %option(value="vb") Visual Basic
+            - languages.each do |language|
+              %option(value="#{language.key}")= "#{language.name}"
           %label(for="theme-select") Theme
           %select#theme-select(name="theme-select")
             %option(value="default" selected="selected") Default
@@ -76,9 +64,12 @@
       .info
       %pre.output
   
-  / This is totally a hack. Whatever.
+  / This my horrible solution to getting values into JavaScript.
+  / It is totally a hack. Probably could use rjs or something. To that I say:
+  / Whatever.
   %input#pusher-api-key(type="hidden" value="#{ENV["PUSHER_API_KEY"]}")
   %input#current-owner(type="hidden" value="#{@collaboration.owner}")
+  %input#current-language(type="hidden" value="#{@collaboration.language}")
   
   .footer
     %p

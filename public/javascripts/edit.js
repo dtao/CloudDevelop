@@ -5,19 +5,12 @@ $(document).ready(function() {
       consoleDialog = clouddevelop.consoleDialog($("#console-dialog")),
       // TODO: Refactor this foolishness (this is called a 'button' yet it contains a crapload of logic!)
       compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog),
-      $window = $(window),
-      $header = $('#header'),
-      $navigation = $('#navigation'),
       $contributorList = $('.contributor-list'),
-      $toolbar = $('#toolbar-area'),
-      $button = $('#button-area'),
-      $footer = $('.footer'),
-      currentSnippetId = null,
       pusher = new Pusher($('#pusher-api-key').val()),
       infoFromPath = window.location.pathname.match(/\/([a-z0-9]+)\/(.*)/),
       collaborationId,
       contributor,
-      channel,
+      pusherChannel,
       currentOwner,
       changeId = 0;
 
@@ -36,25 +29,8 @@ $(document).ready(function() {
       }
     }
   }
-  
-  collaborationId = infoFromPath[1];
-  contributor = infoFromPath[2];
-  channel = pusher.subscribe(collaborationId);
-  currentOwner = $('#current-owner').val();
 
-  if (contributor !== currentOwner) {
-    codeEditor.setReadOnly(true);
-  }
-  
-  languageSelect.onSelectedLanguageChanged(function(language, mode) {
-    codeEditor.setMode(mode);
-  });
-
-  themeSelect.onSelectedThemeChanged(function(theme) {
-    codeEditor.setTheme(theme);
-  });
-
-  codeEditor.onChange(clouddevelop.throttle(function() {
+  function publishUpdate() {
     $.ajax('/update', {
       type: 'post',
       data: {
@@ -64,7 +40,49 @@ $(document).ready(function() {
         content: codeEditor.getText()
       }
     });
-  }, 500));
+  }
+
+  function publishChangeControl(owner) {
+    $.ajax('/change_control', {
+      type: 'post',
+      data: {
+        collaboration_id: collaborationId,
+        owner: owner
+      }
+    });
+  }
+
+  function publishLanguageChange() {
+    $.ajax('/change_language', {
+      type: 'post',
+      data: {
+        collaboration_id: collaborationId,
+        language: languageSelect.selectedLanguage()
+      }
+    });
+  }
+  
+  collaborationId = infoFromPath[1];
+  contributor = infoFromPath[2];
+  pusherChannel = pusher.subscribe(collaborationId);
+  currentOwner = $('#current-owner').val();
+
+  if (contributor !== currentOwner) {
+    codeEditor.setReadOnly(true);
+  }
+  
+  languageSelect.onSelectedLanguageChanged(function(language, mode) {
+    codeEditor.setMode(mode);
+    if (contributor === currentOwner) {
+      publishLanguageChange();
+    }
+  });
+
+  themeSelect.onSelectedThemeChanged(function(theme) {
+    codeEditor.setTheme(theme);
+  });
+
+  codeEditor.onChange(clouddevelop.throttle(publishUpdate, 500));
 
   $(document).delegate('.contributor-link', 'click', function() {
     var selectedContributor;
@@ -80,26 +98,26 @@ $(document).ready(function() {
     }
 
     codeEditor.setReadOnly(true);
-    $.ajax('/change_control', {
-      type: 'post',
-      data: {
-        collaboration_id: collaborationId,
-        owner: selectedContributor
-      }
-    });
+    publishChangeControl(selectedContributor);
   });
 
-  channel.bind('update', function(data) {
+  pusherChannel.bind('update', function(data) {
     if (data.contributor !== contributor) {
       codeEditor.applyChange(data);
     }
   });
 
-  channel.bind('new_contributor', function(data) {
+  pusherChannel.bind('change_language', function(data) {
+    if (contributor !== currentOwner) {
+      languageSelect.selectLanguage(data.language);
+    }
+  });
+
+  pusherChannel.bind('new_contributor', function(data) {
     addContributor(data.contributor);
   });
 
-  channel.bind('change_control', function(data) {
+  pusherChannel.bind('change_control', function(data) {
     currentOwner = data.owner;
 
     if (contributor === currentOwner) {
@@ -108,4 +126,6 @@ $(document).ready(function() {
 
     refreshContributorList(data.contributors);
   });
+
+  languageSelect.selectLanguage($('#current-language').val());
 });

@@ -34,8 +34,10 @@ clouddevelop = clouddevelop || {};
     }
 
     function selectLanguage(language) {
-	    $combobox.val(language);
-	    $combobox.combobox("refresh");
+      if (language !== $combobox.val()) {
+        $combobox.val(language);
+        $combobox.combobox("refresh");
+      }
     }
 
     function onSelectedLanguageChanged(handler) {

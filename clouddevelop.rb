@@ -1,14 +1,12 @@
-require 'rubygems'
-require 'sinatra'
-
 require 'mongoid'
 require 'mongoid_auto_inc'
-require 'savon'
-require 'diff/lcs'
 require 'pusher'
-require './code_snippet'
-require './collaboration'
-require './ideone_compiler_service'
+require 'savon'
+require 'sinatra'
+
+require File.dirname(__FILE__) + '/src/collaboration'
+require File.dirname(__FILE__) + '/src/ideone_compiler_service'
+require File.dirname(__FILE__) + '/src/language'
 
 configure do
     ENV['RACK_ENV'] = 'development'
@@ -17,6 +15,12 @@ configure do
     Pusher.app_id = ENV['PUSHER_APP_ID']
     Pusher.key = ENV['PUSHER_API_KEY']
     Pusher.secret = ENV['PUSHER_SECRET']
+end
+
+helpers do
+    def languages
+        Language.all
+    end
 end
 
 get '/' do
@@ -29,6 +33,7 @@ post '/start' do
 
     collaboration = Collaboration.new
     collaboration.content = ''
+    collaboration.language = 'c'
     collaboration.contributors = [name]
     collaboration.owner = name
 
@@ -96,6 +101,18 @@ post '/change_control' do
     Pusher[collaboration_id].trigger('change_control', {
         'contributors' => collaboration.contributors,
         'owner' => owner
+    })
+end
+
+post '/change_language' do
+    collaboration_id = params[:collaboration_id]
+    language = params[:language]
+
+    collaboration = Collaboration.find(collaboration_id)
+    collaboration.set :language, language
+
+    Pusher[collaboration_id].trigger('change_language', {
+        'language' => language
     })
 end
 
