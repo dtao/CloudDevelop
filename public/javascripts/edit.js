@@ -51,7 +51,7 @@ $(document).ready(function() {
     codeEditor.setTheme(theme);
   });
 
-  codeEditor.onChange(function() {
+  codeEditor.onChange(clouddevelop.throttle(function() {
     $.ajax('/update', {
       type: 'post',
       data: {
@@ -61,7 +61,7 @@ $(document).ready(function() {
         content: codeEditor.getText()
       }
     });
-  });
+  }, 500));
 
   $(document).delegate('.contributor-link', 'click', function() {
     var selectedContributor;
