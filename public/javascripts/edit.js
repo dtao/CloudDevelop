@@ -10,7 +10,6 @@ $(document).ready(function() {
       $navigation = $('#navigation'),
       $contributorList = $('.contributor-list'),
       $toolbar = $('#toolbar-area'),
-      $codeMirror = $('.CodeMirror-scroll'),
       $button = $('#button-area'),
       $footer = $('.footer'),
       currentSnippetId = null,
