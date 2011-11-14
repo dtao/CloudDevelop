@@ -77,7 +77,7 @@ post '/update' do
     content = params[:content]
 
     collaboration = Collaboration.find(collaboration_id)
-    collaboration.content = content
+    collaboration.set :content, content
 
     Pusher[collaboration_id].trigger('update', {
         'contributor' => params[:contributor],

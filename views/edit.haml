@@ -60,7 +60,7 @@
             %option(value="night") Night
             %option(value="solarized") Solarized
         
-        %textarea#code-editor(name="code-editor")= @code_snippet ? @code_snippet.latest : ""
+        %textarea#code-editor(name="code-editor")= @collaboration.content
       
       #button-area
         %button#compile-button(name="compile-button") Compile
