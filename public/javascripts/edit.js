@@ -20,6 +20,10 @@ $(document).ready(function() {
       channel,
       currentOwner,
       changeId = 0;
+
+  function addContributor(contributor) {
+    $('<li>').append($('<a class="contributor-link">').text(contributor)).appendTo($contributorList);
+  }
   
   function refreshContributorList(contributors) {
     $('<li>').addClass('left-most').text('Contributors:').appendTo($contributorList.empty());
@@ -28,7 +32,7 @@ $(document).ready(function() {
       if (contributors[i] === currentOwner) {
         $('<li>').text(currentOwner + ' (editing)').appendTo($contributorList);
       } else {
-        $('<li>').append($('<a class="contributor-link">').text(contributors[i])).appendTo($contributorList);
+        addContributor(contributors[i]);
       }
     }
   }
@@ -92,7 +96,7 @@ $(document).ready(function() {
   });
 
   channel.bind('new_contributor', function(data) {
-    $('<li>').text(data.contributor).appendTo($('.collaborators-list'));
+    addContributor(data.contributor);
   });
 
   channel.bind('change_control', function(data) {
