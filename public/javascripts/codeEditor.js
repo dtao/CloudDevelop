@@ -7,16 +7,27 @@ clouddevelop = clouddevelop || {};
         lastChangeId = null,
         codeMirror = CodeMirror.fromTextArea($textarea.get(0), {
           lineNumbers: true,
-          onChange: function(editor, change) {
+          onChange: function() {
             // I'm cheating a little bit here; according to the CodeMirror docs,
             // this function only gets passed the editor. HOWEVER, digging into
             // the source I see that it ALSO gets passed the data of what text
             // was changed. (Muhahaha!)
             if (!applyingChanges) {
-              changeHandler(change);
+              changeHandler('content');
+            }
+          },
+          onCursorActivity: function() {
+            if (codeMirror.somethingSelected()) {
+              changeHandler('selection', {
+                from: codeMirror.getCursor(true),
+                to: codeMirror.getCursor(false)
+              });
+            } else {
+              changeHandler('selection', null);
             }
           }
-        });
+        }),
+        selection;
     
     function onChange(handler) {
       changeHandler = handler;
@@ -24,6 +35,13 @@ clouddevelop = clouddevelop || {};
 
     function clear() {
       codeMirror.setValue("");
+    }
+
+    function clearSelection() {
+      if (selection) {
+        selection.clear();
+        selection = null;
+      }
     }
 
     function getText() {
@@ -49,13 +67,33 @@ clouddevelop = clouddevelop || {};
       applyingChanges = false;
     }
 
-    function loadCodeSnippet(codeSnippet) {
-      if (!codeSnippet) {
-        codeMirror.setValue("");
+    function isPosition(position) {
+      return typeof position === 'object' && ('line' in position) && ('ch' in position);
+    }
+
+    function isRange(range) {
+      return typeof range === 'object' && isPosition(range.from) && isPosition(range.to);
+    }
+
+    function makePositionNumeric(position) {
+      position.line = +position.line;
+      position.ch = +position.ch;
+    }
+
+    function makeRangeNumeric(range) {
+      makePositionNumeric(range.from);
+      makePositionNumeric(range.to);
+    }
+
+    function selectRange(range) {
+      clearSelection();
+
+      if (!isRange(range)) {
         return;
       }
 
-      codeMirror.setValue(codeSnippet.latest);
+      makeRangeNumeric(range);
+      selection = codeMirror.markText(range.from, range.to, 'marked-text');
     }
 
     function setMode(mode) {
@@ -73,7 +111,7 @@ clouddevelop = clouddevelop || {};
       setText: setText,
       setReadOnly: setReadOnly,
       applyChange: applyChange,
-      loadCodeSnippet: loadCodeSnippet,
+      selectRange: selectRange,
       setMode: setMode,
       setTheme: setTheme
     };

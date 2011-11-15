@@ -15,3 +15,6 @@
   overflow-y: hidden;
   overflow-x: auto;
 }
+.marked-text {
+	background-color: #ff0;
+}

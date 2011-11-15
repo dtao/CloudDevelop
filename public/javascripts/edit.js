@@ -45,6 +45,17 @@ $(document).ready(function() {
     return contributor == currentOwner;
   }
 
+  function handleChange(type, data) {
+    switch (type) {
+      case 'content':
+        publishUpdate();
+        break;
+      case 'selection':
+        publishSelectionChange(data);
+        break;
+    }
+  }
+
   function publishUpdate() {
     $.ajax('/update', {
       type: 'post',
@@ -53,6 +64,16 @@ $(document).ready(function() {
         collaboration_id: collaborationId,
         contributor: contributor,
         content: codeEditor.getText()
+      }
+    });
+  }
+
+  function publishSelectionChange(range) {
+    $.ajax('/select', {
+      type: 'post',
+      data: {
+        collaboration_id: collaborationId,
+        range: range
       }
     });
   }
@@ -97,7 +118,7 @@ $(document).ready(function() {
     codeEditor.setTheme(theme);
   });
 
-  codeEditor.onChange(clouddevelop.throttle(publishUpdate, 500));
+  codeEditor.onChange(clouddevelop.throttle(handleChange, 500));
 
   $(document).delegate('.contributor-link', 'click', function() {
     var selectedContributor;
@@ -119,6 +140,12 @@ $(document).ready(function() {
   pusherChannel.bind('update', function(data) {
     if (data.contributor !== contributor) {
       codeEditor.applyChange(data);
+    }
+  });
+
+  pusherChannel.bind('select', function(data) {
+    if (!isOwner()) {
+      codeEditor.selectRange(data.range);
     }
   });
 

@@ -91,6 +91,14 @@ post '/update' do
     })
 end
 
+post '/select' do
+    collaboration_id = params[:collaboration_id]
+
+    Pusher[collaboration_id].trigger('select', {
+        'range' => params[:range]
+    })
+end
+
 post '/change_control' do
     collaboration_id = params[:collaboration_id]
     owner = params[:owner]
