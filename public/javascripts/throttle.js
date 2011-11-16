@@ -22,7 +22,6 @@ clouddevelop = clouddevelop || {};
           restart = false;
           setTimeout(exec, milliseconds);
         } else {
-          window.console.log(new Date().toString() + ": raising 'update' event.");
           func.apply(self, args);
           waiting = false;
         }
