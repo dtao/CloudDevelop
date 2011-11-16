@@ -26,11 +26,17 @@ $(document).ready(function() {
   }
   
   function refreshContributorList(contributors) {
+    var $div;
+
     $('<li>').addClass('left-most').text('Contributors:').appendTo($contributorList.empty());
 
     for (var i = 0; i < contributors.length; i++) {
-      if (contributors[i] === currentOwner) {
-        $('<li>').text(currentOwner + ' (editing)').appendTo($contributorList);
+      if (contributors[i] === contributor) {
+        $div = $('<div>').addClass('current').text(contributor + ' (you)' + (isOwner() ? ' (editing)' : ''));
+        $('<li>').append($div).appendTo($contributorList);
+      } else if (contributors[i] === currentOwner) {
+        $div = $('<div>').addClass('owner').text(currentOwner + ' (editing)');
+        $('<li>').append($div).appendTo($contributorList);
       } else {
         addContributor(contributors[i]);
       }
@@ -46,6 +52,11 @@ $(document).ready(function() {
   }
 
   function handleChange(type, data) {
+    // Only the owner gets to publish updates.
+    if (!isOwner()) {
+      return;
+    }
+
     switch (type) {
       case 'content':
         publishUpdate();

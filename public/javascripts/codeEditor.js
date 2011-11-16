@@ -5,6 +5,7 @@ clouddevelop = clouddevelop || {};
     var changeHandler = $.noop,
         applyingChanges = false,
         lastChangeId = null,
+        selection,
         codeMirror = CodeMirror.fromTextArea($textarea.get(0), {
           lineNumbers: true,
           onChange: function() {
@@ -17,6 +18,9 @@ clouddevelop = clouddevelop || {};
             }
           },
           onCursorActivity: function() {
+            codeMirror.setLineClass(currentLine, null);
+            currentLine = codeMirror.setLineClass(codeMirror.getCursor().line, 'active-line');
+
             if (codeMirror.somethingSelected()) {
               changeHandler('selection', {
                 from: codeMirror.getCursor(true),
@@ -27,7 +31,7 @@ clouddevelop = clouddevelop || {};
             }
           }
         }),
-        selection;
+        currentLine = codeMirror.setLineClass(0, 'active-line');
     
     function onChange(handler) {
       changeHandler = handler;
