@@ -1,5 +1,4 @@
 require 'mongoid'
-require 'mongoid_auto_inc'
 require 'pusher'
 require 'savon'
 require 'sinatra'
@@ -69,10 +68,9 @@ get %r{^\/([a-z0-9]+)$} do |collaboration_id|
 end
 
 get %r{\/([a-z0-9]+)\/(.*)} do |collaboration_id, contributor|
-    @template = :edit
     @collaboration = Collaboration.find(collaboration_id)
     @contributor = contributor
-    haml :index
+    haml :edit
 end
 
 post '/update' do
