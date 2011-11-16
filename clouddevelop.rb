@@ -9,8 +9,6 @@ require File.dirname(__FILE__) + '/src/ideone_compiler_service'
 require File.dirname(__FILE__) + '/src/language'
 
 configure do
-    ENV['RACK_ENV'] = 'development'
-
     Mongoid.load!('config/mongoid.yml')
     Pusher.app_id = ENV['PUSHER_APP_ID']
     Pusher.key = ENV['PUSHER_API_KEY']
