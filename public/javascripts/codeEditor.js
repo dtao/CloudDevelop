@@ -6,6 +6,7 @@ clouddevelop = clouddevelop || {};
         applyingChanges = false,
         lastChangeId = null,
         selection,
+        highlight,
         codeMirror = CodeMirror.fromTextArea($textarea.get(0), {
           lineNumbers: true,
           onChange: function() {
@@ -22,12 +23,14 @@ clouddevelop = clouddevelop || {};
             currentLine = codeMirror.setLineClass(codeMirror.getCursor().line, 'active-line');
 
             if (codeMirror.somethingSelected()) {
-              changeHandler('selection', {
+              selection = {
                 from: codeMirror.getCursor(true),
                 to: codeMirror.getCursor(false)
-              });
-            } else {
-              changeHandler('selection', null);
+              };
+              changeHandler('selection', selection);
+            } else if (selection) {
+              selection = null;
+              changeHandler('selection', selection);
             }
           }
         }),
@@ -41,10 +44,10 @@ clouddevelop = clouddevelop || {};
       codeMirror.setValue("");
     }
 
-    function clearSelection() {
-      if (selection) {
-        selection.clear();
-        selection = null;
+    function clearHighlight() {
+      if (highlight) {
+        highlight.clear();
+        highlight = null;
       }
     }
 
@@ -89,15 +92,15 @@ clouddevelop = clouddevelop || {};
       makePositionNumeric(range.to);
     }
 
-    function selectRange(range) {
-      clearSelection();
+    function highlightRange(range) {
+      clearHighlight();
 
       if (!isRange(range)) {
         return;
       }
 
       makeRangeNumeric(range);
-      selection = codeMirror.markText(range.from, range.to, 'marked-text');
+      highlight = codeMirror.markText(range.from, range.to, 'marked-text');
     }
 
     function setMode(mode) {
@@ -115,7 +118,7 @@ clouddevelop = clouddevelop || {};
       setText: setText,
       setReadOnly: setReadOnly,
       applyChange: applyChange,
-      selectRange: selectRange,
+      highlightRange: highlightRange,
       setMode: setMode,
       setTheme: setTheme
     };

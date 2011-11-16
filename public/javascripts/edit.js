@@ -48,12 +48,19 @@ $(document).ready(function() {
   }
 
   function isOwner() {
-    return contributor == currentOwner;
+    return contributor === currentOwner;
+  }
+
+  function isCollaborating() {
+    // Check that there is at least one contributor besides the current user
+    // (and ignore the starting/ending label items).
+    return $contributorList.find('li').length > (isOwner() ? 3 : 2);
   }
 
   function handleChange(type, data) {
-    // Only the owner gets to publish updates.
-    if (!isOwner()) {
+    // Only the owner gets to publish updates, and don't raise updates if
+    // there's only one person looking at the document.
+    if (!isOwner() || !isCollaborating()) {
       return;
     }
 
@@ -156,7 +163,7 @@ $(document).ready(function() {
 
   pusherChannel.bind('select', function(data) {
     if (!isOwner()) {
-      codeEditor.selectRange(data.range);
+      codeEditor.highlightRange(data.range);
     }
   });
 
