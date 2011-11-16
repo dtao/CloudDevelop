@@ -20,6 +20,7 @@
 .cm-s-monokai span.cm-error { background: #F92672; color: #F8F8F0; }
 .cm-s-monokai span.cm-bracket { color: #f8F8F2; }
 .cm-s-monokai span.cm-tag {color: #F92672;}
+.cm-s-monokai .active-line {background-color: #141411;}
 
 .CodeMirror-matchingbracket{
 	text-decoration: underline;
