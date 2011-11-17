@@ -58,9 +58,8 @@ $(document).ready(function() {
   }
 
   function handleChange(type, data) {
-    // Only the owner gets to publish updates, and don't raise updates if
-    // there's only one person looking at the document.
-    if (!isOwner() || !isCollaborating()) {
+    // Only the owner gets to publish updates.
+    if (!isOwner()) {
       return;
     }
 
@@ -69,6 +68,12 @@ $(document).ready(function() {
         publishUpdate();
         break;
       case 'selection':
+        // Don't raise selection change updates if there's only one person
+        // looking at the document.
+        if (!isCollaborating()) {
+          return;
+        }
+
         publishSelectionChange(data);
         break;
     }
