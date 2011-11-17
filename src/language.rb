@@ -7,7 +7,7 @@ class Language
 
     private
     def initialize_all
-      @all = %w{c haskell java lua perl python ruby scheme smalltalk}.map { |key| Language.new(key, key.capitalize) }
+      @all = %w{c clojure haskell groovy java lua perl python ruby scheme smalltalk}.map { |key| Language.new(key, key.capitalize) }
 
       # Special cases.
       @all << Language.new('cpp', 'C++')

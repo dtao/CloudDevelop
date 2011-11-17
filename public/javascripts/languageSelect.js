@@ -3,9 +3,11 @@ clouddevelop = clouddevelop || {};
 (function() {
   var modeMap = {
     c: "text/x-csrc",
+    clojure: "text/x-clojure",
     cpp: "text/x-c++src",
     cs: "text/x-csharp",
     haskell: "text/x-haskell",
+    groovy: "text/x-groovy",
     java: "text/x-java",
     javascript: "text/javascript",
     lua: "text/x-lua",

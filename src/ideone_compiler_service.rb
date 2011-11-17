@@ -117,15 +117,20 @@ class IdeoneCompilerService
   
   private
   def language_code(language)
+    # TODO: Why in the world did I implement this as a switch? Convert to map.
     case language
     when "c"
       11
+    when "clojure"
+      111
     when "cpp"
       1
     when "cs"
       27
     when "haskell"
       21
+    when "groovy"
+      121
     when "java"
       10
     when "javascript"

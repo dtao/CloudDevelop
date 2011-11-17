@@ -1,4 +1,4 @@
-- modes = '"' + %w{clike haskell javascript lua perl php python ruby scheme smalltalk vb}.map { |mode| "/javascripts/codemirror/mode/#{mode}/#{mode}.js" }.join('", "') + '"'
+- modes = '"' + %w{clike clojure haskell groovy javascript lua perl php python ruby scheme smalltalk vb}.map { |mode| "/javascripts/codemirror/mode/#{mode}/#{mode}.js" }.join('", "') + '"'
 - extra_files = '"' + %w{service codeEditor combobox languageSelect themeSelect compileButton dialogBase consoleDialog throttle}.map { |file| "/javascripts/#{file}.js" }.join('", "') + '"'
 
 !!! 5
@@ -105,6 +105,7 @@
         .loading-container
           .loading
             %img(src="/images/loading.gif")
+            %br
             Compiling...
         .content-container
           .info
