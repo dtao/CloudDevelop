@@ -8,8 +8,6 @@ require File.dirname(__FILE__) + '/src/language'
 require File.dirname(__FILE__) + '/src/gist'
 
 configure do
-  ENV['RACK_ENV'] = 'development'
-  
   Mongoid.load!('config/mongoid.yml')
   Pusher.app_id = ENV['PUSHER_APP_ID']
   Pusher.key = ENV['PUSHER_API_KEY']
@@ -34,7 +32,6 @@ post '/start' do
   collaboration.content = ''
   collaboration.language = 'c'
   collaboration.contributors = [name]
-  collaboration.owner = name
 
   if collaboration.save
     redirect "/#{collaboration.id}/#{name}"
@@ -77,21 +74,26 @@ end
 
 post '/select' do
   collaboration_id = params[:collaboration_id]
+  contributor = params[:contributor]
+  range = params[:range]
 
   Pusher[collaboration_id].trigger('select', {
-    'range' => params[:range]
+    :contributor => contributor,
+    :range => range
   })
 end
 
 post '/change_language' do
   collaboration_id = params[:collaboration_id]
+  contributor = params[:contributor]
   language = params[:language]
 
   collaboration = Collaboration.find(collaboration_id)
   collaboration.set :language, language
 
   Pusher[collaboration_id].trigger('change_language', {
-    'language' => language
+    :contributor => contributor,
+    :language => language
   })
 end
 
@@ -101,7 +103,7 @@ post '/compile' do
   snippet = params[:code_snippet]
   language = params[:language]
 
-  service = IdeoneCompilerService.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"])
+  service = IdeoneCompilerService.new(ENV['IDEONE_USER'], ENV['IDEONE_PASS'])
   service.compile(snippet, language).to_json
 end
 

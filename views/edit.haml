@@ -15,7 +15,6 @@
     %link(rel="stylesheet" href="/stylesheets/extra_styles.css")
     
     %script(type="text/javascript" src="/javascripts/head.js/head.load-0.96.min.js")
-    %script(type="text/javascript" src="/javascripts/mobwrite.preLoad.js")
     %script(type="text/javascript" src="http://mobwrite3.appspot.com/static/compressed_form.js")
     %script(type="text/javascript" src="/javascripts/mobwrite.monkeypatch.js")
 
@@ -131,7 +130,6 @@
       / It is totally a hack. Probably could use rjs or something. To that I say:
       / Whatever.
       %input#pusher-api-key(type="hidden" value="#{ENV["PUSHER_API_KEY"]}")
-      %input#current-owner(type="hidden" value="#{@collaboration.owner}")
       %input#current-language(type="hidden" value="#{@collaboration.language}")
       
       .footer

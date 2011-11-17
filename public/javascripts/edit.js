@@ -32,11 +32,9 @@ $(document).ready(function() {
       $contributorList = $('.contributor-list'),
       pusher = new Pusher($('#pusher-api-key').val()),
       infoFromPath = window.location.pathname.match(/\/([a-z0-9]+)\/(.*)/),
-      collaborationId,
-      contributor,
-      pusherChannel,
-      currentOwner,
-      changeId = 0;
+      collaborationId = infoFromPath[1],
+      contributor = infoFromPath[2],
+      pusherChannel = pusher.subscribe(collaborationId);
 
   function addContributor(contributor, cssClass) {
     var $listItem = $('<li>').text(contributor);
@@ -83,6 +81,7 @@ $(document).ready(function() {
       type: 'post',
       data: {
         collaboration_id: collaborationId,
+        contributor: contributor,
         range: range
       }
     });
@@ -93,15 +92,11 @@ $(document).ready(function() {
       type: 'post',
       data: {
         collaboration_id: collaborationId,
+        contributor: contributor,
         language: languageSelect.selectedLanguage()
       }
     });
   }
-  
-  collaborationId = infoFromPath[1];
-  contributor = infoFromPath[2];
-  pusherChannel = pusher.subscribe(collaborationId);
-  currentOwner = $('#current-owner').val();
   
   languageSelect.onSelectedLanguageChanged(function(language, mode) {
     codeEditor.setMode(mode);
@@ -119,13 +114,13 @@ $(document).ready(function() {
   });
 
   pusherChannel.bind('select', function(data) {
-    if (!isOwner()) {
+    if (data.contributor !== contributor) {
       codeEditor.highlightRange(data.range);
     }
   });
 
   pusherChannel.bind('change_language', function(data) {
-    if (!isOwner()) {
+    if (data.contributor !== contributor) {
       languageSelect.selectLanguage(data.language);
     }
   });
