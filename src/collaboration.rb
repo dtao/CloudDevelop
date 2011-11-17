@@ -1,3 +1,5 @@
+require 'mongoid'
+
 class Collaboration
   include Mongoid::Document
 

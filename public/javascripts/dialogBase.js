@@ -1,25 +1,25 @@
 clouddevelop = clouddevelop || {};
 
 (function() {
-	clouddevelop.dialogBase = function($dialog, options) {
-		var $loadingContainer = $dialog.find(".loading-container"),
-			$contentContainer = $dialog.find(".content-container"),
-			$info = $contentContainer.find(".info");
-		
-		$dialog.dialog(options);
+  clouddevelop.dialogBase = function($dialog, options) {
+    var $loadingContainer = $dialog.find(".loading-container"),
+      $contentContainer = $dialog.find(".content-container"),
+      $info = $contentContainer.find(".info");
+    
+    $dialog.dialog(options);
 
-		function show() {
-			$dialog.dialog("open");
-		}
+    function show() {
+      $dialog.dialog("open");
+    }
 
-		function hide() {
-			$dialog.dialog("close");
-		}
+    function hide() {
+      $dialog.dialog("close");
+    }
 
-		function showLoading() {
-	    $loadingContainer.show();
-	    $contentContainer.hide();
-		}
+    function showLoading() {
+      $loadingContainer.show();
+      $contentContainer.hide();
+    }
 
     function reveal() {
       $loadingContainer.hide();
@@ -27,15 +27,15 @@ clouddevelop = clouddevelop || {};
     }
 
     function displayInfo(info) {
-    	$info.text(info || "");
+      $info.text(info || "");
     }
 
-		return {
-			show: show,
-			hide: hide,
-			showLoading: showLoading,
-			reveal: reveal,
-			displayInfo: displayInfo
-		};
-	};
+    return {
+      show: show,
+      hide: hide,
+      showLoading: showLoading,
+      reveal: reveal,
+      displayInfo: displayInfo
+    };
+  };
 }());
