@@ -15,28 +15,34 @@
     %link(rel="stylesheet" href="/stylesheets/extra_styles.css")
     
     %script(type="text/javascript" src="/javascripts/head.js/head.load-0.96.min.js")
+    %script(type="text/javascript" src="/javascripts/mobwrite.preLoad.js")
+    %script(type="text/javascript" src="http://mobwrite3.appspot.com/static/compressed_form.js")
+    %script(type="text/javascript" src="/javascripts/mobwrite.monkeypatch.js")
 
     :javascript
       // Is this the right way to do this?
       // It doesn't feel right, but I don't even know.
       var clouddevelop = {};
 
+      mobwrite.syncGateway = 'http://mobwrite3.appspot.com/scripts/q.py';
+      
       head.js(
         "/javascripts/codemirror/lib/codemirror.js",
         #{modes},
         "http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js",
         "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js",
         "http://js.pusherapp.com/1.9/pusher.min.js",
-        #{extra_files}
-      );
-
-      head.ready(function() {
-        head.js("/javascripts/edit.js",
         function() {
-          $('#blocker').remove();
-          $('#everything').show();
-        });
-      });
+          head.js(
+            #{extra_files},
+            "/javascripts/edit.js",
+            function() {
+              $('#blocker').remove();
+              $('#everything').show();
+            }
+          );
+        }
+      );
 
   %body
     #blocker

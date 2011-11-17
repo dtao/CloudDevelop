@@ -9,15 +9,6 @@ clouddevelop = clouddevelop || {};
         highlight,
         codeMirror = CodeMirror.fromTextArea($textarea.get(0), {
           lineNumbers: true,
-          onChange: function() {
-            // I'm cheating a little bit here; according to the CodeMirror docs,
-            // this function only gets passed the editor. HOWEVER, digging into
-            // the source I see that it ALSO gets passed the data of what text
-            // was changed. (Muhahaha!)
-            if (!applyingChanges) {
-              changeHandler('content');
-            }
-          },
           onCursorActivity: function() {
             codeMirror.setLineClass(currentLine, null);
             currentLine = codeMirror.setLineClass(codeMirror.getCursor().line, 'active-line');
@@ -104,12 +95,15 @@ clouddevelop = clouddevelop || {};
     }
 
     function setMode(mode) {
-      codeMirror.setOption("mode", mode);
+      codeMirror.setOption('mode', mode);
     }
 
     function setTheme(theme) {
-      codeMirror.setOption("theme", theme);
+      codeMirror.setOption('theme', theme);
     }
+
+    codeMirror.id = 'code-mirror-editor';
+    mobwrite.share(codeMirror);
 
     return {
       onChange: onChange,
