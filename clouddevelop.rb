@@ -1,13 +1,15 @@
 require 'mongoid'
 require 'pusher'
-require 'savon'
 require 'sinatra'
 
 require File.dirname(__FILE__) + '/src/collaboration'
 require File.dirname(__FILE__) + '/src/ideone_compiler_service'
 require File.dirname(__FILE__) + '/src/language'
+require File.dirname(__FILE__) + '/src/gist'
 
 configure do
+    ENV['RACK_ENV'] = 'development'
+    
     Mongoid.load!('config/mongoid.yml')
     Pusher.app_id = ENV['PUSHER_APP_ID']
     Pusher.key = ENV['PUSHER_API_KEY']
@@ -128,4 +130,10 @@ post '/compile' do
 
     service = IdeoneCompilerService.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"])
     service.compile(snippet, language).to_json
+end
+
+post '/gist' do
+    # raise 'Creating a gist requires an HTTPS request.' unless request.secure?
+
+    Gist.new(params[:user], params[:password]).create params[:name], params[:description], params[:content]
 end

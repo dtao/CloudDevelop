@@ -5,6 +5,30 @@ $(document).ready(function() {
       consoleDialog = clouddevelop.consoleDialog($("#console-dialog")),
       // TODO: Refactor this foolishness (this is called a 'button' yet it contains a crapload of logic!)
       compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog),
+      $gistButton = $('#gist-button').button(),
+      $gistDialog = $('#gist-dialog').dialog({
+        autoOpen: false,
+        buttons: {
+          OK: function() {
+            $.ajax('/gist', {
+              type: 'post',
+              data: {
+                user: $('#github-user'),
+                password: $('#github-password'),
+                name: $('#gist-name').val(),
+                description: $('#gist-description').val(),
+                content: codeEditor.getText()
+              },
+              success: function(data) {
+                alert(data);
+              },
+              error: function(jqXHR, statusText, errorText) {
+                alert(errorText || statusText);
+              }
+            });
+          }
+        }
+      }),
       $contributorList = $('.contributor-list'),
       pusher = new Pusher($('#pusher-api-key').val()),
       infoFromPath = window.location.pathname.match(/\/([a-z0-9]+)\/(.*)/),
@@ -142,6 +166,10 @@ $(document).ready(function() {
   });
 
   codeEditor.onChange(clouddevelop.throttle(handleChange, 500));
+
+  $gistButton.click(function() {
+    $gistDialog.dialog('open');
+  });
 
   $(document).delegate('.contributor-link', 'click', function() {
     var selectedContributor;

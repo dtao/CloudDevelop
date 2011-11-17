@@ -1,3 +1,5 @@
+require 'savon'
+
 class IdeoneCompilerService
   def initialize(user, pass)
     @user = user

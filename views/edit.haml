@@ -98,6 +98,7 @@
           
           #button-area
             %button#compile-button(name="compile-button") Compile
+            %button#gist-button(name="gist-button") Gist
             
           .clear
 
@@ -111,7 +112,24 @@
           .info
           %pre.output
       
-      / This my horrible solution to getting values into JavaScript.
+      #gist-dialog(title="Create Gist")
+        %label(for="github-user") GitHub Name
+        %br
+        %input#gist-name(type="text" name="github-user")
+        %br
+        %label(for="github-password") GitHub Password
+        %br
+        %input#gist-name(type="password" name="github-password")
+        %br
+        %label(for="gist-name") Name
+        %br
+        %input#gist-name(type="text" name="gist-name")
+        %br
+        %label(for="gist-description") Description (optional)
+        %br
+        %input#gist-description(type="text" name="gist-description")
+      
+      / This is my horrible solution to getting values into JavaScript.
       / It is totally a hack. Probably could use rjs or something. To that I say:
       / Whatever.
       %input#pusher-api-key(type="hidden" value="#{ENV["PUSHER_API_KEY"]}")
