@@ -16,7 +16,7 @@ class Language
       @all << Language.new('php', 'PHP')
       @all << Language.new('vb', 'Visual Basic')
 
-      @all.sort! { |x, y| x.key <=> y.key }
+      @all.sort! { |x, y| x.name <=> y.name }
     end
   end
 
