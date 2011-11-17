@@ -1,7 +1,7 @@
 clouddevelop = clouddevelop || {};
 
 (function() {
-  clouddevelop.codeEditor = function($textarea) {
+  clouddevelop.codeEditor = function($textarea, collaborationId) {
     var changeHandler = $.noop,
         applyingChanges = false,
         lastChangeId = null,
@@ -80,7 +80,7 @@ clouddevelop = clouddevelop || {};
       codeMirror.setOption('theme', theme);
     }
 
-    codeMirror.id = 'code-mirror-editor';
+    codeMirror.id = 'clouddevelop' + collaborationId;
     mobwrite.share(codeMirror);
 
     return {

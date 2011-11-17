@@ -23,6 +23,7 @@
       // It doesn't feel right, but I don't even know.
       var clouddevelop = {};
 
+      mobwrite.debug = false;
       mobwrite.syncGateway = 'http://mobwrite3.appspot.com/scripts/q.py';
       
       head.js(
@@ -130,7 +131,9 @@
       / It is totally a hack. Probably could use rjs or something. To that I say:
       / Whatever.
       %input#pusher-api-key(type="hidden" value="#{ENV["PUSHER_API_KEY"]}")
+      %input#collaboration-id(type="hidden" value="#{@collaboration.id}")
       %input#current-language(type="hidden" value="#{@collaboration.language}")
+      %input#contributor(type="hidden" value="#{@contributor}")
       
       .footer
         %p

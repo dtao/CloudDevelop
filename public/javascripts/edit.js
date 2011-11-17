@@ -1,10 +1,12 @@
 $(document).ready(function() {
-  var codeEditor = clouddevelop.codeEditor($("#code-editor")),
-      languageSelect = clouddevelop.languageSelect($("#language-select")),
-      themeSelect = clouddevelop.themeSelect($("#theme-select")),
-      consoleDialog = clouddevelop.consoleDialog($("#console-dialog")),
+  var collaborationId = $('#collaboration-id').val(),
+      contributor = $('#contributor').val(),
+      codeEditor = clouddevelop.codeEditor($('#code-editor'), collaborationId),
+      languageSelect = clouddevelop.languageSelect($('#language-select')),
+      themeSelect = clouddevelop.themeSelect($('#theme-select')),
+      consoleDialog = clouddevelop.consoleDialog($('#console-dialog')),
       // TODO: Refactor this foolishness (this is called a 'button' yet it contains a crapload of logic!)
-      compileButton = clouddevelop.compileButton($("#compile-button"), codeEditor, languageSelect, consoleDialog),
+      compileButton = clouddevelop.compileButton($('#compile-button'), codeEditor, languageSelect, consoleDialog),
       $gistButton = $('#gist-button').button(),
       $gistDialog = $('#gist-dialog').dialog({
         autoOpen: false,
@@ -31,9 +33,6 @@ $(document).ready(function() {
       }),
       $contributorList = $('.contributor-list'),
       pusher = new Pusher($('#pusher-api-key').val()),
-      infoFromPath = window.location.pathname.match(/\/([a-z0-9]+)\/(.*)/),
-      collaborationId = infoFromPath[1],
-      contributor = infoFromPath[2],
       pusherChannel = pusher.subscribe(collaborationId);
 
   function addContributor(contributor, cssClass) {
