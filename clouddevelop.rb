@@ -75,38 +75,11 @@ get %r{\/([a-z0-9]+)\/(.*)} do |collaboration_id, contributor|
   haml :edit
 end
 
-post '/update' do
-  collaboration_id = params[:collaboration_id]
-  content = params[:content]
-
-  collaboration = Collaboration.find(collaboration_id)
-  collaboration.set :content, content
-
-  Pusher[collaboration_id].trigger('update', {
-    'contributor' => params[:contributor],
-    'content' => content,
-    'changeId' => params[:change_id].to_i
-  })
-end
-
 post '/select' do
   collaboration_id = params[:collaboration_id]
 
   Pusher[collaboration_id].trigger('select', {
     'range' => params[:range]
-  })
-end
-
-post '/change_control' do
-  collaboration_id = params[:collaboration_id]
-  owner = params[:owner]
-
-  collaboration = Collaboration.find(collaboration_id)
-  collaboration.set :owner, owner
-
-  Pusher[collaboration_id].trigger('change_control', {
-    'contributors' => collaboration.contributors,
-    'owner' => owner
   })
 end
 
@@ -134,6 +107,5 @@ end
 
 post '/gist' do
   # raise 'Creating a gist requires an HTTPS request.' unless request.secure?
-
   Gist.new(params[:user], params[:password]).create params[:name], params[:description], params[:content]
 end

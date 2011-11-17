@@ -61,23 +61,15 @@
             %a(href="/#{@collaboration.id}") Link to this session
         .clear
       
-      #access-control
-        .inner-access-control
+      #collaboration-control
+        .inner-collaboration-control
           %ul.contributor-list
             %li.left-most Contributors:
             - @collaboration.contributors.each do |contributor|
-              %li
-                - if contributor == @contributor
-                  - if contributor == @collaboration.owner
-                    .current= "#{contributor} (you) (editing)"
-                  - else
-                    .current= "#{contributor} (you)"
-                - elsif contributor == @collaboration.owner
-                  .owner= "#{contributor} (editing)"
-                - else
-                  %a.contributor-link(href="javascript:void(0);")= contributor
-            - if @contributor == @collaboration.owner
-              %li.instruction (Click on a name to assign control.)
+              - if contributor == @contributor
+                %li.current= contributor
+              - else
+                %li= contributor
       
       #wrap
         - unless @alert.nil?

@@ -5,7 +5,7 @@ clouddevelop = clouddevelop || {};
 		$button = $input.button();
     
     $button.click(function() {
-      var code = codeEditor.getText(),
+      var code = codeEditor.getContent(),
         language = languageSelect.selectedLanguage();
 
       consoleDialog.showLoading();

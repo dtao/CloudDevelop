@@ -9,6 +9,7 @@ clouddevelop = clouddevelop || {};
         highlight,
         codeMirror = CodeMirror.fromTextArea($textarea.get(0), {
           lineNumbers: true,
+          tabMode: 'shift',
           onCursorActivity: function() {
             codeMirror.setLineClass(currentLine, null);
             currentLine = codeMirror.setLineClass(codeMirror.getCursor().line, 'active-line');
@@ -31,10 +32,6 @@ clouddevelop = clouddevelop || {};
       changeHandler = handler;
     }
 
-    function clear() {
-      codeMirror.setValue("");
-    }
-
     function clearHighlight() {
       if (highlight) {
         highlight.clear();
@@ -42,27 +39,8 @@ clouddevelop = clouddevelop || {};
       }
     }
 
-    function getText() {
+    function getContent() {
       return codeMirror.getValue();
-    }
-
-    function setText(text) {
-      codeMirror.setValue(text);
-    }
-
-    function setReadOnly(readOnly) {
-      codeMirror.setOption('readOnly', readOnly);
-    }
-
-    function applyChange(change) {
-      if (change.changeId < lastChangeId) {
-        return;
-      }
-
-      applyingChanges = true;
-      codeMirror.setValue(change.content);
-      lastChangeId = change.changeId;
-      applyingChanges = false;
     }
 
     function isPosition(position) {
@@ -107,11 +85,7 @@ clouddevelop = clouddevelop || {};
 
     return {
       onChange: onChange,
-      clear: clear,
-      getText: getText,
-      setText: setText,
-      setReadOnly: setReadOnly,
-      applyChange: applyChange,
+      getContent: getContent,
       highlightRange: highlightRange,
       setMode: setMode,
       setTheme: setTheme

@@ -194,11 +194,11 @@ h5 {
     display: none;
     visibility: hidden;
 }
-div#access-control {
+div#collaboration-control {
     background-color: #333333;
     height: 40px;
 }
-div.inner-access-control {
+div.inner-collaboration-control {
     background-position: right top;
     background-repeat: no-repeat;
     height: 40px;
@@ -222,16 +222,14 @@ ul.contributor-list li {
     text-transform: uppercase;
 }
 ul.contributor-list li.left-most {
+    color: #FFFFFF;
     padding: 8px 20px;
 }
-ul.contributor-list li.instruction {
-    color: #445560;
-    font-size: 0.7em;
-}
-ul.contributor-list li .owner {
+ul.contributor-list li {
     color: #999999;
 }
-ul.contributor-list li .current {
+ul.contributor-list li.current {
+    color: #FFFFFF;
     text-decoration: underline;
 }
 div#content {
