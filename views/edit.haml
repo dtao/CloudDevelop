@@ -37,8 +37,9 @@
             #{extra_files},
             "/javascripts/edit.js",
             function() {
-              $('#blocker').remove();
-              $('#everything').show();
+              $(document).ready(function() {
+                $('#blocker').hide();
+              });
             }
           );
         }
@@ -53,98 +54,97 @@
             %br
             Loading CloudDevelop...
     
-    #everything(style="display: none;")
-      #header
-        %h1 <a href="/"><span>Cloud</span>Develop</a>
-        #link
-          %p
-            %a(href="/#{@collaboration.id}") Link to this session
-        .clear
-      
-      #collaboration-control
-        .inner-collaboration-control
-          %ul.contributor-list
-            %li.left-most Contributors:
-            - @collaboration.contributors.each do |contributor|
-              - if contributor == @contributor
-                %li.current= contributor
-              - else
-                %li= contributor
-      
-      #wrap
-        - unless @alert.nil?
-          #alert= @alert
-        #content
-          %form
-            #toolbar-area
-              %label(for="language-select") Language
-              %select#language-select(name="language-select")
-                - languages.each do |language|
-                  %option(value="#{language.key}")= "#{language.name}"
-              %label(for="theme-select") Theme
-              %select#theme-select(name="theme-select")
-                %option(value="default" selected="selected") Default
-                %option(value="cobalt") Cobalt
-                %option(value="eclipse") Eclipse
-                %option(value="elegant") Elegant
-                %option(value="monokai") Monokai
-                %option(value="neat") Neat
-                %option(value="night") Night
-                %option(value="solarized") Solarized
-            
-            %textarea#code-editor(name="code-editor")= @collaboration.content
-          
-          #button-area
-            %button#compile-button(name="compile-button") Compile
-            %button#gist-button(name="gist-button") Gist
-            
-          .clear
-
-      #console-dialog(title="Console")
-        .loading-container
-          .loading
-            %img(src="/images/loading.gif")
-            %br
-            Compiling...
-        .content-container
-          .info
-          %pre.output
-      
-      #gist-dialog(title="Create Gist")
-        %label(for="github-user") GitHub Name
-        %br
-        %input#gist-name(type="text" name="github-user")
-        %br
-        %label(for="github-password") GitHub Password
-        %br
-        %input#gist-name(type="password" name="github-password")
-        %br
-        %label(for="gist-name") Name
-        %br
-        %input#gist-name(type="text" name="gist-name")
-        %br
-        %label(for="gist-description") Description (optional)
-        %br
-        %input#gist-description(type="text" name="gist-description")
-      
-      / This is my horrible solution to getting values into JavaScript.
-      / It is totally a hack. Probably could use rjs or something. To that I say:
-      / Whatever.
-      %input#pusher-api-key(type="hidden" value="#{ENV["PUSHER_API_KEY"]}")
-      %input#collaboration-id(type="hidden" value="#{@collaboration.id}")
-      %input#current-language(type="hidden" value="#{@collaboration.language}")
-      %input#contributor(type="hidden" value="#{@contributor}")
-      
-      .footer
+    #header
+      %h1 <a href="/"><span>Cloud</span>Develop</a>
+      #link
         %p
-          CloudDevelop uses
-          <a href="http://jquery.com/">jQuery</a>,
-          <a href="http://codemirror.net/">CodeMirror</a>,
-          <a href="http://code.google.com/p/google-mobwrite/">MobWrite</a>,
-          <a href="http://pusher.com/">Pusher</a>,
-          <a href="http://mongoid.org/">Mongoid</a>, and
-          <a href="http://ideone.com">ideone.com</a> &copy; by <a href="http://sphere-research.com">Sphere Research Labs</a>.
-          Site developed by <a href="http://philosopherdeveloper.wordpress.com/">Daniel Tao</a>
-          (<a href="https://github.com/dtao">dtao</a>).
-      
-      .notifications
+          %a(href="/#{@collaboration.id}") Link to this session
+      .clear
+    
+    #collaboration-control
+      .inner-collaboration-control
+        %ul.contributor-list
+          %li.left-most Contributors:
+          - @collaboration.contributors.each do |contributor|
+            - if contributor == @contributor
+              %li.current= contributor
+            - else
+              %li= contributor
+    
+    #wrap
+      - unless @alert.nil?
+        #alert= @alert
+      #content
+        %form
+          #toolbar-area
+            %label(for="language-select") Language
+            %select#language-select(name="language-select")
+              - languages.each do |language|
+                %option(value="#{language.key}")= "#{language.name}"
+            %label(for="theme-select") Theme
+            %select#theme-select(name="theme-select")
+              %option(value="default" selected="selected") Default
+              %option(value="cobalt") Cobalt
+              %option(value="eclipse") Eclipse
+              %option(value="elegant") Elegant
+              %option(value="monokai") Monokai
+              %option(value="neat") Neat
+              %option(value="night") Night
+              %option(value="solarized") Solarized
+          
+          %textarea#code-editor(name="code-editor")= @collaboration.content
+        
+        #button-area
+          %button#compile-button(name="compile-button") Compile
+          %button#gist-button(name="gist-button" disabled="disabled") Gist (coming soon)
+          
+        .clear
+
+    #console-dialog(title="Console")
+      .loading-container
+        .loading
+          %img(src="/images/loading.gif")
+          %br
+          Compiling...
+      .content-container
+        .info
+        %pre.output
+    
+    #gist-dialog(title="Create Gist")
+      %label(for="github-user") GitHub Name
+      %br
+      %input#gist-name(type="text" name="github-user")
+      %br
+      %label(for="github-password") GitHub Password
+      %br
+      %input#gist-name(type="password" name="github-password")
+      %br
+      %label(for="gist-name") Name
+      %br
+      %input#gist-name(type="text" name="gist-name")
+      %br
+      %label(for="gist-description") Description (optional)
+      %br
+      %input#gist-description(type="text" name="gist-description")
+    
+    / This is my horrible solution to getting values into JavaScript.
+    / It is totally a hack. Probably could use rjs or something. To that I say:
+    / Whatever.
+    %input#pusher-api-key(type="hidden" value="#{ENV["PUSHER_API_KEY"]}")
+    %input#collaboration-id(type="hidden" value="#{@collaboration.id}")
+    %input#current-language(type="hidden" value="#{@collaboration.language}")
+    %input#contributor(type="hidden" value="#{@contributor}")
+    
+    .footer
+      %p
+        CloudDevelop uses
+        <a href="http://jquery.com/">jQuery</a>,
+        <a href="http://codemirror.net/">CodeMirror</a>,
+        <a href="http://code.google.com/p/google-mobwrite/">MobWrite</a>,
+        <a href="http://pusher.com/">Pusher</a>,
+        <a href="http://mongoid.org/">Mongoid</a>, and
+        <a href="http://ideone.com">ideone.com</a> &copy; by <a href="http://sphere-research.com">Sphere Research Labs</a>.
+        Site developed by <a href="http://philosopherdeveloper.wordpress.com/">Daniel Tao</a>
+        (<a href="https://github.com/dtao">dtao</a>).
+    
+    .notifications
