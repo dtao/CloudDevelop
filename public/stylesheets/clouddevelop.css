@@ -74,7 +74,7 @@ table.container-table {
 table.container-table tr td {
   border: none;
   text-align: center;
-  vertical-align: center;
+  vertical-align: middle;
 }
 form input, form select, button {
   display: inline;
@@ -168,7 +168,7 @@ h5 {
 }
 #blocker table tr td {
   text-align: center;
-  vertical-align: center;
+  vertical-align: middle;
 }
 #header {
   padding: 10px 30px;
