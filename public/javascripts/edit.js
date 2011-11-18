@@ -22,10 +22,10 @@ $(document).ready(function() {
                 content: codeEditor.getContent()
               },
               success: function(data) {
-                alert(data);
+                clouddevelop.notify(data);
               },
               error: function(jqXHR, statusText, errorText) {
-                alert(errorText || statusText);
+                clouddevelop.notify(errorText || statusText);
               }
             });
           }
@@ -119,14 +119,16 @@ $(document).ready(function() {
   });
 
   pusherChannel.bind('change_language', function(data) {
-    if (data.contributor !== contributor) {
-      languageSelect.selectLanguage(data.language);
+    if (data.contributor !== contributor && data.language !== languageSelect.selectedLanguage()) {
+      languageSelect.selectLanguage(data.language, true);
+      clouddevelop.notify(data.contributor + ' changed the language to ' + data.language + '.');
     }
   });
 
   pusherChannel.bind('new_contributor', function(data) {
     addContributor(data.contributor);
+    clouddevelop.notify(data.contributor + ' joined.');
   });
 
-  languageSelect.selectLanguage($('#current-language').val());
+  languageSelect.selectLanguage($('#current-language').val(), true);
 });

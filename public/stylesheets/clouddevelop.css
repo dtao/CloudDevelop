@@ -289,6 +289,14 @@ div.footer p a {
     color: #879DAB;
     text-decoration: underline;
 }
+.notifications {
+    width: 100%;
+    background-color: #FFFFFF;
+    font-size: 14pt;
+    position: fixed;
+    bottom: 0px;
+    text-align: center;
+}
 a.block-link span {
     border-bottom: 1px solid #475864;
     font-size: 0.9em;
