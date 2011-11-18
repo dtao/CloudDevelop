@@ -26,15 +26,8 @@ clouddevelop = clouddevelop || {};
       selectedLanguageChangedHandler = $.noop;
     
     $select.bind("comboboxupdate", function() {
-      var selectedLanguage, mode;
-      
-      if (suppressingPublication) {
-        suppressingPublication = false;
-        return;
-      }
-
-      selectedLanguage = $combobox.val();
-      mode = modeMap[selectedLanguage];
+      var selectedLanguage = $combobox.val(),
+          mode = modeMap[selectedLanguage];
 
       selectedLanguageChangedHandler(selectedLanguage, mode);
     });

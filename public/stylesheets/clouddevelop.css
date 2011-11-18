@@ -315,6 +315,7 @@ div.footer p a {
   text-align: center;
 }
 .notification {
+  padding: 5px;
 }
 a.block-link span {
   border-bottom: 1px solid #475864;

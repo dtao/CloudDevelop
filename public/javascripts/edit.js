@@ -33,7 +33,8 @@ $(document).ready(function() {
       }),
       $contributorList = $('.contributor-list'),
       pusher = new Pusher($('#pusher-api-key').val()),
-      pusherChannel = pusher.subscribe(collaborationId);
+      pusherChannel = pusher.subscribe(collaborationId),
+      updatingLanguageFromNotification = false;
 
   function addContributor(contributor, cssClass) {
     var $listItem = $('<li>').text(contributor);
@@ -99,6 +100,12 @@ $(document).ready(function() {
   
   languageSelect.onSelectedLanguageChanged(function(language, mode) {
     codeEditor.setMode(mode);
+
+    if (updatingLanguageFromNotification) {
+      updatingLanguageFromNotification = false;
+      return;
+    }
+    
     publishLanguageChange();
   });
 
@@ -120,7 +127,8 @@ $(document).ready(function() {
 
   pusherChannel.bind('change_language', function(data) {
     if (data.contributor !== contributor && data.language !== languageSelect.selectedLanguage()) {
-      languageSelect.selectLanguage(data.language, true);
+      updatingLanguageFromNotification = true;
+      languageSelect.selectLanguage(data.language);
       clouddevelop.notify(data.contributor + ' changed the language to ' + data.language + '.');
     }
   });
