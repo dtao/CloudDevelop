@@ -306,16 +306,22 @@ div.footer p a {
   color: #879DAB;
   text-decoration: underline;
 }
-.notifications {
-  width: 100%;
-  background-color: #FFFFFF;
-  font-size: 14pt;
+.notifications-container {
   position: fixed;
-  bottom: 0px;
+  top: 0px;
+  width: 100%;
   text-align: center;
 }
 .notification {
+  min-width: 480px;
   padding: 5px;
+  background-color: #FFFFFF;
+  opacity: 0.75;
+  font-size: 14pt;
+  font-weight: bold;
+}
+.notification-highlight {
+  color: #800;
 }
 a.block-link span {
   border-bottom: 1px solid #475864;

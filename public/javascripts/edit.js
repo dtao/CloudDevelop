@@ -129,13 +129,13 @@ $(document).ready(function() {
     if (data.contributor !== contributor && data.language !== languageSelect.selectedLanguage()) {
       updatingLanguageFromNotification = true;
       languageSelect.selectLanguage(data.language);
-      clouddevelop.notify(data.contributor + ' changed the language to ' + data.language + '.');
+      clouddevelop.notify(data.contributor + ' changed the language to <span class="notification-highlight">' + data.language + '</span>.');
     }
   });
 
   pusherChannel.bind('new_contributor', function(data) {
     addContributor(data.contributor);
-    clouddevelop.notify(data.contributor + ' joined.');
+    clouddevelop.notify('<span class="notification-highlight">' + data.contributor + '</span> joined.');
   });
 
   languageSelect.selectLanguage($('#current-language').val(), true);
