@@ -1,0 +1,9 @@
+{
+	"folders":
+	[
+		{
+			"path": "/Users/dantao/Projects/CloudDevelop",
+      "file_exclude_patterns": [".rvmrc", "*.sublime-project", "*.sublime-workspace"]
+		}
+	]
+}
