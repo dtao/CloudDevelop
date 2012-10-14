@@ -3,6 +3,7 @@
 	[
 		{
 			"path": "/Users/dantao/Projects/CloudDevelop",
+      "folder_exclude_patterns": ["db"],
       "file_exclude_patterns": [".rvmrc", "*.sublime-project", "*.sublime-workspace"]
 		}
 	]
