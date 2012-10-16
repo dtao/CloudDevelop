@@ -15,17 +15,25 @@ class Language
       @list = []
 
       @list << Language.new({
-        :key  => "coffeescript",
-        :mode => "text/x-coffeescript",
-        :name => "CoffeeScript",
-        :verb => "Run"
+        :key      => "coffeescript",
+        :mode     => "text/x-coffeescript",
+        :name     => "CoffeeScript",
+        :verb     => "Run",
+        :snippets => {
+          :source => Language::Snippets::CoffeeScript::SOURCE,
+          :spec   => Language::Snippets::CoffeeScript::SPEC
+        }
       })
 
       @list << Language.new({
-        :key  => "javascript",
-        :mode => "text/javascript",
-        :name => "JavaScript",
-        :verb => "Run"
+        :key      => "javascript",
+        :mode     => "text/javascript",
+        :name     => "JavaScript",
+        :verb     => "Run",
+        :snippets => {
+          :source => Language::Snippets::JavaScript::SOURCE,
+          :spec   => Language::Snippets::JavaScript::SPEC
+        }
       })
 
       @hash = {}
@@ -39,11 +47,13 @@ class Language
   attr_reader :mode
   attr_reader :name
   attr_reader :verb
+  attr_reader :snippets
 
   def initialize(options={})
-    @key  = options[:key]
-    @mode = options[:mode] || @key
-    @name = options[:name]
-    @verb = options[:verb] || "Compile"
+    @key      = options[:key]
+    @mode     = options[:mode] || @key
+    @name     = options[:name]
+    @verb     = options[:verb] || "Compile"
+    @snippets = options[:snippets] || {}
   end
 end

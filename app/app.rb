@@ -1,6 +1,6 @@
 require "sinatra"
 
-Dir.glob(File.join(File.dirname(__FILE__), "..", "lib", "*.rb")) do |filename|
+Dir.glob(File.join(File.dirname(__FILE__), "..", "lib", "**", "*.rb")) do |filename|
   puts "Requiring #{filename}"
   require filename
 end

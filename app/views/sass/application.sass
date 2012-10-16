@@ -14,6 +14,14 @@ body, html
   left: 0
   right: 0
 
+@mixin editor
+  position: absolute
+  border: 1px solid black
+  top: 110px
+  bottom: 110px
+  margin: 25px
+  margin-bottom: 0
+
 .header
   @include full-width
   top: 0
@@ -63,12 +71,16 @@ body, html
       color: #ff8
 
 .editor
-  @include full-width
-  top: 110px
-  bottom: 110px
-  margin: 25px
-  margin-bottom: 0
-  border: 1px solid black
+  @include editor
+  left: 0
+  right: 50%
+  margin-right: 12px
+
+.result
+  @include editor
+  left: 50%
+  right: 0
+  margin-left: 12px
 
 .CodeMirror
   height: 100%

@@ -25,7 +25,10 @@
           %li= "<a href=\"/#{language.key}\">#{language.name}</a>"
 
   .editor
-    %textarea#source-editor
+    %textarea#source-editor= @language.snippets[:source] || ""
+
+  .result
+    %textarea#spec-editor= @language.snippets[:spec] || ""
 
   .buttons
     %a#compile(href="javascript:void(0);")= @language.verb
