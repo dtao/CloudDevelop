@@ -31,6 +31,7 @@
     = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec || @language.snippets[:spec] })
 
   .buttons
+    %a#clear(href="javascript:void(0);") Clear
     %a#compile(href="javascript:void(0);")= @language.verb
     %a#save(href="javascript:void(0);") Save
 

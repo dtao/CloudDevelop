@@ -11,9 +11,13 @@ CloudDevelop.init = (language) ->
     CloudDevelop.sourceEditor = CloudDevelop.initEditor($(".editor"))
     CloudDevelop.specEditor   = CloudDevelop.initEditor($(".result"))
 
+    $("#clear").click ->
+      CloudDevelop.sourceEditor.setValue("")
+      CloudDevelop.specEditor.setValue("")
+
     $("#compile").click ->
       ajax = $.ajax
-        url: window.location
+        url: "/"
         data:
           language: language
           source:   CloudDevelop.sourceEditor.getValue()
@@ -29,8 +33,10 @@ CloudDevelop.init = (language) ->
         CloudDevelop.displayError("Oh noes!")
 
     $("#save").click ->
+      token = window.location.pathname.split("/").pop()
+
       ajax = $.ajax
-        url: "/",
+        url: "/save/#{token}"
         data:
           language: language
           source:   CloudDevelop.sourceEditor.getValue()

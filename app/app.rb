@@ -79,45 +79,31 @@ end
 post "/" do
   content_type :json
 
-  post = nil
-  Post.transaction do
-    submission = Submission.create({
-      :language => params[:language],
-      :source   => params[:source],
-      :spec     => params[:spec]
-    })
-
-    post = Post.create
-    post_submission = post.submissions.create(:submission_id => submission.id)
-  end
-
-  { :token => post.token }.to_json
-end
-
-post "/:token" do |token|
-  content_type :json
-
-  post = Post.first(:token => token)
-
   submission = Submission.create({
     :language => params[:language],
     :source   => params[:source],
     :spec     => params[:spec]
   })
 
-  post.submissions.create(:submission_id => submission.id)
-
   { :id => submission.id }.to_json
 end
 
-post "/mode/:language_key" do |language_key|
+post "/save/*" do |token|
   content_type :json
 
-  submission = Submission.create({
-    :language => language_key,
-    :source   => params[:source],
-    :spec     => params[:spec]
-  })
+  post = Post.first(:token => token)
 
-  { :id => submission.id }.to_json
+  Post.transaction do
+    post ||= Post.create
+
+    submission = Submission.create({
+      :language => params[:language],
+      :source   => params[:source],
+      :spec     => params[:spec]
+    })
+
+    post_submission = post.submissions.create(:submission_id => submission.id)
+  end
+
+  { :token => post.token }.to_json
 end
