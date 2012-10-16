@@ -9,7 +9,7 @@
   = javascript("coffeescript/application")
 
   :javascript
-    CloudDevelop.init();
+    CloudDevelop.init("#{@language.key}");
 
 %body
   .header
@@ -22,7 +22,7 @@
         - if language == @language
           %li.selected= language.name
         - else
-          %li= "<a href=\"/#{language.key}\">#{language.name}</a>"
+          %li= "<a href=\"/mode/#{language.key}\">#{language.name}</a>"
 
   .editor
     = haml(:editor, :locals => { :id => "source-editor", :mode => @language.mode, :content => @source || @language.snippets[:source] })

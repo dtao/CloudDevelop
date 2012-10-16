@@ -23,14 +23,6 @@ get "/" do
   haml :index
 end
 
-get "/:post_id" do |post_id|
-  post      = Post.get(post_id)
-  @language = post.language
-  @source   = post.source
-  @spec     = post.spec
-  haml :index
-end
-
 get "/editor/:submission_id" do |submission_id|
   submission = Submission.find(submission_id)
   language   = Language[submission.language]
@@ -70,25 +62,61 @@ get "/coffeescript/*.js" do |filename|
   coffee :"coffeescript/#{filename}"
 end
 
-get "/:language_key" do |language_key|
+get "/mode/:language_key" do |language_key|
   @language = Language[language_key]
   haml :index
 end
 
-post "/" do
-  
+# This needs to go last as it is essentialy the "fall-through" case.
+get "/:token" do |token|
+  post      = Post.first(:token => token)
+  @language = post.language
+  @source   = post.source
+  @spec     = post.spec
+  haml :index
 end
 
-post "/:language_key" do |language_key|
+post "/" do
   content_type :json
 
-  source = params[:source]
-  spec   = params[:spec]
+  post = nil
+  Post.transaction do
+    submission = Submission.create({
+      :language => params[:language],
+      :source   => params[:source],
+      :spec     => params[:spec]
+    })
+
+    post = Post.create
+    post_submission = post.submissions.create(:submission_id => submission.id)
+  end
+
+  { :token => post.token }.to_json
+end
+
+post "/:token" do |token|
+  content_type :json
+
+  post = Post.first(:token => token)
+
+  submission = Submission.create({
+    :language => params[:language],
+    :source   => params[:source],
+    :spec     => params[:spec]
+  })
+
+  post.submissions.create(:submission_id => submission.id)
+
+  { :id => submission.id }.to_json
+end
+
+post "/mode/:language_key" do |language_key|
+  content_type :json
 
   submission = Submission.create({
     :language => language_key,
-    :source   => source,
-    :spec     => spec
+    :source   => params[:source],
+    :spec     => params[:spec]
   })
 
   { :id => submission.id }.to_json

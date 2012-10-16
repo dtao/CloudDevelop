@@ -1,4 +1,5 @@
 require "language"
+require "randy"
 
 class Post
   include DataMapper::Resource
@@ -7,6 +8,11 @@ class Post
 
   property :id,    Serial
   property :token, String, :unique_index => true
+
+  before :create do
+    # Very little chance of a collision.
+    self.token = Randy.string(8)
+  end
 
   def last_submission
     @last_submission ||= begin

@@ -6,7 +6,7 @@ CloudDevelop.initEditor = ($container) ->
   CodeMirror.fromTextArea textarea,
     mode: mode
 
-CloudDevelop.init = (mode) ->
+CloudDevelop.init = (language) ->
   $(document).ready ->
     CloudDevelop.sourceEditor = CloudDevelop.initEditor($(".editor"))
     CloudDevelop.specEditor   = CloudDevelop.initEditor($(".result"))
@@ -15,8 +15,9 @@ CloudDevelop.init = (mode) ->
       ajax = $.ajax
         url: window.location
         data:
-          source: CloudDevelop.sourceEditor.getValue()
-          spec: CloudDevelop.specEditor.getValue()
+          language: language
+          source:   CloudDevelop.sourceEditor.getValue()
+          spec:     CloudDevelop.specEditor.getValue()
         type: "POST"
         dataType: "json"
 
@@ -26,6 +27,22 @@ CloudDevelop.init = (mode) ->
 
       ajax.fail ->
         CloudDevelop.displayError("Oh noes!")
+
+    $("#save").click ->
+      ajax = $.ajax
+        url: "/",
+        data:
+          language: language
+          source:   CloudDevelop.sourceEditor.getValue()
+          spec:     CloudDevelop.specEditor.getValue()
+        type: "POST"
+        dataType: "json"
+
+      ajax.done (data) ->
+        window.location = "/#{data.token}"
+
+      ajax.fail ->
+        CloudDevelop.displayError("Blast!")
 
 CloudDevelop.displayError = (msg) ->
   alert(msg)
