@@ -19,7 +19,10 @@
     %ul
       %li Languages:
       - Language.all.each do |language|
-        %li= "<a href=\"/#{language.key}\">#{language.name}</a>"
+        - if language == @language
+          %li.selected= language.name
+        - else
+          %li= "<a href=\"/#{language.key}\">#{language.name}</a>"
 
   .editor
     %textarea#source-editor
