@@ -33,10 +33,8 @@ CloudDevelop.init = (language) ->
         CloudDevelop.displayError("Oh noes!")
 
     $("#save").click ->
-      token = window.location.pathname.split("/").pop()
-
       ajax = $.ajax
-        url: "/save/#{token}"
+        url: "/save"
         data:
           language: language
           source:   CloudDevelop.sourceEditor.getValue()

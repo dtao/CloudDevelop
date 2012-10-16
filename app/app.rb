@@ -88,13 +88,12 @@ post "/" do
   { :id => submission.id }.to_json
 end
 
-post "/save/*" do |token|
+post "/save" do
   content_type :json
 
-  post = Post.first(:token => token)
-
+  post = nil
   Post.transaction do
-    post ||= Post.create
+    post = Post.create
 
     submission = Submission.create({
       :language => params[:language],

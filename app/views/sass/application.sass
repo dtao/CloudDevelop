@@ -4,6 +4,8 @@ $light-text-color:       #999999
 $medium-text-color:      #879DAB
 $dark-text-color:        #445560
 
+$default-spacing:        20px
+
 body, html
   font-family: Helvetica, Arial, sans-serif
   margin: 0
@@ -19,7 +21,7 @@ body, html
   border: 1px solid black
   top: 110px
   bottom: 110px
-  margin: 25px
+  margin: $default-spacing
   margin-bottom: 0
 
   iframe
@@ -30,11 +32,11 @@ body, html
   @include full-width
   top: 0
   height: 70px
-  padding: 0 25px
+  padding: 0 $default-spacing
   background-color: $light-background-color
 
   h1
-    font-size: 52px
+    font-size: 50px
     line-height: 70px
     letter-spacing: -5px
     margin: 0
@@ -47,7 +49,7 @@ body, html
   @include full-width
   top: 70px
   height: 40px
-  padding: 0 25px
+  padding: 0 $default-spacing
   background-color: $dark-background-color
 
   ul
@@ -78,13 +80,13 @@ body, html
   @include editor
   left: 0
   right: 50%
-  margin-right: 12px
+  margin-right: $default-spacing / 2
 
 .result
   @include editor
   left: 50%
   right: 0
-  margin-left: 12px
+  margin-left: $default-spacing / 2
 
 .CodeMirror
   height: 100%
@@ -101,7 +103,7 @@ body, html
   @include full-width
   bottom: 40px
   height: 50px
-  padding: 10px 25px
+  padding: 10px $default-spacing
   text-align: right
 
   a
@@ -129,7 +131,7 @@ body, html
   @include full-width
   bottom: 0
   height: 40px
-  padding: 0 25px
+  padding: 0 $default-spacing
   border-top: 1px solid $dark-background-color
   background-color: $light-background-color
 
