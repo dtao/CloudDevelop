@@ -33,6 +33,31 @@ get "/" do
   haml :index
 end
 
+get "/result/:submission_id" do |submission_id|
+  @submission = Submission.find(submission_id)
+  erb :jasmine_results
+end
+
+get "/source/*.js" do |submission_id|
+  @submission = Submission.find(submission_id)
+  case @submission.language
+  when "coffeescript"
+    coffee [@submission.source, @submission.spec].join("\n")
+  when "javascript"
+    @submission.source
+  end
+end
+
+get "/spec/*.js" do |submission_id|
+  @submission = Submission.find(submission_id)
+  case @submission.language
+  when "coffeescript"
+    ""
+  when "javascript"
+    @submission.spec
+  end
+end
+
 get "/*.css" do |filename|
   sass :"sass/#{filename}"
 end
@@ -49,9 +74,24 @@ end
 post "/compile" do
   content_type :json
 
-  snippet = params[:code_snippet]
+  snippet  = params[:code_snippet]
   language = params[:language]
 
   service = IdeoneCompilerService.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"])
   service.compile(snippet, language).to_json
+end
+
+post "/:language_key" do |language_key|
+  content_type :json
+
+  source = params[:source]
+  spec   = params[:spec]
+
+  submission = Submission.create({
+    :language => language_key,
+    :source   => source,
+    :spec     => spec
+  })
+
+  { :id => submission.id }.to_json
 end

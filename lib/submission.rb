@@ -3,6 +3,7 @@ require "mongoid"
 class Submission
   include Mongoid::Document
 
-  field :language,     :type => String
-  field :content,      :type => String
+  field :language, :type => String
+  field :source,   :type => String
+  field :spec,     :type => String
 end
