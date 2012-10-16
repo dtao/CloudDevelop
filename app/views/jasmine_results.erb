@@ -4,10 +4,12 @@
 <head>
   <title>Results</title>
 
-  <link rel="stylesheet" href="/stylesheets/jasmine.css" />
+  <link rel="stylesheet" href="/css/jasmine.css" />
 
-  <script type="text/javascript" src="/javascripts/jasmine-1.2.js"></script>
-  <script type="text/javascript" src="/javascripts/jasmine/jasmine-html.js"></script>
+  <script type="text/javascript" src="/javascript/jasmine-1.2.js"></script>
+  <script type="text/javascript" src="/javascript/jasmine/jasmine-html.js"></script>
+  <script type="text/javascript" src="/javascript/jquery-1.8.2.js"></script>
+  <script type="text/javascript" src="/coffeescript/results.js"></script>
 
   <script type="text/javascript">
     // yes, really keep this here to keep us honest, but only for jasmine's own runner! [xw]
@@ -51,6 +53,8 @@
 
 </head>
 
-<body></body>
+<body>
+  <p><a href="/editor/<%= @submission.id %>" class="back-link">Back</a></p>
+</body>
 
 </html>

@@ -1,15 +1,15 @@
 !!!
 %head
   %title CloudDevelop
-  = stylesheet("stylesheets/codemirror")
-  = stylesheet("application")
-  = javascript("javascripts/codemirror-2.34")
-  = javascript("javascripts/codemirror/mode/#{@language.key}")
-  = javascript("javascripts/jquery-1.8.2")
-  = javascript("application")
+  = stylesheet("css/codemirror")
+  = stylesheet("sass/application")
+  = javascript("javascript/codemirror-2.34")
+  = javascript("javascript/codemirror/mode/#{@language.key}")
+  = javascript("javascript/jquery-1.8.2")
+  = javascript("coffeescript/application")
 
   :javascript
-    CloudDevelop.init("#{@language.mode}");
+    CloudDevelop.init();
 
 %body
   .header
@@ -25,10 +25,10 @@
           %li= "<a href=\"/#{language.key}\">#{language.name}</a>"
 
   .editor
-    %textarea#source-editor= @language.snippets[:source] || ""
+    = haml(:editor, :locals => { :id => "source-editor", :mode => @language.mode, :content => @source || @language.snippets[:source] })
 
   .result
-    %textarea#spec-editor= @language.snippets[:spec] || ""
+    = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec || @language.snippets[:spec] })
 
   .buttons
     %a#compile(href="javascript:void(0);")= @language.verb

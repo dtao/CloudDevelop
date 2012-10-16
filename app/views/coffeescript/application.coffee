@@ -1,19 +1,22 @@
 window.CloudDevelop ?= {}
 
+CloudDevelop.initEditor = ($container) ->
+  textarea   = $container.find("textarea")[0]
+  mode       = $(textarea).data("mode")
+  CodeMirror.fromTextArea textarea,
+    mode: mode
+
 CloudDevelop.init = (mode) ->
   $(document).ready ->
-    sourceEditor = CodeMirror.fromTextArea document.getElementById("source-editor"),
-      mode: mode
-
-    specEditor = CodeMirror.fromTextArea document.getElementById("spec-editor"),
-      mode: mode
+    CloudDevelop.sourceEditor = CloudDevelop.initEditor($(".editor"))
+    CloudDevelop.specEditor   = CloudDevelop.initEditor($(".result"))
 
     $("#compile").click ->
       ajax = $.ajax
         url: window.location
         data:
-          source: sourceEditor.getValue()
-          spec: specEditor.getValue()
+          source: CloudDevelop.sourceEditor.getValue()
+          spec: CloudDevelop.specEditor.getValue()
         type: "POST"
         dataType: "json"
 

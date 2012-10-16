@@ -1,20 +1,11 @@
 require "sinatra"
 
-Dir.glob(File.join(File.dirname(__FILE__), "..", "lib", "**", "*.rb")) do |filename|
-  require filename
-end
+APP_ROOT     = File.dirname(__FILE__)
+PROJECT_ROOT = File.join(APP_ROOT, "..")
 
 configure do
-  require "mongoid"
-  require "pusher"
-  require "haml"
-  require "sass"
-  require "coffee_script"
-
-  Mongoid.load!("config/mongoid.yml")
-  Pusher.app_id = ENV["PUSHER_APP_ID"]
-  Pusher.key    = ENV["PUSHER_API_KEY"]
-  Pusher.secret = ENV["PUSHER_SECRET"]
+  require File.join(PROJECT_ROOT, "config", "boot")
+  set :public, File.join(PROJECT_ROOT, "public")
 end
 
 helpers do
@@ -30,6 +21,20 @@ end
 get "/" do
   @language = Language["javascript"]
   haml :index
+end
+
+get "/:post_id" do |post_id|
+  post      = Post.get(post_id)
+  @language = post.language
+  @source   = post.source
+  @spec     = post.spec
+  haml :index
+end
+
+get "/editor/:submission_id" do |submission_id|
+  submission = Submission.find(submission_id)
+  language   = Language[submission.language]
+  haml :editor, :locals => { :id => "spec-editor", :mode => language.mode, :content => submission.spec }
 end
 
 get "/result/:submission_id" do |submission_id|
@@ -57,11 +62,11 @@ get "/spec/*.js" do |submission_id|
   end
 end
 
-get "/*.css" do |filename|
+get "/sass/*.css" do |filename|
   sass :"sass/#{filename}"
 end
 
-get "/*.js" do |filename|
+get "/coffeescript/*.js" do |filename|
   coffee :"coffeescript/#{filename}"
 end
 
@@ -70,14 +75,8 @@ get "/:language_key" do |language_key|
   haml :index
 end
 
-post "/compile" do
-  content_type :json
-
-  snippet  = params[:code_snippet]
-  language = params[:language]
-
-  service = IdeoneCompilerService.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"])
-  service.compile(snippet, language).to_json
+post "/" do
+  
 end
 
 post "/:language_key" do |language_key|
