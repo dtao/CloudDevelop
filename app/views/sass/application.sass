@@ -1,0 +1,124 @@
+$light-background-color: #D2DADF
+$dark-background-color:  #333333
+$light-text-color:       #999999
+$medium-text-color:      #879DAB
+$dark-text-color:        #445560
+
+body, html
+  font-family: Helvetica, Arial, sans-serif
+  margin: 0
+  padding: 0
+
+@mixin full-width
+  position: absolute
+  left: 0
+  right: 0
+
+.header
+  @include full-width
+  top: 0
+  height: 70px
+  padding: 0 25px
+  background-color: $light-background-color
+
+  h1
+    font-size: 52px
+    line-height: 70px
+    letter-spacing: -5px
+    margin: 0
+    color: $light-text-color
+
+    span
+      color: $dark-text-color
+
+.menu
+  @include full-width
+  top: 70px
+  height: 40px
+  padding: 0 25px
+  background-color: $dark-background-color
+
+  ul
+    list-style: none
+    margin: 0
+    padding: 0
+
+    li
+      display: inline-block
+      font-size: 12px
+      font-weight: bold
+      line-height: 40px
+      margin-right: 15px
+      color: #fff
+      text-transform: uppercase
+
+    a
+      color: #fff
+      text-decoration: none
+
+    a:hover
+      color: #ff8
+
+.editor
+  @include full-width
+  top: 110px
+  bottom: 110px
+  margin: 25px
+  margin-bottom: 0
+  border: 1px solid black
+
+.CodeMirror
+  height: 100%
+  width: 100%
+
+.CodeMirror-scroll
+  height: 100%
+  width: 100%
+  overflow: auto
+
+.buttons
+  @include full-width
+  bottom: 40px
+  height: 50px
+  padding: 10px 25px
+  text-align: right
+
+  a
+    display: inline-block
+    height: 40px
+    width: 120px
+    margin-right: 10px
+    border-radius: 5px
+    color: $dark-text-color
+    background-color: $light-background-color
+    font-size: 20px
+    line-height: 40px
+    text-align: center
+    text-decoration: none
+
+  a:nth-last-child(1)
+    margin-right: 0
+
+  a:hover
+    color: $light-text-color
+    background-color: $dark-background-color
+
+.footer
+  @include full-width
+  bottom: 0
+  height: 40px
+  padding: 0 25px
+  border-top: 1px solid $dark-background-color
+  background-color: $light-background-color
+
+  p
+    font-size: 12px
+    margin: 0
+    line-height: 40px
+    color: $medium-text-color
+
+  a
+    color: $medium-text-color
+
+  a:hover
+    color: $dark-text-color

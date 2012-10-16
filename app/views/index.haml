@@ -1,0 +1,32 @@
+!!!
+%head
+  %title CloudDevelop
+  = stylesheet("stylesheets/codemirror")
+  = stylesheet("application")
+  = javascript("javascripts/codemirror-2.34")
+  = javascript("javascripts/codemirror/mode/#{@language.key}")
+  = javascript("javascripts/jquery-1.8.2")
+  = javascript("application")
+
+  :javascript
+    CloudDevelop.init("#{@language.key}");
+
+%body
+  .header
+    %h1 Cloud<span>Develop</span>
+
+  .menu
+    %ul
+      %li Languages:
+      - Language.all.each do |language|
+        %li= "<a href=\"/#{language.key}\">#{language.name}</a>"
+
+  .editor
+    %textarea#source-editor
+
+  .buttons
+    %a#compile(href="javascript:void(0);")= @language.verb
+    %a#save(href="javascript:void(0);") Save
+
+  .footer
+    %p CloudDevelop maintained by <a href="http://philosopherdeveloper.wordpress.com">Daniel Tao</a>.
