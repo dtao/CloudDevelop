@@ -19,18 +19,7 @@
   .header
     %h1 <a href="/">Cloud<span>Develop</span></a>
 
-  #session
-    - if logged_in?
-      .status
-        = "Logged in as <a href=\"/posts\">#{current_user.name}</a>"
-        %a.action(href="/logout") Log out
-    - else
-      .status
-        %a.action(href="/auth/github") Log in through GitHub
-
-  .menu
-    %ul
-      %li <a href="/posts">Posts</a>
+  = haml :menu, :layout => false
 
   .content
     = yield

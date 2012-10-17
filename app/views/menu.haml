@@ -1,0 +1,9 @@
+.menu
+  %ul
+    - if logged_in?
+      %li.status= "Logged in as #{current_user.name}"
+      %li <a href="/posts">Posts</a>
+      %li.logout <a href="/logout">Log out</a>
+    - else
+      %li.status Not logged in
+      %li.login <a href="/auth/github">Log in through GitHub</a>

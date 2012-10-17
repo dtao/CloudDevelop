@@ -75,7 +75,7 @@ end
 get "/editor/:submission_id" do |submission_id|
   submission = Submission.find(submission_id)
   language   = Language[submission.language]
-  haml :editor, :locals => { :id => "spec-editor", :mode => language.mode, :content => submission.spec }
+  haml :editor, :locals => { :id => "spec-editor", :mode => language.mode, :content => submission.spec }, :layout => false
 end
 
 get "/result/:submission_id" do |submission_id|
@@ -165,12 +165,19 @@ post "/" do
   { :id => submission.id }.to_json
 end
 
-post "/save" do
+post "/save/:token" do |token|
   content_type :json
 
-  post = nil
+  post = Post.first(:token => token)
+
   Post.transaction do
-    post = logged_in? ? current_user.posts.create : Post.create
+    if post.nil?
+      if logged_in?
+        post = current_user.posts.create
+      else
+        post = Post.create
+      end
+    end
 
     submission = Submission.create({
       :language => params[:language],
