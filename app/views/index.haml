@@ -15,8 +15,20 @@
     CloudDevelop.init("#{@language.key}");
 
 %body
+  - if flash[:notice]
+    #flash
+      = empty_link("&times;", :class => "dismiss")
+      = flash[:notice]
+
   .header
     %h1 Cloud<span>Develop</span>
+
+  #session
+    - if logged_in?
+      = "Logged in as #{current_user.name}"
+      %a(href="/logout") Log out
+    - else
+      %a(href="/auth/github") Log in through GitHub
 
   .menu
     %ul

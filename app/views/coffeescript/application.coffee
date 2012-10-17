@@ -1,8 +1,8 @@
 window.CloudDevelop ?= {}
 
 CloudDevelop.initEditor = ($container) ->
-  textarea   = $container.find("textarea")[0]
-  mode       = $(textarea).data("mode")
+  textarea = $container.find("textarea")[0]
+  mode     = $(textarea).data("mode")
   CodeMirror.fromTextArea textarea,
     mode: mode
 
@@ -52,6 +52,11 @@ CloudDevelop.init = (language) ->
       ajax.fail ->
         CloudDevelop.displayError("Blast!")
 
+    $(".dismiss").live "click", ->
+      $(this).parent().remove()
+
+    CloudDevelop.displayFlash()
+
 CloudDevelop.showLoading = (container) ->
   container ?= $("body")
   $("<div>").addClass("loading").appendTo(container)
@@ -59,3 +64,13 @@ CloudDevelop.showLoading = (container) ->
 CloudDevelop.displayError = (msg) ->
   resultContainer = $(".result").empty()
   $("<div>").addClass("error").text(msg).appendTo(resultContainer)
+
+CloudDevelop.displayFlash = ->
+  container = $("#flash")
+  container.animate { top: 0 }, 1000, ->
+    CloudDevelop.delay 5000, ->
+      container.animate { top: -50 }, 1000, ->
+        container.remove()
+
+CloudDevelop.delay = (timeout, callback) ->
+  setTimeout(callback, timeout)

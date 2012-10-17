@@ -16,6 +16,7 @@ gem "pusher"
 gem "randy"
 gem "sass"
 gem "savon"
+gem "sinatra-flash"
 
 # Database stuff
 gem "datamapper"
@@ -24,6 +25,7 @@ gem "bson_ext", "~> 1.3"
 
 group :production do
   gem "dm-postgres-adapter"
+  gem "pg"
 end
 
 group :development do

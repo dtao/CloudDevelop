@@ -4,10 +4,12 @@ require "randy"
 class Post
   include DataMapper::Resource
 
+  belongs_to :user
   has n, :submissions, "PostSubmission"
 
-  property :id,    Serial
-  property :token, String, :unique_index => true
+  property :id,      Serial
+  property :user_id, Integer
+  property :token,   String, :unique_index => true
 
   before :create do
     # Very little chance of a collision.
