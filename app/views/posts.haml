@@ -1,6 +1,16 @@
 - content_for :stylesheets do
   = stylesheet("sass/posts")
 
-.posts
+%table.posts
+  %tr
+    %th Created
+    %th Token
+    %th Label
+    %th Snippet
+
   - @posts.each do |post|
-    %a.post(href="/#{post.token}")= post.token
+    %tr
+      %td.created_at= short_date_format(post.created_at)
+      %td.token= "<a href=\"#{post.token}\">#{post.token}</a>"
+      %td.label= post.label
+      %td.snippet= post.snippet

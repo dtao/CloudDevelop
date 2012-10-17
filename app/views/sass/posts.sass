@@ -1,7 +1,22 @@
 @import "common"
 
-.posts
-  margin: $default-spacing
+table.posts
+  border-collapse: collapse
+  width: 100%
 
-  a.post
-    display: block
+  tr:hover
+    background-color: #ffc
+
+  th
+    background-color: $medium-background-color
+
+  th, td
+    padding: 5px $default-spacing
+    text-align: left
+
+  td.token
+    font-family: monospace
+    font-weight: bold
+
+  td.snippet
+    font-family: $code-font

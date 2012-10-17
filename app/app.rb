@@ -26,6 +26,8 @@ configure do
 end
 
 helpers do
+  include FormatHelper
+
   def logged_in?
     !!current_user
   end
@@ -62,7 +64,7 @@ get "/posts" do
     halt redirect "/"
   end
 
-  @posts = current_user.posts
+  @posts = current_user.posts(:order => [ :id.desc ])
   haml :posts
 end
 

@@ -14,6 +14,10 @@ Dir.glob(File.join(PROJECT_ROOT, "lib", "**", "*.rb")) do |filename|
   require filename
 end
 
+Dir.glob(File.join(APP_ROOT, "helpers", "**", "*.rb")) do |filename|
+  require filename
+end
+
 Dir.glob(File.join(APP_ROOT, "models", "**", "*.rb")) do |filename|
   require filename
 end
@@ -21,6 +25,10 @@ end
 require File.join(PROJECT_ROOT, "config", "database")
 
 DataMapper.finalize
+
+Post.all(:created_at => nil).each do |post|
+  post.update(:created_at => Time.now.utc)
+end
 
 Mongoid.load!(File.join(PROJECT_ROOT, "config", "mongoid.yml"))
 
