@@ -1,16 +1,20 @@
 require "sinatra"
+require "sinatra/content_for"
+require "sinatra/flash"
 
 APP_ROOT     = File.dirname(__FILE__)
 PROJECT_ROOT = File.join(APP_ROOT, "..")
 
 configure do
   enable :sessions
-  set :public, File.join(PROJECT_ROOT, "public")
+
+  set :public_folder, File.join(PROJECT_ROOT, "public")
 
   require File.join(PROJECT_ROOT, "config", "boot")
   require "omniauth"
   require "omniauth-github"
-  require "sinatra/flash"
+
+  helpers Sinatra::ContentFor
 
   use OmniAuth::Builder do
     provider :github, ENV["GITHUB_CLIENT_ID"], ENV["GITHUB_CLIENT_SECRET"]
@@ -49,7 +53,7 @@ end
 
 get "/" do
   @language = Language["javascript"]
-  haml :index
+  haml :index, :layout => :application
 end
 
 get "/posts" do
@@ -59,7 +63,7 @@ get "/posts" do
   end
 
   @posts = current_user.posts
-  haml :posts
+  haml :posts, :layout => :application
 end
 
 get "/logout" do

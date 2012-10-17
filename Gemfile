@@ -2,6 +2,8 @@ source "http://rubygems.org"
 
 # Application framework
 gem "sinatra"
+gem "sinatra-contrib"
+gem "sinatra-flash"
 
 # Server requirement
 gem "thin"
@@ -16,7 +18,6 @@ gem "pusher"
 gem "randy"
 gem "sass"
 gem "savon"
-gem "sinatra-flash"
 
 # Database stuff
 gem "datamapper"

@@ -1,0 +1,44 @@
+!!!
+%head
+  %title CloudDevelop
+
+  %link(rel="shortcut icon" href="/favicon.ico?v=#{Time.now.to_i}")
+
+  = yield_content :stylesheets
+  = stylesheet("sass/application")
+
+  = javascript("javascript/jquery-1.8.2")
+  = yield_content :javascript
+
+%body
+  - if flash[:notice]
+    #flash
+      = empty_link("&times;", :class => "dismiss")
+      = flash[:notice]
+
+  .header
+    %h1 <a href="/">Cloud<span>Develop</span></a>
+
+  #session
+    - if logged_in?
+      .status
+        = "Logged in as <a href=\"/posts\">#{current_user.name}</a>"
+        %a.action(href="/logout") Log out
+    - else
+      .status
+        %a.action(href="/auth/github") Log in through GitHub
+
+  .menu
+    / %ul
+    /   %li Languages:
+    /   - Language.all.each do |language|
+    /     - if language == @language
+    /       %li.selected= language.name
+    /     - else
+    /       %li= "<a href=\"/mode/#{language.key}\">#{language.name}</a>"
+
+  .content
+    = yield
+
+  .footer
+    %p CloudDevelop maintained by <a href="http://philosopherdeveloper.wordpress.com">Daniel Tao</a>.
