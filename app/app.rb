@@ -52,6 +52,16 @@ get "/" do
   haml :index
 end
 
+get "/posts" do
+  if !logged_in?
+    flash[:notice] = "You must be logged in for that."
+    halt redirect "/"
+  end
+
+  @posts = current_user.posts
+  haml :posts
+end
+
 get "/logout" do
   session.delete(:user_id)
   flash[:notice] = "Successfully logged out."
@@ -156,7 +166,7 @@ post "/save" do
 
   post = nil
   Post.transaction do
-    post = Post.create
+    post = logged_in? ? current_user.posts.create : Post.create
 
     submission = Submission.create({
       :language => params[:language],

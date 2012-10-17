@@ -1,0 +1,3 @@
+.posts
+  - @posts.each do |post|
+    %a.post(href="/#{post.token}")= post.token
