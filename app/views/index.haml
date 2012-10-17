@@ -10,6 +10,15 @@
   :javascript
     CloudDevelop.init("#{@language.key}");
 
+.languages
+  %ul
+    %li Choose a language:
+    - Language.each do |language|
+      - if language == @language
+        %li.selected= language.name
+      - else
+        %li= "<a href=\"/mode/#{language.key}\">#{language.name}</a>"
+
 .editor
   = haml(:editor, :locals => { :id => "source-editor", :mode => @language.mode, :content => @source || @language.snippets[:source] })
 

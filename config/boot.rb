@@ -22,6 +22,9 @@ Dir.glob(File.join(APP_ROOT, "models", "**", "*.rb")) do |filename|
   require filename
 end
 
+# Yes, this needs to come after the models have already been included.
+require "dm-noisy-failures"
+
 require File.join(PROJECT_ROOT, "config", "database")
 
 DataMapper.finalize

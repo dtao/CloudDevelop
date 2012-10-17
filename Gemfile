@@ -21,6 +21,7 @@ gem "savon"
 
 # Database stuff
 gem "datamapper"
+gem "dm-noisy-failures"
 gem "mongoid", "~> 2.1"
 gem "bson_ext", "~> 1.3"
 

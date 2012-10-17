@@ -27,6 +27,7 @@ end
 
 helpers do
   include FormatHelper
+  include HtmlHelper
 
   def logged_in?
     !!current_user
@@ -34,22 +35,6 @@ helpers do
 
   def current_user
     @current_user ||= User.get(session[:user_id])
-  end
-
-  def stylesheet(filename)
-    %Q[<link rel="stylesheet" href="/#{filename}.css" />]
-  end
-
-  def javascript(filename)
-    %Q[<script type="text/javascript" src="/#{filename}.js"></script>]
-  end
-
-  def empty_link(text, properties={})
-    %Q[<a #{attributes_from_hash(properties.merge(:href => "javascript:void(0);"))}>#{text}</a>]
-  end
-
-  def attributes_from_hash(properties)
-    properties.map { |key, value| %Q[#{key}="#{value}"] }.join(" ")
   end
 end
 
@@ -155,6 +140,22 @@ get "/:token" do |token|
   haml :index
 end
 
+delete "/:token" do |token|
+  content_type :json
+
+  post = Post.first(:token => token)
+
+  unless post.nil?
+    Post.transaction do
+      post.submissions.destroy
+      post.reload
+      post.destroy
+    end
+  end
+
+  { :success => true }.to_json
+end
+
 post "/" do
   content_type :json
 
@@ -191,4 +192,8 @@ post "/save/:token" do |token|
   end
 
   { :token => post.token }.to_json
+end
+
+error do
+  haml :error
 end

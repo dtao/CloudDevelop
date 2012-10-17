@@ -13,6 +13,10 @@ class PostSubmission
     self.submission.update_attributes(:keep => true)
   end
 
+  before :destroy do
+    self.submission.update_attributes(:keep => false)
+  end
+
   def submission
     Submission.find(self.submission_id)
   end

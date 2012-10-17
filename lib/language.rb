@@ -5,6 +5,10 @@ class Language
       @list.sort_by(&:name)
     end
 
+    def each(&block)
+      all.each(&block)
+    end
+
     def [](key)
       initialize_all if @hash.nil?
       @hash[key]

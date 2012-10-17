@@ -1,16 +1,23 @@
 - content_for :stylesheets do
   = stylesheet("sass/posts")
 
+- content_for :javascript do
+  = javascript("coffeescript/posts")
+
 %table.posts
   %tr
     %th Created
     %th Token
+    %th Language
     %th Label
     %th Snippet
+    %th Actions
 
   - @posts.each do |post|
-    %tr
+    %tr(data-token="#{post.token}")
       %td.created_at= short_date_format(post.created_at)
       %td.token= "<a href=\"#{post.token}\">#{post.token}</a>"
+      %td.language= post.language.name
       %td.label= post.label
       %td.snippet= post.snippet
+      %td.delete= empty_link("Delete")

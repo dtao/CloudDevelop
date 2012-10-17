@@ -3,12 +3,42 @@
 @mixin editor
   position: absolute
   border: 1px solid black
-  top: 0
+  top: 50px
   bottom: 50px
 
   iframe
     height: 100%
     width: 100%
+
+.content
+  margin-top: 0
+
+.languages
+  @include full-width
+  top: 0
+  height: 50px
+
+  ul
+    @include inline-list
+
+    li
+      color: darken($dark-text-color, 10%)
+      font-size: 16px
+      line-height: 50px
+      margin-right: 10px
+      text-transform: uppercase
+
+      a
+        color: darken($medium-text-color, 10%)
+        text-decoration: none
+
+      a:hover
+        color: darken($medium-text-color, 20%)
+        text-decoration: underline
+
+    li.selected
+      font-weight: bold
+      text-decoration: underline
 
 .editor
   @include editor
