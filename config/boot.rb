@@ -5,6 +5,8 @@ require "mongoid"
 require "pusher"
 require "sass"
 
+environment = ENV["RACK_ENV"] || "development"
+
 $LOAD_PATH << File.join(PROJECT_ROOT, "lib")
 $LOAD_PATH << File.join(APP_ROOT, "models")
 
@@ -22,6 +24,12 @@ DataMapper.finalize
 
 Mongoid.load!(File.join(PROJECT_ROOT, "config", "mongoid.yml"))
 
-if ENV["RACK_ENV"].nil? || ENV["RACK_ENV"] == "development"
-  # TODO: Write code to read YAML config files and load them into ENV.
+if environment == "development"
+  Dir.glob(File.join(PROJECT_ROOT, "config", "env", "*.yml")) do |filename|
+    prefix = File.basename(filename, ".yml")
+    config = YAML.load_file(filename)
+    config[environment].each do |variable, value|
+      ENV["#{prefix}_#{variable}".upcase] = "#{value}"
+    end
+  end
 end

@@ -77,20 +77,23 @@ body, html
   height: 30px
   padding: $default-spacing
 
-  a
+  .status
     display: inline-block
-    color: $medium-link-color
     background-color: $medium-background-color
     border: 1px solid darken($medium-background-color, 20%)
     font-size: 20px
     line-height: 30px
     padding: 0 10px
+
+  .status:hover
+    background-color: lighten($medium-background-color, 10%)
+
+  a
+    color: $medium-link-color
     text-decoration: none
-    vertical-align: middle
 
   a:hover
     color: lighten($medium-link-color, 10%)
-    background-color: lighten($medium-background-color, 10%)
 
 .menu
   @include full-width

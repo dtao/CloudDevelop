@@ -13,7 +13,7 @@ configure do
   require "sinatra/flash"
 
   use OmniAuth::Builder do
-    provider :github, ENV["GITHUB_KEY"], ENV["GITHUB_SECRET"]
+    provider :github, ENV["GITHUB_CLIENT_ID"], ENV["GITHUB_CLIENT_SECRET"]
   end
 
   Pusher.app_id = ENV["PUSHER_APP_ID"]
@@ -50,6 +50,12 @@ end
 get "/" do
   @language = Language["javascript"]
   haml :index
+end
+
+get "/logout" do
+  session.delete(:user_id)
+  flash[:notice] = "Successfully logged out."
+  redirect "/"
 end
 
 get "/editor/:submission_id" do |submission_id|
@@ -112,11 +118,14 @@ get "/auth/:provider/callback" do |provider|
     end
 
     identity = user.identities.create(identity_info)
+
+  else
+    user = identity.user
   end
 
   flash[:notice] = "Successfully logged in as <span>#{user.name}</span>."
 
-  session[:user_id] = identity.user.id
+  session[:user_id] = user.id
 
   redirect request.env["omniauth.origin"] || "/"
 end

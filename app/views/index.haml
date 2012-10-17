@@ -25,10 +25,12 @@
 
   #session
     - if logged_in?
-      = "Logged in as #{current_user.name}"
-      %a(href="/logout") Log out
+      .status
+        = "Logged in as #{current_user.name}"
+        %a.action(href="/logout") Log out
     - else
-      %a(href="/auth/github") Log in through GitHub
+      .status
+        %a.action(href="/auth/github") Log in through GitHub
 
   .menu
     %ul
