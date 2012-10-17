@@ -23,7 +23,7 @@
   = haml(:editor, :locals => { :id => "source-editor", :mode => @language.mode, :content => @source || @language.snippets[:source] })
 
 .result
-  = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec || @language.snippets[:spec] })
+  = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec || @language.snippets[:spec], :caption => @language.snippets[:instructions] })
 
 .buttons
   %a#clear(href="javascript:void(0);") Clear

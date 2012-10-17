@@ -6,6 +6,28 @@
   top: 50px
   bottom: 50px
 
+  .caption
+    position: absolute
+    bottom: 0
+    left: 0
+    right: 0
+    padding: $default-spacing
+    color: white
+    background-color: black
+    opacity: 0.5
+
+    a
+      color: $neutral-action-color
+      text-decoration: none
+
+    a:hover
+      color: darken($neutral-action-color, 25%)
+      text-decoration: underline
+
+    a.dismiss:hover
+      color: $neutral-action-color
+      text-decoration: none
+
   iframe
     height: 100%
     width: 100%

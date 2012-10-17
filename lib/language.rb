@@ -19,24 +19,26 @@ class Language
       @list = []
 
       @list << Language.new({
-        :key      => "coffeescript",
-        :mode     => "text/x-coffeescript",
-        :name     => "CoffeeScript",
-        :verb     => "Run",
-        :snippets => {
-          :source => Language::Snippets::CoffeeScript::SOURCE,
-          :spec   => Language::Snippets::CoffeeScript::SPEC
+        :key            => "coffeescript",
+        :mode           => "text/x-coffeescript",
+        :name           => "CoffeeScript",
+        :verb           => "Run",
+        :snippets       => {
+          :source       => Language::Snippets::CoffeeScript::SOURCE,
+          :spec         => Language::Snippets::CoffeeScript::SPEC,
+          :instructions => Language::Snippets::CoffeeScript::INSTRUCTIONS
         }
       })
 
       @list << Language.new({
-        :key      => "javascript",
-        :mode     => "text/javascript",
-        :name     => "JavaScript",
-        :verb     => "Run",
-        :snippets => {
-          :source => Language::Snippets::JavaScript::SOURCE,
-          :spec   => Language::Snippets::JavaScript::SPEC
+        :key            => "javascript",
+        :mode           => "text/javascript",
+        :name           => "JavaScript",
+        :verb           => "Run",
+        :snippets       => {
+          :source       => Language::Snippets::JavaScript::SOURCE,
+          :spec         => Language::Snippets::JavaScript::SPEC,
+          :instructions => Language::Snippets::JavaScript::INSTRUCTIONS
         }
       })
 

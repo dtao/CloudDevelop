@@ -44,6 +44,11 @@ class Language
           });
         });
       JAVASCRIPT
+
+      INSTRUCTIONS = <<-HTML
+        In JavaScript mode, use <a href="http://pivotal.github.com/jasmine/">Jasmine</a> to write
+        tests.
+      HTML
     end
 
     module CoffeeScript
@@ -82,6 +87,12 @@ class Language
             it "returns false for ordinary (non-palindromic) strings", ->
               test "foo", false
       COFFEESCRIPT
+
+      INSTRUCTIONS = <<-HTML
+        In CoffeeScript mode, use <a href="http://pivotal.github.com/jasmine/">Jasmine</a> to write
+        specs. Clicking 'Run' will run your specs along with your code and show what passed and what
+        failed.
+      HTML
     end
   end
 end
