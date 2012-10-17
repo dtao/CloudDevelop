@@ -4,7 +4,12 @@ APP_ROOT     = File.dirname(__FILE__)
 PROJECT_ROOT = File.join(APP_ROOT, "..")
 
 configure do
+  enable :sessions
+  set :public, File.join(PROJECT_ROOT, "public")
+
   require File.join(PROJECT_ROOT, "config", "boot")
+  require "omniauth"
+  require "omniauth-github"
 
   use OmniAuth::Builder do
     provider :github, ENV["GITHUB_KEY"], ENV["GITHUB_SECRET"]
@@ -13,8 +18,6 @@ configure do
   Pusher.app_id = ENV["PUSHER_APP_ID"]
   Pusher.key    = ENV["PUSHER_API_KEY"]
   Pusher.secret = ENV["PUSHER_SECRET"]
-
-  set :public, File.join(PROJECT_ROOT, "public")
 end
 
 helpers do

@@ -99,6 +99,17 @@ body, html
   height: 100%
   overflow: auto
 
+.loading
+  position: absolute
+  height: 100%
+  width: 100%
+  background: #000 url("/images/loading.gif") no-repeat center
+  opacity: 0.25
+  z-index: 100
+
+.error
+  color: #f00
+
 .buttons
   @include full-width
   bottom: 40px
@@ -111,7 +122,6 @@ body, html
     height: 40px
     width: 120px
     margin-right: 10px
-    border-radius: 5px
     color: $light-text-color
     background-color: $dark-background-color
     font-size: 20px

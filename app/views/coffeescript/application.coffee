@@ -16,6 +16,8 @@ CloudDevelop.init = (language) ->
       CloudDevelop.specEditor.setValue("")
 
     $("#compile").click ->
+      CloudDevelop.showLoading($(".result").empty())
+
       ajax = $.ajax
         url: "/"
         data:
@@ -33,6 +35,8 @@ CloudDevelop.init = (language) ->
         CloudDevelop.displayError("Oh noes!")
 
     $("#save").click ->
+      CloudDevelop.showLoading()
+
       ajax = $.ajax
         url: "/save"
         data:
@@ -48,5 +52,10 @@ CloudDevelop.init = (language) ->
       ajax.fail ->
         CloudDevelop.displayError("Blast!")
 
+CloudDevelop.showLoading = (container) ->
+  container ?= $("body")
+  $("<div>").addClass("loading").appendTo(container)
+
 CloudDevelop.displayError = (msg) ->
-  alert(msg)
+  resultContainer = $(".result").empty()
+  $("<div>").addClass("error").text(msg).appendTo(resultContainer)
