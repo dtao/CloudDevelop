@@ -1,34 +1,9 @@
-$light-background-color:  #D2DADF
-$medium-background-color: #C3CED5
-$dark-background-color:   #333333
-$light-text-color:        #999999
-$medium-text-color:       #879DAB
-$dark-text-color:         #445560
-$medium-link-color:       #475864
-
-$default-spacing:         20px
+@import "common"
 
 body, html
   font-family: Helvetica, Arial, sans-serif
   margin: 0
   padding: 0
-
-@mixin full-width
-  position: absolute
-  left: 0
-  right: 0
-
-@mixin editor
-  position: absolute
-  border: 1px solid black
-  top: 110px
-  bottom: 110px
-  margin: $default-spacing
-  margin-bottom: 0
-
-  iframe
-    height: 100%
-    width: 100%
 
 #flash
   @include full-width
@@ -130,28 +105,10 @@ body, html
     a:hover
       color: #ff8
 
-.editor
-  @include editor
-  left: 0
-  right: 50%
-  margin-right: $default-spacing / 2
-
-.result
-  @include editor
-  left: 50%
-  right: 0
-  margin-left: $default-spacing / 2
-
-.CodeMirror
-  height: 100%
-  width: 100%
-  font-family: Consolas, Inconsolata, monospace
-  font-size: 20px
-  line-height: 24px
-
-.CodeMirror-scroll
-  height: 100%
-  overflow: auto
+.content
+  @include full-width
+  top: 110px
+  bottom: 40px
 
 .loading
   position: absolute
@@ -163,33 +120,6 @@ body, html
 
 .error
   color: #f00
-
-.buttons
-  @include full-width
-  bottom: 40px
-  height: 50px
-  padding: 10px $default-spacing
-  text-align: right
-
-  a
-    display: inline-block
-    height: 40px
-    width: 120px
-    margin-right: 10px
-    color: $light-text-color
-    background-color: $dark-background-color
-    font-size: 20px
-    font-weight: bold
-    line-height: 40px
-    text-align: center
-    text-decoration: none
-
-  a:nth-last-child(1)
-    margin-right: 0
-
-  a:hover
-    color: $dark-text-color
-    background-color: $light-background-color
 
 .footer
   @include full-width

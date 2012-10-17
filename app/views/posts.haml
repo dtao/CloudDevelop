@@ -1,3 +1,6 @@
+- content_for :stylesheets do
+  = stylesheet("sass/posts")
+
 .posts
   - @posts.each do |post|
     %a.post(href="/#{post.token}")= post.token

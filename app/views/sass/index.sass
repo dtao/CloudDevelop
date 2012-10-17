@@ -1,0 +1,63 @@
+@import "common"
+
+@mixin editor
+  position: absolute
+  border: 1px solid black
+  top: 0
+  bottom: 70px
+  margin: $default-spacing
+  margin-bottom: 0
+
+  iframe
+    height: 100%
+    width: 100%
+
+.editor
+  @include editor
+  left: 0
+  right: 50%
+  margin-right: $default-spacing / 2
+
+.result
+  @include editor
+  left: 50%
+  right: 0
+  margin-left: $default-spacing / 2
+
+.CodeMirror
+  height: 100%
+  width: 100%
+  font-family: Consolas, Inconsolata, monospace
+  font-size: 20px
+  line-height: 24px
+
+.CodeMirror-scroll
+  height: 100%
+  overflow: auto
+
+.buttons
+  @include full-width
+  bottom: 0
+  height: 50px
+  padding: 10px $default-spacing
+  text-align: right
+
+  a
+    display: inline-block
+    height: 40px
+    width: 120px
+    margin-right: 10px
+    color: $light-text-color
+    background-color: $dark-background-color
+    font-size: 20px
+    font-weight: bold
+    line-height: 40px
+    text-align: center
+    text-decoration: none
+
+  a:nth-last-child(1)
+    margin-right: 0
+
+  a:hover
+    color: $dark-text-color
+    background-color: $light-background-color

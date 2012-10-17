@@ -53,7 +53,7 @@ end
 
 get "/" do
   @language = Language["javascript"]
-  haml :index, :layout => :application
+  haml :index
 end
 
 get "/posts" do
@@ -63,7 +63,7 @@ get "/posts" do
   end
 
   @posts = current_user.posts
-  haml :posts, :layout => :application
+  haml :posts
 end
 
 get "/logout" do
