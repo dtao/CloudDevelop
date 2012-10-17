@@ -1,4 +1,6 @@
 .sass-cache/
+config/env/
 db/
+
 .DS_Store
 CloudDevelop.sublime-workspace

@@ -5,6 +5,15 @@ PROJECT_ROOT = File.join(APP_ROOT, "..")
 
 configure do
   require File.join(PROJECT_ROOT, "config", "boot")
+
+  use OmniAuth::Builder do
+    provider :github, ENV["GITHUB_KEY"], ENV["GITHUB_SECRET"]
+  end
+
+  Pusher.app_id = ENV["PUSHER_APP_ID"]
+  Pusher.key    = ENV["PUSHER_API_KEY"]
+  Pusher.secret = ENV["PUSHER_SECRET"]
+
   set :public, File.join(PROJECT_ROOT, "public")
 end
 

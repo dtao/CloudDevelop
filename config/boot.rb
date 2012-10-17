@@ -22,6 +22,6 @@ DataMapper.finalize
 
 Mongoid.load!(File.join(PROJECT_ROOT, "config", "mongoid.yml"))
 
-Pusher.app_id = ENV["PUSHER_APP_ID"]
-Pusher.key    = ENV["PUSHER_API_KEY"]
-Pusher.secret = ENV["PUSHER_SECRET"]
+if ENV["RACK_ENV"].nil? || ENV["RACK_ENV"] == "development"
+  # TODO: Write code to read YAML config files and load them into ENV.
+end
