@@ -35,6 +35,7 @@ class Language
         :mode           => "text/x-coffeescript",
         :name           => "CoffeeScript",
         :verb           => "Run",
+        :engine_type    => :jasmine,
         :snippets       => {
           :source       => Language::Snippets::CoffeeScript::SOURCE,
           :spec         => Language::Snippets::CoffeeScript::SPEC,
@@ -47,6 +48,7 @@ class Language
         :mode           => "text/javascript",
         :name           => "JavaScript",
         :verb           => "Run",
+        :engine_type    => :jasmine,
         :snippets       => {
           :source       => Language::Snippets::JavaScript::SOURCE,
           :spec         => Language::Snippets::JavaScript::SPEC,
@@ -77,14 +79,16 @@ class Language
   attr_reader :mode
   attr_reader :name
   attr_reader :verb
+  attr_reader :engine_type
   attr_reader :snippets
 
   def initialize(options={})
-    @key      = options[:key]
-    @file     = options[:file] || @key
-    @mode     = options[:mode] || @key
-    @name     = options[:name]
-    @verb     = options[:verb] || "Compile"
-    @snippets = options[:snippets] || {}
+    @key         = options[:key]
+    @file        = options[:file] || @key
+    @mode        = options[:mode] || @key
+    @name        = options[:name]
+    @verb        = options[:verb] || "Compile"
+    @engine_type = options[:engine_type] || :ideone
+    @snippets    = options[:snippets] || {}
   end
 end

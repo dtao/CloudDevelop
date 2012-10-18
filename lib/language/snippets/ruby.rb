@@ -6,6 +6,11 @@ class Language
       SOURCE = <<-RUBY.unindent
         class String
           def is_palindrome?
+            (0..(self.length / 2)).each do |i|
+              return false if self[i] != self[-i - 1]
+            end
+            
+            true
           end
         end
         

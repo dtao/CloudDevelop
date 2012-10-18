@@ -20,6 +20,9 @@ configure do
     provider :github, ENV["GITHUB_CLIENT_ID"], ENV["GITHUB_CLIENT_SECRET"]
   end
 
+  Engine.register(:ideone, IdeoneEngine.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"]))
+  Engine.register(:jasmine, JasmineEngine.new)
+
   Pusher.app_id = ENV["PUSHER_APP_ID"]
   Pusher.key    = ENV["PUSHER_API_KEY"]
   Pusher.secret = ENV["PUSHER_SECRET"]
@@ -158,14 +161,9 @@ end
 
 post "/" do
   content_type :json
-
-  submission = Submission.create({
-    :language => params[:language],
-    :source   => params[:source],
-    :spec     => params[:spec]
-  })
-
-  { :id => submission.id }.to_json
+  language = Language[params[:language]]
+  engine   = Engine.for_language(language)
+  engine.process(params).to_json
 end
 
 post "/save/:token" do |token|

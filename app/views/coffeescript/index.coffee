@@ -29,7 +29,12 @@ CloudDevelop.init = (language) ->
 
       ajax.done (data) ->
         resultContainer = $(".result").empty()
-        frame = $("<iframe src='/result/#{data.id}'>").appendTo(resultContainer)
+
+        switch data.action
+          when "frame"
+            $("<iframe src='#{data.url}'>").appendTo(resultContainer)
+          when "render"
+            $("<pre class='output'>").text(data.output).appendTo(resultContainer)
 
       ajax.fail ->
         CloudDevelop.displayError("Oh noes!")

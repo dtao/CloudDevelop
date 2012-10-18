@@ -1,11 +1,35 @@
 require "savon"
 
-class IdeoneCompilerService
+class IdeoneEngine
+  LANGUAGE_CODES = {
+    "c"          => 11,
+    "clojure"    => 111,
+    "cpp"        => 1,
+    "cs"         => 27,
+    "haskell"    => 21,
+    "groovy"     => 121,
+    "java"       => 10,
+    "javascript" => 35,
+    "lua"        => 26,
+    "perl"       => 54,
+    "php"        => 29,
+    "python"     => 4,
+    "ruby"       => 17,
+    "scheme"     => 33,
+    "smalltalk"  => 23,
+    "vb"         => 101
+  }.freeze
+
   def initialize(user, pass)
     @user = user
     @pass = pass
   end
   
+  def process(params)
+    result = compile(params[:source], params[:language])
+    { :action => "render", :output => result[:output] }
+  end
+
   def compile(code, language)
     info = ""
     output = ""
@@ -24,7 +48,7 @@ class IdeoneCompilerService
           :user => user,
           :pass => pass,
           :sourceCode => code,
-          :language => language_code(language),
+          :language => LANGUAGE_CODES[language],
           :input => "",
           :run => true,
           :private => true
@@ -118,44 +142,6 @@ class IdeoneCompilerService
   end
   
   private
-  def language_code(language)
-    # TODO: Why in the world did I implement this as a switch? Convert to map.
-    case language
-    when "c"
-      11
-    when "clojure"
-      111
-    when "cpp"
-      1
-    when "cs"
-      27
-    when "haskell"
-      21
-    when "groovy"
-      121
-    when "java"
-      10
-    when "javascript"
-      35
-    when "lua"
-      26
-    when "perl"
-      54
-    when "php"
-      29
-    when "python"
-      4
-    when "ruby"
-      17
-    when "scheme"
-      33
-    when "smalltalk"
-      23
-    when "vb"
-      101
-    end
-  end
-  
   def value_from_response(hash, key)
     value = ""
 
@@ -169,5 +155,4 @@ class IdeoneCompilerService
 
     value
   end
-
 end
