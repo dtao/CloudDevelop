@@ -19,6 +19,18 @@ class Language
       @list = []
 
       @list << Language.new({
+        :key            => "cpp",
+        :file           => "clike",
+        :mode           => "text/x-c++src",
+        :name           => "C++",
+        :verb           => "Compile",
+        :snippets       => {
+          :source       => Language::Snippets::CPlusPlus::SOURCE,
+          :instructions => Language::Snippets::CPlusPlus::INSTRUCTIONS
+        }
+      })
+
+      @list << Language.new({
         :key            => "cs",
         :file           => "clike",
         :mode           => "text/x-csharp",
@@ -44,6 +56,18 @@ class Language
       })
 
       @list << Language.new({
+        :key            => "java",
+        :file           => "clike",
+        :mode           => "text/x-java",
+        :name           => "Java",
+        :verb           => "Compile",
+        :snippets => {
+          :source       => Language::Snippets::Java::SOURCE,
+          :instructions => Language::Snippets::Java::INSTRUCTIONS
+        }
+      })
+
+      @list << Language.new({
         :key            => "javascript",
         :mode           => "text/javascript",
         :name           => "JavaScript",
@@ -53,6 +77,17 @@ class Language
           :source       => Language::Snippets::JavaScript::SOURCE,
           :spec         => Language::Snippets::JavaScript::SPEC,
           :instructions => Language::Snippets::JavaScript::INSTRUCTIONS
+        }
+      })
+
+      @list << Language.new({
+        :key            => "python",
+        :mode           => "text/x-python",
+        :name           => "Python",
+        :verb           => "Run",
+        :snippets => {
+          :source       => Language::Snippets::Python::SOURCE,
+          :instructions => Language::Snippets::Python::INSTRUCTIONS
         }
       })
 

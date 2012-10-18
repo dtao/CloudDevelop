@@ -44,8 +44,8 @@ class Language
           disciplines. It was developed by Microsoft for use with its .NET framework.
         </p>
         <p>
-          In C# mode, your code will be compiled and run on a server. Use 'Console.WriteLine' to
-          display output.
+          In C# mode, your code will be compiled and run on a server. Use
+          <code>Console.WriteLine</code> to display output.
         </p>
       HTML
     end

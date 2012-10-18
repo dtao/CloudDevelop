@@ -26,7 +26,8 @@ class Language
           (Matz) in 1993.
         </p>
         <p>
-          In Ruby mode, your code will be executed on the server. Use 'puts' to display output.
+          In Ruby mode, your code will be executed on the server. Use <code>puts</code> to
+          display output.
         </p>
       HTML
     end
