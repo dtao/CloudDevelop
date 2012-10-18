@@ -18,8 +18,10 @@ CloudDevelop.init = (language) ->
     $("#compile").click ->
       CloudDevelop.showLoading($(".result").empty())
 
+      token = CloudDevelop.getToken()
+
       ajax = $.ajax
-        url: "/"
+        url: "/#{token}"
         data:
           language: language
           source:   CloudDevelop.sourceEditor.getValue()
@@ -34,7 +36,7 @@ CloudDevelop.init = (language) ->
           when "frame"
             $("<iframe src='#{data.url}'>").appendTo(resultContainer)
           when "render"
-            $("<pre class='output'>").text(data.output).appendTo(resultContainer)
+            $("<pre class='console'>").text(data.output).appendTo(resultContainer)
 
       ajax.fail ->
         CloudDevelop.displayError("Oh noes!")
@@ -42,7 +44,7 @@ CloudDevelop.init = (language) ->
     $("#save").click ->
       CloudDevelop.showLoading()
 
-      token = window.location.pathname.split("/").pop()
+      token = CloudDevelop.getToken()
 
       ajax = $.ajax
         url: "/save/#{token}"

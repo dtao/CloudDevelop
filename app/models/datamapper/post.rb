@@ -30,18 +30,23 @@ class Post
   end
 
   def source
-    last_submission ? last_submission.source : nil
+    last_submission && last_submission.source
   end
 
   def spec
-    last_submission ? last_submission.spec : nil
+    last_submission && last_submission.spec
+  end
+
+  def output
+    post_submission = self.submissions.last
+    post_submission && post_submission.output
   end
 
   def snippet
-    if self.source.length < 250
+    if self.source.length < 200
       self.source
     else
-      self.source[0..247] + "..."
+      self.source[0..197] + "..."
     end
   end
 end

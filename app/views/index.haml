@@ -10,6 +10,9 @@
   :javascript
     CloudDevelop.init("#{@language.key}");
 
+- if @post
+  %input#token(type="hidden" value="#{@post.token}")
+
 .languages
   %ul
     %li Choose a language:
@@ -23,7 +26,12 @@
   = haml(:editor, :locals => { :id => "source-editor", :mode => @language.mode, :content => @source || @language.snippets[:source] })
 
 .result
-  = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec || @language.snippets[:spec], :caption => @language.snippets[:instructions] })
+  - if @post && @post.output
+    %pre.console= @post.output
+  - elsif @spec
+    = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec })
+  - else
+    = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @language.snippets[:spec], :caption => @language.snippets[:instructions] })
 
 .buttons
   %a#clear(href="javascript:void(0);") Clear

@@ -1,5 +1,5 @@
 class JasmineEngine
-  def process(params)
+  def process(params, post=nil)
     submission = Submission.create({
       :language => params[:language],
       :source   => params[:source],

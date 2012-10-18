@@ -27,3 +27,6 @@ CloudDevelop.displayFlash = (message) ->
 
 CloudDevelop.delay = (timeout, callback) ->
   setTimeout(callback, timeout)
+
+CloudDevelop.getToken = ->
+  $("#token").val()

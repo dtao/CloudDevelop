@@ -136,10 +136,10 @@ end
 
 # This needs to go last as it is essentialy the "fall-through" case.
 get "/:token" do |token|
-  post      = Post.first(:token => token)
-  @language = post.language
-  @source   = post.source
-  @spec     = post.spec
+  @post     = Post.first(:token => token)
+  @language = @post.language
+  @source   = @post.source
+  @spec     = @post.spec
   haml :index
 end
 
@@ -159,11 +159,14 @@ delete "/:token" do |token|
   { :success => true }.to_json
 end
 
-post "/" do
+post "/:token" do |token|
   content_type :json
+
+  post = Post.first(:token => token)
+
   language = Language[params[:language]]
   engine   = Engine.for_language(language)
-  engine.process(params).to_json
+  engine.process(params, post).to_json
 end
 
 post "/save/:token" do |token|

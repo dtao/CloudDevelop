@@ -33,4 +33,5 @@ end
 group :development do
   gem "dm-sqlite-adapter"
   gem "shotgun"
+  gem "tux"
 end
