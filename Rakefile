@@ -4,6 +4,11 @@ APP_ROOT     = File.join(PROJECT_ROOT, "app")
 require File.join(PROJECT_ROOT, "config", "boot")
 
 namespace :db do
+  desc "Initialize the database"
+  task :init do
+    DataMapper.auto_migrate!
+  end
+
   desc "Update the database"
   task :update do
     DataMapper.auto_upgrade!

@@ -29,10 +29,6 @@ require File.join(PROJECT_ROOT, "config", "database")
 
 DataMapper.finalize
 
-Post.all(:created_at => nil).each do |post|
-  post.update(:created_at => Time.now.utc)
-end
-
 Mongoid.load!(File.join(PROJECT_ROOT, "config", "mongoid.yml"))
 
 if environment == "development"
