@@ -16,7 +16,7 @@ namespace :heroku do
     args = []
     Dir.glob(File.join(PROJECT_ROOT, "config", "env", "*.yml")) do |config_file|
       prefix = File.basename(config_file, ".yml")
-      YAML.load_file(config_file)).tap do |config|
+      YAML.load_file(config_file).tap do |config|
         target_env = config["production"]
         args << target_env.keys.map { |k| "#{prefix.upcase}_#{k.upcase}='#{target_env[k]}'" }.join(" ")
       end
