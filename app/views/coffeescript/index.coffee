@@ -64,7 +64,8 @@ CloudDevelop.init = (language) ->
     # All links in captions should open in a new window/tab.
     $(".caption a").attr("target", "_blank")
 
-    $(".dismiss").live "click", ->
+    $(".dismiss").live "click", (e) ->
+      e.preventDefault()
       $(this).parent().remove()
 
     CloudDevelop.displayFlash()
