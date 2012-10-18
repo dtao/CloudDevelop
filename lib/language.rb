@@ -19,6 +19,18 @@ class Language
       @list = []
 
       @list << Language.new({
+        :key            => "cs",
+        :file           => "clike",
+        :mode           => "text/x-csharp",
+        :name           => "C#",
+        :verb           => "Compile",
+        :snippets       => {
+          :source       => Language::Snippets::CSharp::SOURCE,
+          :instructions => Language::Snippets::CSharp::INSTRUCTIONS
+        }
+      })
+
+      @list << Language.new({
         :key            => "coffeescript",
         :mode           => "text/x-coffeescript",
         :name           => "CoffeeScript",
@@ -42,6 +54,17 @@ class Language
         }
       })
 
+      @list << Language.new({
+        :key            => "ruby",
+        :mode           => "text/x-ruby",
+        :name           => "Ruby",
+        :verb           => "Run",
+        :snippets => {
+          :source       => Language::Snippets::Ruby::SOURCE,
+          :instructions => Language::Snippets::Ruby::INSTRUCTIONS
+        }
+      })
+
       @hash = {}
       @list.each do |lang|
         @hash[lang.key] = lang
@@ -50,6 +73,7 @@ class Language
   end
 
   attr_reader :key
+  attr_reader :file
   attr_reader :mode
   attr_reader :name
   attr_reader :verb
@@ -57,6 +81,7 @@ class Language
 
   def initialize(options={})
     @key      = options[:key]
+    @file     = options[:file] || @key
     @mode     = options[:mode] || @key
     @name     = options[:name]
     @verb     = options[:verb] || "Compile"

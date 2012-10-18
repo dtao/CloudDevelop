@@ -4,7 +4,7 @@
 
 - content_for :javascript do
   = javascript("javascript/codemirror-2.34")
-  = javascript("javascript/codemirror/mode/#{@language.key}")
+  = javascript("javascript/codemirror/mode/#{@language.file}")
   = javascript("coffeescript/index")
 
   :javascript
