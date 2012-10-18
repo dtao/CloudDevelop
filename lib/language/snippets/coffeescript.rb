@@ -40,9 +40,17 @@ class Language
       COFFEESCRIPT
 
       INSTRUCTIONS = <<-HTML
-        In CoffeeScript mode, use <a href="http://pivotal.github.com/jasmine/">Jasmine</a> to write
-        specs. Clicking 'Run' will run your specs along with your code and show what passed and what
-        failed.
+        <p>
+          <a href="http://en.wikipedia.org/wiki/Coffeescript">CoffeeScript</a> is a little language
+          that compiles into JavaScript. Underneath all of those embarrassing braces and semicolons,
+          JavaScript has always had a gorgeous object model at its heart. CoffeeScript is an attempt
+          to expose the good parts of JavaScript in a simple way.
+        </p>
+        <p>
+          In CoffeeScript mode, use <a href="http://pivotal.github.com/jasmine/">Jasmine</a> to
+          write specs. Clicking 'Run' will run your specs along with your code and show what passed
+          and what failed.
+        </p>
       HTML
     end
   end

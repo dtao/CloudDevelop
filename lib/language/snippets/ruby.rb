@@ -20,7 +20,14 @@ class Language
       RUBY
 
       INSTRUCTIONS = <<-HTML
-        In Ruby mode, your code will be executed on the server. Use 'puts' to display output.
+        <p>
+          <a href="http://en.wikipedia.org/wiki/Ruby_(programming_language)">Ruby</a> is an
+          open-source dynamic object-oriented interpreted language created by Yukihiro Matsumoto
+          (Matz) in 1993.
+        </p>
+        <p>
+          In Ruby mode, your code will be executed on the server. Use 'puts' to display output.
+        </p>
       HTML
     end
   end

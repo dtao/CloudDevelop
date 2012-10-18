@@ -37,8 +37,16 @@ class Language
       CSHARP
 
       INSTRUCTIONS = <<-HTML
-        In C# mode, your code will be compiled and run on a server. Use 'Console.WriteLine' to
-        display output.
+        <p>
+          <a href="http://en.wikipedia.org/wiki/C_Sharp_(programming_language)">C#</a> is a
+          multi-paradigm programming language encompassing strong typing, imperative, declarative,
+          functional, generic, object-oriented (class-based), and component-oriented programming
+          disciplines. It was developed by Microsoft for use with its .NET framework.
+        </p>
+        <p>
+          In C# mode, your code will be compiled and run on a server. Use 'Console.WriteLine' to
+          display output.
+        </p>
       HTML
     end
   end

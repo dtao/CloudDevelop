@@ -46,8 +46,16 @@ class Language
       JAVASCRIPT
 
       INSTRUCTIONS = <<-HTML
-        In JavaScript mode, use <a href="http://pivotal.github.com/jasmine/">Jasmine</a> to write
-        tests.
+        <p>
+          <a href="http://en.wikipedia.org/wiki/JavaScript_(programming_language)">JavaScript</a> is
+          a dynamic, object-oriented, prototype-based, weakly typed language commonly used for
+          scripting in web browsers.
+        </p>
+        <p>
+          In JavaScript mode, use <a href="http://pivotal.github.com/jasmine/">Jasmine</a> to write
+          specs. Clicking 'Run' will run your specs along with your code and show what passed and
+          what failed.
+        </p>
       HTML
     end
   end
