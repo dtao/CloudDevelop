@@ -6,7 +6,7 @@ class JasmineEngine
       :spec     => params[:spec]
     })
 
-    { :action => "frame", :url => "/result/#{submission.id}" }
+    { :action => "frame", :url => "/jasmine_result/#{submission.id}" }
   end
 
   def uses_specs?
