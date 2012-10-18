@@ -22,6 +22,9 @@ Dir.glob(File.join(APP_ROOT, "models", "**", "*.rb")) do |filename|
   require filename
 end
 
+temp_dir = File.join(PROJECT_ROOT, "tmp")
+Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
+
 # Yes, this needs to come after the models have already been included.
 require "dm-noisy-failures"
 
