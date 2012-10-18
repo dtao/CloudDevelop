@@ -102,6 +102,17 @@ class Language
         }
       })
 
+      @list << Language.new({
+        :key            => "vb",
+        :mode           => "text/x-vb",
+        :name           => "VB.NET",
+        :verb           => "Compile",
+        :snippets => {
+          :source       => Language::Snippets::VisualBasic::SOURCE,
+          :instructions => Language::Snippets::VisualBasic::INSTRUCTIONS
+        }
+      })
+
       @hash = {}
       @list.each do |lang|
         @hash[lang.key] = lang

@@ -22,12 +22,11 @@ class Language
         <p>
           <a href="http://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> is a
           dynamically and strongly typed programming language whose design philosophy emphasizes
-          code readability. Python is used for developing a wide range of applications. Python has
-          two major versions in use. Please mention the version of Python that you are using.
+          code readability. Python is used for developing a wide range of applications.
         </p>
         <p>
-          In Python mode, your code will be executed on the server. Use <code>print</code> to
-          display output.
+          Python mode uses Python 2. Your code will be executed on the server. Use
+          <code>print</code> to display output.
         </p>
       HTML
     end
