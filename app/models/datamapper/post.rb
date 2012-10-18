@@ -38,8 +38,7 @@ class Post
   end
 
   def output
-    post_submission = self.submissions.last
-    post_submission && post_submission.output
+    last_submission && last_submission.output
   end
 
   def snippet

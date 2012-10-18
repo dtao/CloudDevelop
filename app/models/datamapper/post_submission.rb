@@ -8,7 +8,6 @@ class PostSubmission
   property :id,            Serial
   property :post_id,       Integer
   property :submission_id, String
-  property :output,        Text
 
   after :create do
     self.submission.update_attributes(:keep => true)

@@ -69,9 +69,14 @@ get "/editor/:submission_id" do |submission_id|
   haml :editor, :locals => { :id => "spec-editor", :mode => language.mode, :content => submission.spec }, :layout => false
 end
 
-get "/result/:submission_id" do |submission_id|
+get "/jasmine_result/:submission_id" do |submission_id|
   @submission = Submission.find(submission_id)
   erb :jasmine_results
+end
+
+get "/rspec_result/:submission_id" do |submission_id|
+  submission = Submission.find(submission_id)
+  submission.output
 end
 
 get "/source/*.js" do |submission_id|

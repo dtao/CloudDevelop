@@ -6,12 +6,6 @@ class RSpecEngine
   end
 
   def process(params, post=nil)
-    submission = Submission.create({
-      :language => params[:language],
-      :source   => params[:source],
-      :spec     => params[:spec]
-    })
-
     filename = "#{Randy.string(20)}.rb"
     filepath = File.join(@spec_path, filename)
 
@@ -19,15 +13,22 @@ class RSpecEngine
       io.write <<-RUBY.unindent
         require "rspec"
         
-        #{submission.source}
+        #{params[:source]}
         
-        #{submission.spec}
+        #{params[:spec]}
       RUBY
     end
 
-    output = `rspec #{filepath} --format nested`.strip
+    output = `rspec #{filepath} --format html`.strip
 
-    { :action => "render", :output => output }
+    submission = Submission.create({
+      :language => params[:language],
+      :source   => params[:source],
+      :spec     => params[:spec],
+      :output   => output
+    })
+
+    { :action => "frame", :url => "/rspec_result/#{submission.id}" }
   end
 
   def uses_specs?

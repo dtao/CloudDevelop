@@ -27,8 +27,8 @@ class IdeoneEngine
   
   def process(params, post=nil)
     result = compile(params[:source], params[:language])
-    last_submission = post.submissions.last unless post.nil?
-    last_submission.update(:output => result[:output]) unless last_submission.nil?
+    last_submission = post.last_submission unless post.nil?
+    last_submission.update_attributes(:output => result[:output]) unless last_submission.nil?
     { :action => "render", :output => result[:output] }
   end
 

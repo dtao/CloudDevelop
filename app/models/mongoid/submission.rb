@@ -6,5 +6,6 @@ class Submission
   field :language, :type => String
   field :source,   :type => String
   field :spec,     :type => String
+  field :output,   :type => String
   field :keep,     :type => Boolean
 end
