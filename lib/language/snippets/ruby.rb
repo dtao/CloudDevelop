@@ -23,7 +23,7 @@ class Language
             end
             
             it "returns false for ordinary (non-palindromic) strings" do
-              "pineapple".is_palindrome?.should be_true
+              "pineapple".is_palindrome?.should be_false
             end
           end
         end
