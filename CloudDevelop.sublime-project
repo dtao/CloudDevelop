@@ -1,10 +1,10 @@
 {
-	"folders":
-	[
-		{
-			"path": "/Users/dantao/Projects/CloudDevelop",
+  "folders":
+  [
+    {
+      "path": "/Users/dantao/Projects/CloudDevelop",
       "folder_exclude_patterns": [".sass-cache", "db"],
       "file_exclude_patterns": [".rvmrc", "*.sublime-project", "*.sublime-workspace"]
-		}
-	]
+    }
+  ]
 }
