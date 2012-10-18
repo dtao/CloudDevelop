@@ -50,7 +50,7 @@ end
 get "/posts" do
   if !logged_in?
     flash[:notice] = "You must be logged in for that."
-    halt redirect "/"
+    halt redirect(request.referrer || "/")
   end
 
   @posts = current_user.posts(:order => [ :id.desc ])
@@ -60,7 +60,7 @@ end
 get "/logout" do
   session.delete(:user_id)
   flash[:notice] = "Successfully logged out."
-  redirect "/"
+  redirect request.referrer || "/"
 end
 
 get "/editor/:submission_id" do |submission_id|
@@ -178,22 +178,33 @@ post "/save/:token" do |token|
 
   post = Post.first(:token => token)
 
-  Post.transaction do
-    if post.nil?
-      if logged_in?
-        post = current_user.posts.create
-      else
-        post = Post.create
-      end
+  if post && post.user && (post.user != current_user)
+    if !logged_in?
+      flash[:notice] = "You must log in to update a post."
+      flash[:style]  = "error"
+    else
+      flash[:notice] = "You can only update your own posts."
+      flash[:style]  = "error"
     end
 
-    submission = Submission.create({
-      :language => params[:language],
-      :source   => params[:source],
-      :spec     => params[:spec]
-    })
+  else
+    Post.transaction do
+      if post.nil?
+        if logged_in?
+          post = current_user.posts.create
+        else
+          post = Post.create
+        end
+      end
 
-    post_submission = post.submissions.create(:submission_id => submission.id)
+      submission = Submission.create({
+        :language => params[:language],
+        :source   => params[:source],
+        :spec     => params[:spec]
+      })
+
+      post_submission = post.submissions.create(:submission_id => submission.id)
+    end
   end
 
   { :token => post.token }.to_json

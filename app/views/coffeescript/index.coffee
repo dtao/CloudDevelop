@@ -28,11 +28,11 @@ CloudDevelop.init = (language) ->
     $("#compile").click ->
       specEditorHtml  = resultContainer.html()
       resultContainer.empty()
-      CloudDevelop.showLoading(resultContainer)
 
       token = CloudDevelop.getToken()
 
-      ajax = $.ajax
+      promise = CloudDevelop.ajax
+        container: resultContainer
         url: "/#{token}"
         data:
           language: language
@@ -41,7 +41,7 @@ CloudDevelop.init = (language) ->
         type: "POST"
         dataType: "json"
 
-      ajax.done (data) ->
+      promise.done (data) ->
         resultContainer.empty()
 
         switch data.action
@@ -52,15 +52,10 @@ CloudDevelop.init = (language) ->
 
         $("<div class='back'>").text("Back").appendTo(resultContainer)
 
-      ajax.fail ->
-        CloudDevelop.displayError("Oh noes!")
-
     $("#save").click ->
-      CloudDevelop.showLoading()
-
       token = CloudDevelop.getToken()
 
-      ajax = $.ajax
+      promise = CloudDevelop.ajax
         url: "/save/#{token}"
         data:
           language: language
@@ -69,11 +64,8 @@ CloudDevelop.init = (language) ->
         type: "POST"
         dataType: "json"
 
-      ajax.done (data) ->
+      promise.done (data) ->
         window.location = "/#{data.token}"
-
-      ajax.fail ->
-        CloudDevelop.displayError("Blast!")
 
     $(".back").live "click", ->
       resultContainer.empty()

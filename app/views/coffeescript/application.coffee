@@ -7,23 +7,43 @@ CloudDevelop.showLoading = (container) ->
 CloudDevelop.removeLoading = (container) ->
   $(".loading").remove()
 
-CloudDevelop.displayError = (msg) ->
-  resultContainer = $(".result").empty()
-  $("<div>").addClass("error").text(msg).appendTo(resultContainer)
+CloudDevelop.ajax = (options) ->
+  CloudDevelop.showLoading(options.container)
 
-CloudDevelop.displayFlash = (message) ->
+  promise = $.ajax(options)
+
+  promise.fail ->
+    CloudDevelop.displayError("An unexpected error occurred. <a href='mailto:daniel.tao@gmail.com'>E-mail me</a> and let me know what happened!")
+
+  promise.always ->
+    CloudDevelop.removeLoading()
+
+  promise
+
+CloudDevelop.displayFlash = (message, attributes) ->
   body      = $("body")
   container = $("#flash")
 
   if container.length == 0 && message?
-    container = $("<div id='flash'>").prependTo(body)
+    container = $("<div id='flash'>")
 
-  container.html(message) if message?
+    if attributes?
+      container.css(name, value) for name, value of attributes
+    container.prependTo(body)
+
+  if message?
+    container.empty()
+    dismissLink = $("<a href='javascript:void(0);' class='dismiss'>").html("&times;").appendTo(container)
+    container.append(message)
 
   container.animate { top: 0 }, 1000, ->
     CloudDevelop.delay 5000, ->
       container.animate { top: -50 }, 1000, ->
         container.remove()
+
+CloudDevelop.displayError = (msg) ->
+  CloudDevelop.displayFlash msg,
+    class: "error"
 
 CloudDevelop.delay = (timeout, callback) ->
   setTimeout(callback, timeout)

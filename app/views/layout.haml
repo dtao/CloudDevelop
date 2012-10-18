@@ -15,7 +15,7 @@
 
 %body
   - if flash[:notice]
-    #flash
+    #flash(class="#{flash[:style] || 'notice'}")
       = empty_link("&times;", :class => "dismiss")
       = flash[:notice]
 
