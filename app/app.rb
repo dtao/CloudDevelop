@@ -22,6 +22,7 @@ configure do
 
   Engine.register(:ideone, IdeoneEngine.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"]))
   Engine.register(:jasmine, JasmineEngine.new)
+  Engine.register(:rspec, RSpecEngine.new(File.join(PROJECT_ROOT, "tmp")))
 
   Pusher.app_id = ENV["PUSHER_APP_ID"]
   Pusher.key    = ENV["PUSHER_API_KEY"]
@@ -162,11 +163,9 @@ end
 post "/:token" do |token|
   content_type :json
 
-  post = Post.first(:token => token)
-
+  post     = Post.first(:token => token)
   language = Language[params[:language]]
-  engine   = Engine.for_language(language)
-  engine.process(params, post).to_json
+  language.engine.process(params, post).to_json
 end
 
 post "/save/:token" do |token|

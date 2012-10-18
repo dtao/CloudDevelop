@@ -96,8 +96,10 @@ class Language
         :mode           => "text/x-ruby",
         :name           => "Ruby",
         :verb           => "Run",
+        :engine_type    => :rspec,
         :snippets => {
           :source       => Language::Snippets::Ruby::SOURCE,
+          :spec         => Language::Snippets::Ruby::SPEC,
           :instructions => Language::Snippets::Ruby::INSTRUCTIONS
         }
       })
@@ -136,5 +138,9 @@ class Language
     @verb        = options[:verb] || "Compile"
     @engine_type = options[:engine_type] || :ideone
     @snippets    = options[:snippets] || {}
+  end
+
+  def engine
+    Engine.for_language(self)
   end
 end

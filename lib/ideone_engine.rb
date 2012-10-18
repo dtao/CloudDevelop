@@ -32,6 +32,11 @@ class IdeoneEngine
     { :action => "render", :output => result[:output] }
   end
 
+  def uses_specs?
+    false
+  end
+
+  private
   def compile(code, language)
     info = ""
     output = ""
@@ -143,7 +148,6 @@ class IdeoneEngine
     }
   end
   
-  private
   def value_from_response(hash, key)
     value = ""
 

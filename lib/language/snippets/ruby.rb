@@ -13,9 +13,19 @@ class Language
             true
           end
         end
-        
-        ["pineapple", "racecar"].each do |word|
-          puts "#\{word\}.is_palindrome? => #\{word.is_palindrome?\}"
+      RUBY
+
+      SPEC = <<-RUBY.unindent
+        describe String do
+          describe "#is_palindrome?" do
+            it "returns true for palindromic strings" do
+              "racecar".is_palindrome?.should be_true
+            end
+            
+            it "returns false for ordinary (non-palindromic) strings" do
+              "pineapple".is_palindrome?.should be_true
+            end
+          end
         end
       RUBY
 
@@ -26,8 +36,8 @@ class Language
           (Matz) in 1993.
         </p>
         <p>
-          In Ruby mode, your code will be executed on the server. Use <code>puts</code> to
-          display output.
+          In Ruby mode, use <a href="http://rspec.info/">RSpec</a> to write specs as in the example
+          above. Clicking 'Run' will run your specs along with your code and show you the results.
         </p>
       HTML
     end

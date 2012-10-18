@@ -8,4 +8,8 @@ class JasmineEngine
 
     { :action => "frame", :url => "/result/#{submission.id}" }
   end
+
+  def uses_specs?
+    true
+  end
 end

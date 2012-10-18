@@ -2,21 +2,33 @@ window.CloudDevelop ?= {}
 
 CloudDevelop.initEditor = ($container) ->
   textarea = $container.find("textarea")[0]
-  mode     = $(textarea).data("mode")
-  CodeMirror.fromTextArea textarea,
-    mode: mode
+  if textarea?
+    mode     = $(textarea).data("mode")
+    CodeMirror.fromTextArea textarea,
+      mode: mode
+  else
+    # TODO: Think of a less hacky way of doing this.
+    {
+      setValue: ->
+      getValue: -> ""
+    }
 
 CloudDevelop.init = (language) ->
   $(document).ready ->
-    CloudDevelop.sourceEditor = CloudDevelop.initEditor($(".editor"))
-    CloudDevelop.specEditor   = CloudDevelop.initEditor($(".result"))
+    editorContainer = $(".editor")
+    resultContainer = $(".result")
+
+    CloudDevelop.sourceEditor = CloudDevelop.initEditor(editorContainer)
+    CloudDevelop.specEditor   = CloudDevelop.initEditor(resultContainer)
 
     $("#clear").click ->
       CloudDevelop.sourceEditor.setValue("")
       CloudDevelop.specEditor.setValue("")
 
     $("#compile").click ->
-      CloudDevelop.showLoading($(".result").empty())
+      specEditorHtml  = resultContainer.html()
+      resultContainer.empty()
+      CloudDevelop.showLoading(resultContainer)
 
       token = CloudDevelop.getToken()
 
@@ -30,13 +42,15 @@ CloudDevelop.init = (language) ->
         dataType: "json"
 
       ajax.done (data) ->
-        resultContainer = $(".result").empty()
+        resultContainer.empty()
 
         switch data.action
           when "frame"
             $("<iframe src='#{data.url}'>").appendTo(resultContainer)
           when "render"
             $("<pre class='console'>").text(data.output).appendTo(resultContainer)
+
+        $("<div class='back'>").text("Back").appendTo(resultContainer)
 
       ajax.fail ->
         CloudDevelop.displayError("Oh noes!")
@@ -60,6 +74,13 @@ CloudDevelop.init = (language) ->
 
       ajax.fail ->
         CloudDevelop.displayError("Blast!")
+
+    $(".back").live "click", ->
+      resultContainer.empty()
+      spec = CloudDevelop.specEditor.getValue()
+      textarea = $("<textarea>").val(spec).data("mode", CloudDevelop.specEditor.getOption("mode"))
+      textarea.appendTo(resultContainer)
+      CloudDevelop.specEditor = CloudDevelop.initEditor(resultContainer)
 
     # All links in captions should open in a new window/tab.
     $(".caption a").attr("target", "_blank")

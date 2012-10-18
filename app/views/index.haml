@@ -28,6 +28,13 @@
 .result
   - if @post && @post.output
     %pre.console= @post.output
+  - elsif !@language.engine.uses_specs?
+    %pre.console
+    - if @language.snippets[:instructions]
+      .caption
+        = empty_link("&times;", :class => "dismiss")
+        = @language.snippets[:instructions]
+    = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec })
   - elsif @spec
     = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec })
   - else
@@ -36,4 +43,4 @@
 .buttons
   %a#clear(href="javascript:void(0);") Clear
   %a#compile(href="javascript:void(0);")= @language.verb
-  %a#save(href="javascript:void(0);") Save
+  %a#save(href="javascript:void(0);")= @post ? "Update": "Save"

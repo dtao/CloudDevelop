@@ -16,6 +16,7 @@ gem "omniauth"
 gem "omniauth-github"
 gem "pusher"
 gem "randy"
+gem "rspec"
 gem "sass"
 gem "savon"
 

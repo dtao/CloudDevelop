@@ -36,7 +36,7 @@ class Language
               test "racecar", true
             
             it "returns false for ordinary (non-palindromic) strings", ->
-              test "foo", false
+              test "pineapple", false
       COFFEESCRIPT
 
       INSTRUCTIONS = <<-HTML

@@ -15,6 +15,7 @@
     color: white
     background-color: black
     opacity: 0.5
+    z-index: 50
 
     a
       color: $neutral-action-color
@@ -81,10 +82,26 @@
     @include full-expand
     margin: 0
     padding: $default-spacing
-    color: white
-    background-color: black
+    color: $dark-text-color
+    background-color: $light-background-color
     font-size: 20px
     line-height: 24px
+
+  .back
+    position: absolute
+    bottom: 10px
+    left: 10px
+    width: 80px
+    line-height: 40px
+    color: white
+    background-color: black
+    text-align: center
+    opacity: 0.75
+    cursor: pointer
+
+  .back:hover
+    color: black
+    background-color: white
 
 .CodeMirror
   height: 100%

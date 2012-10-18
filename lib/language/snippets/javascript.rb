@@ -28,7 +28,7 @@ class Language
           });
           
           it("returns false for ordinary (non-palindromic) strings", function() {
-            expect(isPalindrome("foo")).toBe(false);
+            expect(isPalindrome("pineapple")).toBe(false);
           });
           
           it("returns false for undefined", function() {
