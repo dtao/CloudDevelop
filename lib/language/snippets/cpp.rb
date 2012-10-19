@@ -2,14 +2,30 @@ require "heredoc_unindent"
 
 class Language
   module Snippets
-    module CPlusPlus
+    module CPP
       SOURCE = <<-CPP.unindent
         #include <iostream>
+        #include <string>
         
-        using namespace std;
+        bool is_palindrome(std::string* str);
         
         int main() {
-          cout << "Hello, world!" << endl;
+          std::string pineapple("pineapple");
+          std::string racecar("racecar");
+          std::cout << is_palindrome(&pineapple) << "\\n";
+          std::cout << is_palindrome(&racecar) << std::endl;
+        }
+        
+        bool is_palindrome(std::string* str) {
+          size_t i = 0;
+          size_t j = str->length() - 1;
+          while (i < j) {
+            if (str->at(i++) != str->at(j--)) {
+              return false;
+            }
+          }
+          
+          return true;
         }
       CPP
 

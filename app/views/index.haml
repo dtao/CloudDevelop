@@ -41,6 +41,6 @@
     = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @language.snippets[:spec], :caption => @language.snippets[:instructions] })
 
 .buttons
-  %a#clear(href="javascript:void(0);") Clear
-  %a#compile(href="javascript:void(0);")= @language.verb
-  %a#save(href="javascript:void(0);")= @post ? "Update": "Save"
+  = empty_link("Clear", :id => "clear")
+  = empty_link(@language.verb, :id => "compile")
+  = empty_link(@post ? "Update" : "Save", :id => "save", :class => (@post && @post.user != current_user) ? "disabled" : "")

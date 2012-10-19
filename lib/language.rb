@@ -25,8 +25,8 @@ class Language
         :name           => "C++",
         :verb           => "Compile",
         :snippets       => {
-          :source       => Language::Snippets::CPlusPlus::SOURCE,
-          :instructions => Language::Snippets::CPlusPlus::INSTRUCTIONS
+          :source       => Language::Snippets::CPP::SOURCE,
+          :instructions => Language::Snippets::CPP::INSTRUCTIONS
         }
       })
 

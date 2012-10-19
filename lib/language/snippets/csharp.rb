@@ -12,7 +12,7 @@ class Language
           {
             int i = 0;
             int j = text.Length - 1;
-            while (i > j) {
+            while (i < j) {
               if (text[i++] != text[j--])
               {
                 return false;
@@ -30,7 +30,7 @@ class Language
             var words = new string[] { "pineapple", "racecar" };
             foreach (string word in words)
             {
-              Console.WriteLine("{0}.IsPalindrome() => {1}", word, word.IsPalindrome());
+              Console.WriteLine("\\"{0}\\".IsPalindrome() => {1}", word, word.IsPalindrome());
             }
           }
         }

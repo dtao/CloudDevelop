@@ -53,6 +53,10 @@ CloudDevelop.init = (language) ->
         $("<div class='back'>").text("Back").appendTo(resultContainer)
 
     $("#save").click ->
+      if $(this).is(".disabled")
+        CloudDevelop.displayError("You aren't allowed to update this post.")
+        return
+
       token = CloudDevelop.getToken()
 
       promise = CloudDevelop.ajax
