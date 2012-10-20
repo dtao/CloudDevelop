@@ -7,33 +7,44 @@ class JUnitEngine
   end
 
   def process(params, post=nil)
-    source_classname = params[:source].match(/^\s*public class ([^\s]+)/)[1]
-    source_filename  = "#{source_classname}.java"
-    source_filepath  = File.join(@class_path, "org", "clouddevelop", source_filename)
+    unique_package = Randy.string(10, "abcdefghijklmnopqrstuvwxyz")
+    Dir.mkdir(File.join(@class_path, "org", "clouddevelop", unique_package))
 
-    spec_classname = params[:spec].match(/^\s*public class ([^\s]+)/)[1]
+    source = params[:source]
+    spec   = params[:spec]
+
+    source_classname = source.match(/^\s*public class ([^\s]+)/)[1]
+    source_filename  = "#{source_classname}.java"
+    source_filepath  = File.join(@class_path, "org", "clouddevelop", unique_package, source_filename)
+
+    spec_classname = spec.match(/^\s*public class ([^\s]+)/)[1]
     spec_filename  = "#{spec_classname}.java"
-    spec_filepath  = File.join(@class_path, "org", "clouddevelop", spec_filename)
+    spec_filepath  = File.join(@class_path, "org", "clouddevelop", unique_package, spec_filename)
 
     File.open(source_filepath, "w") do |io|
       io.write <<-JAVA.unindent
-        package org.clouddevelop;
+        package org.clouddevelop.#{unique_package};
         
-        #{params[:source]}
+        #{source}
       JAVA
     end
 
     File.open(spec_filepath, "w") do |io|
       io.write <<-JAVA.unindent
-        package org.clouddevelop;
+        package org.clouddevelop.#{unique_package};
         
-        #{params[:spec]}
+        #{spec}
       JAVA
     end
 
-    `javac -cp #{@junit_path} #{source_filepath} #{spec_filepath}`
+    system "javac -cp #{@junit_path} #{source_filepath} #{spec_filepath}"
 
-    output = `java -cp #{@junit_path}:#{@class_path} org.junit.runner.JUnitCore org.clouddevelop.#{spec_classname}`.strip
+    output = ""
+    if $?.success?
+      output = `java -cp #{@junit_path}:#{@class_path} org.junit.runner.JUnitCore org.clouddevelop.#{unique_package}.#{spec_classname}`.strip
+    else
+      output = "A compile-time error occurred."
+    end
 
     submission = Submission.create({
       :language => params[:language],

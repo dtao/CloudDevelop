@@ -4,10 +4,12 @@ class Language
   module Snippets
     module Java
       SOURCE = <<-JAVA.unindent
-        // Note: you can only have one public class per submission.
-        
         public class StringUtils {
           public static boolean isPalindrome(String text) {
+            if (text == null) {
+              return false;
+            }
+            
             int i = 0;
             int j = text.length() - 1;
             while (i < j) {
@@ -22,12 +24,22 @@ class Language
 
       SPEC = <<-JAVA.unindent
         import org.junit.*;
-        import org.junit.Assert.*;
+        import static org.junit.Assert.*;
         
         public class StringUtilsTest {
           @Test
-          public void isPalindromeReturnsTrueForPalindromicStrings() {
+          public void returnsTrueForPalindromicStrings() {
             assertTrue(StringUtils.isPalindrome("racecar"));
+          }
+          
+          @Test
+          public void returnsFalseForOrdinaryStrings() {
+            assertFalse(StringUtils.isPalindrome("pineapple"));
+          }
+          
+          @Test
+          public void returnsFalseForNull() {
+            assertFalse(StringUtils.isPalindrome(null));
           }
         }
       JAVA
@@ -40,8 +52,9 @@ class Language
           VM or JVM.
         </p>
         <p>
-          In Java mode, your code will be compiled and run on a server. Use
-          <code>System.out.println</code> to display output.
+          In Java mode, use <a href="http://junit.org/">JUnit</a> to write unit tests as in the
+          example above. Clicking 'Compile' will run your unit tests and show you the results. Note
+          that your source code must include exactly one public class as required by Java.
         </p>
       HTML
     end
