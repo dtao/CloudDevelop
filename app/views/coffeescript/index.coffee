@@ -62,6 +62,7 @@ CloudDevelop.init = (language) ->
       promise = CloudDevelop.ajax
         url: "/save/#{token}"
         data:
+          label:    CloudDevelop.getLabel()
           language: language
           source:   CloudDevelop.sourceEditor.getValue()
           spec:     CloudDevelop.specEditor.getValue()

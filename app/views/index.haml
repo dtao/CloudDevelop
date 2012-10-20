@@ -40,6 +40,9 @@
   - else
     = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @language.snippets[:spec], :caption => @language.snippets[:instructions] })
 
+.label
+  %input#label-input(name="label" placeholder="Add a label" value="#{@post ? @post.label : ''}")
+
 .buttons
   = empty_link("Clear", :id => "clear")
   = empty_link(@language.verb, :id => "compile")

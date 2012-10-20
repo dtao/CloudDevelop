@@ -48,5 +48,8 @@ CloudDevelop.displayError = (msg) ->
 CloudDevelop.delay = (timeout, callback) ->
   setTimeout(callback, timeout)
 
+CloudDevelop.getLabel = ->
+  $("#label-input").val()
+
 CloudDevelop.getToken = ->
   $("#token").val()

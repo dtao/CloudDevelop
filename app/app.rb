@@ -191,11 +191,18 @@ post "/save/:token" do |token|
   else
     Post.transaction do
       if post.nil?
+        properties = {}
+        properties[:label] = params[:label] unless params[:label].blank?
+          
         if logged_in?
-          post = current_user.posts.create
+          post = current_user.posts.create(properties)
         else
-          post = Post.create
+          post = Post.create(properties)
         end
+      end
+
+      if post.label != params[:label] && !params[:label].blank?
+        post.update(:label => params[:label])
       end
 
       submission = Submission.create({
@@ -208,6 +215,9 @@ post "/save/:token" do |token|
     end
   end
 
+  flash[:notice] = "Saved post <span>#{post.label || post.token}</span>."
+
+  # The browser will redirect after this.
   { :token => post.token }.to_json
 end
 
