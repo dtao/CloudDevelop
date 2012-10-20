@@ -34,7 +34,6 @@
       .caption
         = empty_link("&times;", :class => "dismiss")
         = @language.snippets[:instructions]
-    = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec })
   - elsif @spec
     = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec })
   - else
