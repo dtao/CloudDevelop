@@ -20,6 +20,7 @@ configure do
     provider :github, ENV["GITHUB_CLIENT_ID"], ENV["GITHUB_CLIENT_SECRET"], :scope => "gist"
   end
 
+  Engine.register(:haml, HAMLEngine.new)
   Engine.register(:ideone, IdeoneEngine.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"]))
   Engine.register(:jasmine, JasmineEngine.new)
   Engine.register(:junit, JUnitEngine.new(File.join(PROJECT_ROOT, "bin", "junit-4.10.jar"), File.join(PROJECT_ROOT, "tmp", "java")))
@@ -76,6 +77,11 @@ get "/editor/:submission_id" do |submission_id|
   submission = Submission.find(submission_id)
   language   = Language[submission.language]
   haml :editor, :locals => { :id => "spec-editor", :mode => language.mode, :content => submission.spec }, :layout => false
+end
+
+get "/haml_result/:submission_id" do |submission_id|
+  submission = Submission.find(submission_id)
+  haml submission.source, :layout => false
 end
 
 get "/jasmine_result/:submission_id" do |submission_id|

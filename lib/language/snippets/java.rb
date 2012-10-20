@@ -47,7 +47,7 @@ class Language
       INSTRUCTIONS = <<-HTML.unindent
         <p>
           <a href="http://en.wikipedia.org/wiki/Java_(programming_language)">Java</a> is an
-          object-oriented language and runtime environment(JRE). Java programs are platform
+          object-oriented language and runtime environment (JRE). Java programs are platform
           independent because the program execution is handled by a Virtual Machine called the Java
           VM or JVM.
         </p>

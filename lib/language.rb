@@ -52,6 +52,17 @@ class Language
       })
 
       @list << Language.new({
+        :key            => "haml",
+        :name           => "HAML",
+        :verb           => "Render",
+        :engine_type    => :haml,
+        :snippets => {
+          :source       => Language::Snippets::HAML::SOURCE,
+          :instructions => Language::Snippets::HAML::INSTRUCTIONS
+        }
+      })
+
+      @list << Language.new({
         :key            => "java",
         :file           => "clike",
         :mode           => "text/x-java",
