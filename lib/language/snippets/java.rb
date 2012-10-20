@@ -44,7 +44,7 @@ class Language
         }
       JAVA
 
-      INSTRUCTIONS = <<-HTML
+      INSTRUCTIONS = <<-HTML.unindent
         <p>
           <a href="http://en.wikipedia.org/wiki/Java_(programming_language)">Java</a> is an
           object-oriented language and runtime environment(JRE). Java programs are platform

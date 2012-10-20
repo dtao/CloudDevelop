@@ -22,19 +22,11 @@ class JUnitEngine
     spec_filepath  = File.join(@class_path, "org", "clouddevelop", unique_package, spec_filename)
 
     File.open(source_filepath, "w") do |io|
-      io.write <<-JAVA.unindent
-        package org.clouddevelop.#{unique_package};
-        
-        #{source}
-      JAVA
+      io.write "package org.clouddevelop.#{unique_package};\n\n#{source}"
     end
 
     File.open(spec_filepath, "w") do |io|
-      io.write <<-JAVA.unindent
-        package org.clouddevelop.#{unique_package};
-        
-        #{spec}
-      JAVA
+      io.write "package org.clouddevelop.#{unique_package};\n\n#{spec}"
     end
 
     system "javac -cp #{@junit_path} #{source_filepath} #{spec_filepath}"

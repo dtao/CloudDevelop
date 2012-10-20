@@ -10,13 +10,7 @@ class RSpecEngine
     filepath = File.join(@spec_path, filename)
 
     File.open(filepath, "w") do |io|
-      io.write <<-RUBY.unindent
-        require "rspec"
-        
-        #{params[:source]}
-        
-        #{params[:spec]}
-      RUBY
+      io.write "require 'rspec'\n\n#{params[:source]}\n\n#{params[:spec]}"
     end
 
     output = `rspec #{filepath} --format html`.strip
