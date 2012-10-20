@@ -4,7 +4,9 @@ class Language
   module Snippets
     module Java
       SOURCE = <<-JAVA.unindent
-        class StringUtils {
+        // Note: you can only have one public class per submission.
+        
+        public class StringUtils {
           public static boolean isPalindrome(String text) {
             int i = 0;
             int j = text.length() - 1;
@@ -16,11 +18,16 @@ class Language
             return true;
           }
         }
+      JAVA
+
+      SPEC = <<-JAVA.unindent
+        import org.junit.*;
+        import org.junit.Assert.*;
         
-        class Main {
-          public static void main(String[] args) {
-            System.out.println(StringUtils.isPalindrome("pineapple"));
-            System.out.println(StringUtils.isPalindrome("racecar"));
+        public class StringUtilsTest {
+          @Test
+          public void isPalindromeReturnsTrueForPalindromicStrings() {
+            assertTrue(StringUtils.isPalindrome("racecar"));
           }
         }
       JAVA

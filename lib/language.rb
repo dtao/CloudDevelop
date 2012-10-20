@@ -61,8 +61,10 @@ class Language
         :mode           => "text/x-java",
         :name           => "Java",
         :verb           => "Compile",
+        :engine_type    => :junit,
         :snippets => {
           :source       => Language::Snippets::Java::SOURCE,
+          :spec         => Language::Snippets::Java::SPEC,
           :instructions => Language::Snippets::Java::INSTRUCTIONS
         }
       })
