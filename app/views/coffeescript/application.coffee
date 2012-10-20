@@ -2,7 +2,8 @@ window.CloudDevelop ?= {}
 
 CloudDevelop.showLoading = (container) ->
   container ?= $("body")
-  $("<div>").addClass("loading").appendTo(container)
+  loadingContainer = $("<div>").addClass("loading").appendTo(container)
+  loadingImage = $("<img src='/images/loading.gif'>").appendTo(loadingContainer)
 
 CloudDevelop.removeLoading = (container) ->
   $(".loading").remove()

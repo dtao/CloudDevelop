@@ -111,9 +111,18 @@ a.dismiss
   position: absolute
   height: 100%
   width: 100%
-  background: #000 url("/images/loading.gif") no-repeat center
+  background: #000
   opacity: 0.25
   z-index: 100
+
+  img
+    position: absolute
+    top: 50%
+    left: 50%
+    margin-top: -24px
+    margin-left: -24px
+    height: 48px
+    width: 48px
 
 .error
   color: $error-color !important
@@ -137,3 +146,10 @@ a.dismiss
 
   a:hover
     color: $dark-text-color
+
+.off-screen
+  position: absolute
+  top: -1px
+  left: -1px
+  height: 1px
+  width: 1px
