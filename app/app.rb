@@ -17,7 +17,7 @@ configure do
   helpers Sinatra::ContentFor
 
   use OmniAuth::Builder do
-    provider :github, ENV["GITHUB_CLIENT_ID"], ENV["GITHUB_CLIENT_SECRET"]
+    provider :github, ENV["GITHUB_CLIENT_ID"], ENV["GITHUB_CLIENT_SECRET"], :scope => "gist"
   end
 
   Engine.register(:ideone, IdeoneEngine.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"]))
