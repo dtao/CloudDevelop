@@ -22,8 +22,9 @@ configure do
 
   Engine.register(:ideone, IdeoneEngine.new(ENV["IDEONE_USER"], ENV["IDEONE_PASS"]))
   Engine.register(:jasmine, JasmineEngine.new)
-  Engine.register(:rspec, RSpecEngine.new(File.join(PROJECT_ROOT, "tmp")))
   Engine.register(:junit, JUnitEngine.new(File.join(PROJECT_ROOT, "bin", "junit-4.10.jar"), File.join(PROJECT_ROOT, "tmp", "java")))
+  Engine.register(:rspec, RSpecEngine.new(File.join(PROJECT_ROOT, "tmp")))
+  Engine.register(:markdown, MarkdownEngine.new)
 
   Pusher.app_id = ENV["PUSHER_APP_ID"]
   Pusher.key    = ENV["PUSHER_API_KEY"]
@@ -80,6 +81,11 @@ end
 get "/jasmine_result/:submission_id" do |submission_id|
   @submission = Submission.find(submission_id)
   erb :jasmine_results
+end
+
+get "/markdown_result/:submission_id" do |submission_id|
+  @submission = Submission.find(submission_id)
+  haml :markdown, :layout => false
 end
 
 get "/rspec_result/:submission_id" do |submission_id|

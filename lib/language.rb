@@ -1,12 +1,8 @@
 class Language
   class << self
-    def all
-      initialize_all if @list.nil?
-      @list.sort_by(&:name)
-    end
-
     def each(&block)
-      all.each(&block)
+      initialize_all if @list.nil?
+      @list.each(&block)
     end
 
     def [](key)
@@ -79,6 +75,18 @@ class Language
           :source       => Language::Snippets::JavaScript::SOURCE,
           :spec         => Language::Snippets::JavaScript::SPEC,
           :instructions => Language::Snippets::JavaScript::INSTRUCTIONS
+        }
+      })
+
+      @list << Language.new({
+        :key            => "markdown",
+        :mode           => "text/x-markdown",
+        :name           => "Markdown",
+        :verb           => "Render",
+        :engine_type    => :markdown,
+        :snippets       => {
+          :source       => Language::Snippets::Markdown::SOURCE,
+          :instructions => Language::Snippets::Markdown::INSTRUCTIONS
         }
       })
 

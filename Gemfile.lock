@@ -150,6 +150,7 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     randy (0.0.1)
+    redcarpet (2.2.2)
     ripl (0.7.0)
       bond (~> 0.4.2)
     ripl-multi_line (0.3.0)
@@ -228,6 +229,7 @@ DEPENDENCIES
   pg
   pusher
   randy
+  redcarpet
   rspec
   sass
   savon

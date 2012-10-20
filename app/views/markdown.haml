@@ -1,0 +1,13 @@
+!!!
+%head
+
+  = stylesheet("css/bootstrap")
+
+  :css
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+%body
+  .content
+    = markdown @submission.source
