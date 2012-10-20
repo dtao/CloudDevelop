@@ -4,6 +4,9 @@
 - content_for :javascript do
   = javascript("coffeescript/posts")
 
+- if @user
+  %h1= "Posts by #{@user.name}"
+
 %table.posts
   %tr
     %th Created

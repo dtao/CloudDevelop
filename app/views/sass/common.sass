@@ -30,6 +30,23 @@ $default-spacing:         20px
   list-style: none
   margin: 0
   padding: 0
+  overflow: hidden
 
   li
     display: inline-block
+
+@mixin responsive-font-size
+  font-size: 24px
+  line-height: 28px
+
+  @media all and (min-width: 1024px) and (max-width: 1599px)
+    font-size: 20px
+    line-height: 24px
+
+  @media all and (min-width: 800px) and (max-width: 1023px)
+    font-size: 16px
+    line-height: 20px
+
+  @media all and (max-width: 799px)
+    font-size: 12px
+    line-height: 16px

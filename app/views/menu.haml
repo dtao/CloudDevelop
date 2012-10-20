@@ -8,3 +8,6 @@
     - else
       %li.status Not logged in
       %li.login <a href="/auth/github">Log in through GitHub</a>
+
+    - if post_belongs_to_someone_else?(@post)
+      %li.owner= "Viewing post '#{@post.identifier}' by <a href=\"/posts/#{@post.user.id}\">#{@post.user.name}</a>"

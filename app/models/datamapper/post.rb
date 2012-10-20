@@ -18,6 +18,11 @@ class Post
     self.token = Randy.string(8)
   end
 
+  def identifier
+    return self.label unless self.label.blank?
+    self.token
+  end
+
   def last_submission
     @last_submission ||= begin
       record = self.submissions.last

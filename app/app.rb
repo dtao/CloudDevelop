@@ -33,6 +33,7 @@ end
 helpers do
   include FormatHelper
   include HtmlHelper
+  include PostHelper
 
   def logged_in?
     !!current_user
@@ -55,6 +56,12 @@ get "/posts" do
   end
 
   @posts = current_user.posts(:order => [ :id.desc ])
+  haml :posts
+end
+
+get "/posts/:user_id" do |user_id|
+  @user  = User.get(user_id)
+  @posts = @user.posts(:order => [ :id.desc ])
   haml :posts
 end
 

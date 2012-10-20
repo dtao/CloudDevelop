@@ -97,6 +97,13 @@ a.dismiss
       a:hover
         color: darken($negative-action-color, 10%)
 
+    li.owner
+      text-transform: none
+      a
+        color: $neutral-action-color
+      a:hover
+        color: lighten($neutral-action-color, 10%)
+
     li.selected
       font-weight: bold
       text-decoration: underline
@@ -106,6 +113,11 @@ a.dismiss
   top: 110px
   bottom: 40px
   margin: $default-spacing
+
+  h1
+    font-family: Helvetica, Arial, sans-serif
+    font-weight: 300
+    margin: 0 0 $default-spacing 0
 
 .loading
   position: absolute
