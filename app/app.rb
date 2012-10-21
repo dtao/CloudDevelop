@@ -192,7 +192,8 @@ delete "/:token" do |token|
 
   unless post.nil?
     Post.transaction do
-      post.submissions.destroy
+      # TODO: Look into why this is necessary (as opposed to, e.g., just submissions.destroy)...
+      post.submissions.each(&:destroy)
       post.reload
       post.destroy
     end
