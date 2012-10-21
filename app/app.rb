@@ -47,10 +47,21 @@ helpers do
 end
 
 get "/" do
-  @language     = Language["javascript"]
-  @source       = @language.snippets[:source]
-  @spec         = @language.snippets[:spec]
-  @instructions = @language.snippets[:instructions]
+  instructions = <<-MARKDOWN.unindent
+    Welcome to **CloudDevelop**, an online code editor and testing environment.
+    
+    Currently the following features are supported:
+    
+    - Side-by-side spec mode using Jasmine (JavaScript and CoffeeScript), RSpec (Ruby), and JUnit (Java)
+    - Server-side compilation/execution of C++, Python, C#, and Visual Basic .NET
+    
+    More is on the way, so check back often!
+    
+    If you have any questions, feel free to [e-mail me](mailto:daniel.tao@gmail.com)!
+  MARKDOWN
+
+  @language     = Language["cpp"]
+  @instructions = markdown(instructions)
   haml :index
 end
 

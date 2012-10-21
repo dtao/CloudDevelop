@@ -161,6 +161,44 @@ a.dismiss
   a:hover
     color: $dark-text-color
 
+#instructions
+  @include full-width
+  top: 50%
+  height: 300px
+  margin-top: -150px
+  z-index: 50
+
+  .overlay
+    @include full-expand
+    background-color: black
+    opacity: 0.75
+
+  .text
+    @include full-expand
+    padding: $default-spacing $default-spacing * 2
+    font-size: 20px
+    color: white
+    overflow: auto
+
+    b, strong
+      color: $neutral-action-color
+
+    a
+      color: $neutral-action-color
+      font-weight: bold
+      text-decoration: none
+
+    a:hover
+      color: darken($neutral-action-color, 25%)
+      text-decoration: underline
+
+    a.dismiss
+      color: white
+
+    a.dismiss:hover
+      color: white
+      text-decoration: none
+
 .off-screen
   position: absolute
   top: -1px
