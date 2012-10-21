@@ -27,7 +27,7 @@
   .content
     = yield
 
-  - if @post.nil? && @language.snippets[:instructions]
+  - if @instructions
     #instructions
       .overlay
       .text

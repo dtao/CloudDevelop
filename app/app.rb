@@ -47,9 +47,10 @@ helpers do
 end
 
 get "/" do
-  @language = Language["javascript"]
-  @source   = @language.snippets[:source]
-  @spec     = @language.snippets[:spec]
+  @language     = Language["javascript"]
+  @source       = @language.snippets[:source]
+  @spec         = @language.snippets[:spec]
+  @instructions = @language.snippets[:instructions]
   haml :index
 end
 
@@ -141,8 +142,9 @@ get "/mode/:language_key" do |language_key|
     halt redirect("/")
   end
 
-  @source = @language.snippets[:source]
-  @spec   = @language.snippets[:spec]
+  @source       = @language.snippets[:source]
+  @spec         = @language.snippets[:spec]
+  @instructions = @language.snippets[:instructions]
   haml :index
 end
 
