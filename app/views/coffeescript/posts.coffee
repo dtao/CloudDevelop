@@ -2,6 +2,8 @@ window.CloudDevelop ?= {}
 
 $(document).ready ->
   $(".delete").click (e) ->
+    return unless confirm("Are you sure you want to delete this post?")
+
     row   = $(this).closest("tr")
     token = row.data("token")
 
