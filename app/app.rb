@@ -48,13 +48,15 @@ end
 
 get "/" do
   @language = Language["javascript"]
+  @source   = @language.snippets[:source]
+  @spec     = @language.snippets[:spec]
   haml :index
 end
 
 get "/posts" do
   if !logged_in?
     flash[:notice] = "You must be logged in for that."
-    halt redirect(request.referrer || "/")
+    halt redirect("/")
   end
 
   @posts = current_user.posts(:order => [ :id.desc ])
@@ -63,6 +65,11 @@ end
 
 get "/posts/:user_id" do |user_id|
   @user  = User.get(user_id)
+  if @user.nil?
+    flash[:notice] = "That user does not exist."
+    halt redirect("/")
+  end
+
   @posts = @user.posts(:order => [ :id.desc ])
   haml :posts
 end
@@ -70,7 +77,7 @@ end
 get "/logout" do
   session.delete(:user_id)
   flash[:notice] = "Successfully logged out."
-  redirect request.referrer || "/"
+  redirect "/"
 end
 
 get "/editor/:submission_id" do |submission_id|
@@ -129,6 +136,13 @@ end
 
 get "/mode/:language_key" do |language_key|
   @language = Language[language_key]
+  if @language.nil?
+    flash[:notice] = "That isn't a supported language."
+    halt redirect("/")
+  end
+
+  @source = @language.snippets[:source]
+  @spec   = @language.snippets[:spec]
   haml :index
 end
 
@@ -241,5 +255,6 @@ post "/save/:token" do |token|
 end
 
 error do
-  haml :error
+  flash[:notice] = "An unexpected error occurred."
+  redirect "/"
 end

@@ -36,8 +36,8 @@ class Language
           (Matz) in 1993.
         </p>
         <p>
-          In Ruby mode, use <a href="http://rspec.info/">RSpec</a> to write specs as in the example
-          above. Clicking 'Run' will run your specs along with your code and show you the results.
+          In Ruby mode, use <a href="http://rspec.info/">RSpec</a> to write specs as in the example.
+          Clicking 'Run' will run your specs along with your code and show you the results.
         </p>
       HTML
     end

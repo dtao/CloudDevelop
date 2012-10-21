@@ -1,6 +1,1 @@
 %textarea(id="#{id}" data-mode="#{mode}")= content || ""
-
-- if defined?(caption) && !caption.nil?
-  .caption
-    = empty_link("&times;", :class => "dismiss")
-    = caption

@@ -27,6 +27,13 @@
   .content
     = yield
 
+  - if @post.nil? && @language.snippets[:instructions]
+    #instructions
+      .overlay
+      .text
+        = empty_link("&times;", :class => "dismiss")
+        = @language.snippets[:instructions]
+
   .footer
     %p CloudDevelop maintained by <a href="http://philosopherdeveloper.wordpress.com">Daniel Tao</a>.
 

@@ -53,8 +53,8 @@ class Language
         </p>
         <p>
           In Java mode, use <a href="http://junit.org/">JUnit</a> to write unit tests as in the
-          example above. Clicking 'Compile' will run your unit tests and show you the results. Note
-          that your source code must include exactly one public class as required by Java.
+          example. Clicking 'Compile' will run your unit tests and show you the results. Note that
+          your source code must include exactly one public class as required by Java.
         </p>
       HTML
     end

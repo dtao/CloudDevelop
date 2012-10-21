@@ -86,4 +86,8 @@ CloudDevelop.init = (language) ->
       e.preventDefault()
       $(this).parent().remove()
 
+    # Clicking in either of the editors should dismiss the instructions.
+    $(".CodeMirror").one "click", ->
+      $("#instructions").remove()
+
     CloudDevelop.displayFlash()

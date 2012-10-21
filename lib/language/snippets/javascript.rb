@@ -53,8 +53,8 @@ class Language
         </p>
         <p>
           In JavaScript mode, use <a href="http://pivotal.github.com/jasmine/">Jasmine</a> to write
-          specs. Clicking 'Run' will run your specs along with your code and show what passed and
-          what failed.
+          specs as in the example. Clicking 'Run' will run your specs along with your code and show
+          what passed and what failed.
         </p>
       HTML
     end

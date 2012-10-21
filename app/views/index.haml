@@ -23,21 +23,15 @@
         %li= "<a href=\"/mode/#{language.key}\">#{language.name}</a>"
 
 .editor
-  = haml(:editor, :locals => { :id => "source-editor", :mode => @language.mode, :content => @source || @language.snippets[:source] })
+  %textarea#source-editor(data-mode="#{@language.mode}")= @source
 
 .result
   - if @post && @post.output
     %pre.console= @post.output
   - elsif !@language.engine.uses_specs?
     %pre.console
-    - if @language.snippets[:instructions]
-      .caption
-        = empty_link("&times;", :class => "dismiss")
-        = @language.snippets[:instructions]
-  - elsif @spec
-    = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @spec })
   - else
-    = haml(:editor, :locals => { :id => "spec-editor", :mode => @language.mode, :content => @language.snippets[:spec], :caption => @language.snippets[:instructions] })
+    %textarea#spec-editor(data-mode="#{@language.mode}")= @spec
 
 .label
   %input#label-input(name="label" placeholder="Add a label" value="#{@post ? @post.label : ''}")
