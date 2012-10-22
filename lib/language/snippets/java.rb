@@ -6,10 +6,6 @@ class Language
       SOURCE = <<-JAVA.unindent
         public class StringUtils {
           public static boolean isPalindrome(String text) {
-            if (text == null) {
-              return false;
-            }
-            
             int i = 0;
             int j = text.length() - 1;
             while (i < j) {
@@ -37,9 +33,9 @@ class Language
             assertFalse(StringUtils.isPalindrome("pineapple"));
           }
           
-          @Test
-          public void returnsFalseForNull() {
-            assertFalse(StringUtils.isPalindrome(null));
+          @Test(expected=NullPointerException.class)
+          public void throwsExceptionForNull() {
+            StringUtils.isPalindrome(null);
           }
         }
       JAVA
