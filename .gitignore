@@ -1,6 +1,7 @@
 .sass-cache/
 config/env/
 db/
+public/images/logos/original/*
 tmp/*
 
 .DS_Store
