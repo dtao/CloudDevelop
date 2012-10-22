@@ -27,12 +27,12 @@
   .content
     = yield
 
-  - if @instructions
+  - if @instructions || content_for?(:instructions)
     #instructions
       .overlay
       .text
-        = empty_link("&times;", :class => "dismiss")
-        = @instructions
+        = empty_link("&times;", :class => "dismiss", :data => { :dismiss => "#instructions" })
+        = @instructions || yield_content(:instructions)
 
   .footer
     %p CloudDevelop maintained by <a href="http://philosopherdeveloper.wordpress.com">Daniel Tao</a>.

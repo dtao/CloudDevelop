@@ -1,0 +1,33 @@
+- content_for :stylesheets do
+  = stylesheet("css/codemirror")
+  = stylesheet("sass/edit")
+
+- content_for :javascript do
+  = javascript("javascript/codemirror-2.34")
+  = javascript("javascript/codemirror/mode/#{@language.file}")
+  = javascript("coffeescript/edit")
+
+  :javascript
+    CloudDevelop.init("#{@language.key}");
+
+- if @post
+  %input#token(type="hidden" value="#{@post.token}")
+
+.editor
+  %textarea#source-editor(data-mode="#{@language.mode}")= @source
+
+.result
+  - if @post && @post.output
+    %pre.console= @post.output
+  - elsif !@language.engine.uses_specs?
+    %pre.console
+  - else
+    %textarea#spec-editor(data-mode="#{@language.mode}")= @spec
+
+.label
+  %input#label-input(name="label" placeholder="Add a label" value="#{@post ? @post.label : ''}")
+
+.buttons
+  = empty_link("Clear", :id => "clear")
+  = empty_link(@language.verb, :id => "compile")
+  = empty_link(@post ? "Update" : "Save", :id => "save", :class => (@post && @post.user != current_user) ? "disabled" : "")

@@ -1,8 +1,8 @@
 source "http://rubygems.org"
 
 # Application framework
-gem "sinatra"
-gem "sinatra-contrib"
+gem "sinatra", :github => "sinatra"
+gem "sinatra-contrib", :github => "sinatra/sinatra-contrib"
 gem "sinatra-flash"
 
 # Server requirement

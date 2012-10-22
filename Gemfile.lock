@@ -1,3 +1,24 @@
+GIT
+  remote: git://github.com/sinatra/sinatra-contrib.git
+  revision: cc6e21295e449a43d99126b7907d132424e4211b
+  specs:
+    sinatra-contrib (1.4.0)
+      backports (>= 2.0)
+      eventmachine
+      rack-protection
+      rack-test
+      sinatra (~> 1.4.0)
+      tilt (~> 1.3)
+
+GIT
+  remote: git://github.com/sinatra/sinatra.git
+  revision: 38f71248f839b95f6d17747a2c177bdd83f95f78
+  specs:
+    sinatra (1.4.0)
+      rack (~> 1.3, >= 1.3.6)
+      rack-protection (~> 1.2)
+      tilt (~> 1.3, >= 1.3.3)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -181,17 +202,6 @@ GEM
       rack (>= 1.0)
     signature (0.1.2)
       ruby-hmac
-    sinatra (1.3.3)
-      rack (~> 1.3, >= 1.3.6)
-      rack-protection (~> 1.2)
-      tilt (~> 1.3, >= 1.3.3)
-    sinatra-contrib (1.3.1)
-      backports (>= 2.0)
-      eventmachine
-      rack-protection
-      rack-test
-      sinatra (~> 1.3.0)
-      tilt (~> 1.3)
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
     stringex (1.4.0)
@@ -234,8 +244,8 @@ DEPENDENCIES
   sass
   savon
   shotgun
-  sinatra
-  sinatra-contrib
+  sinatra!
+  sinatra-contrib!
   sinatra-flash
   thin
   tux

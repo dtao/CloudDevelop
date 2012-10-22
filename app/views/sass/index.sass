@@ -1,139 +1,74 @@
 @import "common"
 
-@mixin editor
-  position: absolute
-  border: 1px solid black
-  top: 40px
-  bottom: 50px
-  overflow: hidden
-
-  iframe
-    height: 100%
-    width: 100%
-
-.content
-  margin-top: 0
-
 .languages
-  @include full-width
-  top: 0
-  height: 40px
-  overflow: hidden
+  width: 50%
 
   ul
     @include inline-list
 
     li
-      color: darken($dark-text-color, 10%)
-      font-size: 16px
-      line-height: 40px
-      margin-right: 10px
+      display: inline-block
+      height: 128px
+      width: 128px
+      margin: 0 $default-spacing $default-spacing 0
+      background-color: #fff
+      border: 2px solid $dark-background-color
+      text-align: center
 
       a
-        color: darken($medium-text-color, 10%)
         text-decoration: none
+        cursor: default
 
-      a:hover
-        color: darken($medium-text-color, 20%)
-        text-decoration: underline
+      .icon
+        color: $dark-text-color
+        font-size: 72px
+        font-weight: bold
+        line-height: 96px
+        height: 96px
 
-    li.selected
-      font-weight: bold
-      text-decoration: underline
+      .name
+        height: 32px
+        background-color: $dark-background-color
+        color: #fff
+        font-size: 16px
+        line-height: 32px
+        opacity: 0.75
 
-.editor
-  @include editor
-  left: 0
-  right: 50%
-  margin-right: $default-spacing / 2
+    li:hover
+      border: 2px solid $light-background-color
 
-.result
-  @include editor
-  left: 50%
-  right: 0
-  margin-left: $default-spacing / 2
+      .name
+        background-color: $light-background-color
+        color: #000
 
-  pre.console
-    @include full-expand
-    margin: 0
-    padding: $default-spacing
-    color: $dark-text-color
-    background-color: $light-background-color
-    font-size: 20px
-    line-height: 24px
-    overflow: auto
+    li:active
+      border: 2px solid #000
 
-  .back
-    position: absolute
-    bottom: 10px
-    left: 10px
-    width: 80px
-    line-height: 40px
-    color: white
-    background-color: black
-    text-align: center
-    opacity: 0.75
-    cursor: pointer
+      .name
+        background-color: #000
+        color: $positive-action-color
+        opacity: 1
 
-  .back:hover
-    color: black
-    background-color: white
+    .cpp
+      background: url("/images/logos/cpp.png") no-repeat center
 
-.CodeMirror
-  @include responsive-font-size
-  height: 100%
-  width: 100%
-  font-family: $code-font
+    .cs
+      background: url("/images/logos/csharp.png") no-repeat center
 
-.CodeMirror-scroll
-  height: 100%
-  overflow: auto
+    .coffeescript
+      background: url("/images/logos/coffeescript.png") no-repeat center
 
-.label
-  @include full-width
-  bottom: 0
-  right: 50%
-  margin-right: $default-spacing / 2
-  height: 30px
-  font-size: 20px
-  line-height: 30px
-  padding: 10px 0
-  text-align: left
+    .haml
+      background: url("/images/logos/haml.png") no-repeat center
 
-  input
-    position: absolute
-    left: 0
-    right: 25%
-    display: block
-    font-size: 20px
-    height: 25px
-    padding: 5px
+    .java
+      background: url("/images/logos/java.png") no-repeat center
 
-.buttons
-  @include full-width
-  bottom: 0
-  left: 50%
-  height: 30px
-  padding: 10px 0
-  text-align: right
-  overflow: hidden
+    .python
+      background: url("/images/logos/python.png") no-repeat center
 
-  a
-    display: inline-block
-    height: 40px
-    width: 120px
-    margin-right: 10px
-    color: $light-text-color
-    background-color: $dark-background-color
-    font-size: 20px
-    font-weight: bold
-    line-height: 40px
-    text-align: center
-    text-decoration: none
+    .ruby
+      background: url("/images/logos/ruby.png") no-repeat center
 
-  a:nth-last-child(1)
-    margin-right: 0
-
-  a:hover
-    color: $dark-text-color
-    background-color: $light-background-color
+    .vb
+      background: url("/images/logos/vb.png") no-repeat center

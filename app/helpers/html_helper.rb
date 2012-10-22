@@ -18,6 +18,9 @@ module HtmlHelper
   end
 
   def attributes_from_hash(properties)
-    properties.map { |key, value| %Q[#{key}="#{value}"] }.join(" ")
+    data_attributes = properties.delete(:data)
+    attributes = properties.map { |key, value| %Q[#{key}="#{value}"] }
+    attributes += data_attributes.map { |key, value| %Q[data-#{key}="#{value}"] } unless data_attributes.nil?
+    attributes.join(" ")
   end
 end

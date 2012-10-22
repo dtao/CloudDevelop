@@ -80,6 +80,7 @@ class Language
         :key            => "javascript",
         :mode           => "text/javascript",
         :name           => "JavaScript",
+        :shorthand      => "JS",
         :verb           => "Run",
         :engine_type    => :jasmine,
         :snippets       => {
@@ -93,6 +94,7 @@ class Language
         :key            => "markdown",
         :mode           => "text/x-markdown",
         :name           => "Markdown",
+        :shorthand      => "M",
         :verb           => "Render",
         :engine_type    => :markdown,
         :snippets       => {
@@ -147,18 +149,20 @@ class Language
   attr_reader :file
   attr_reader :mode
   attr_reader :name
+  attr_reader :shorthand
   attr_reader :verb
   attr_reader :engine_type
   attr_reader :snippets
 
-  def initialize(options={})
-    @key         = options[:key]
-    @file        = options[:file] || @key
-    @mode        = options[:mode] || @key
-    @name        = options[:name]
-    @verb        = options[:verb] || "Compile"
-    @engine_type = options[:engine_type] || :ideone
-    @snippets    = options[:snippets] || {}
+  def initialize(properties={})
+    @key         = properties[:key]
+    @file        = properties[:file] || @key
+    @mode        = properties[:mode] || @key
+    @name        = properties[:name]
+    @shorthand   = properties[:shorthand]
+    @verb        = properties[:verb] || "Compile"
+    @engine_type = properties[:engine_type] || :ideone
+    @snippets    = properties[:snippets] || {}
   end
 
   def engine

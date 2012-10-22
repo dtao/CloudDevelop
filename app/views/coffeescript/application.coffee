@@ -54,3 +54,20 @@ CloudDevelop.getLabel = ->
 
 CloudDevelop.getToken = ->
   $("#token").val()
+
+$(document).ready ->
+  # All links in instructional text should open in a new window/tab.
+  $("#instructions a").attr("target", "_blank")
+
+  # Any element with the class "dismiss" will remove its container.
+  $(".dismiss").live "click", (e) ->
+    link = $(this)
+    e.preventDefault()
+    if link.data("dismiss")
+      dismissSelector = link.data("dismiss")
+      $(dismissSelector).remove()
+    else
+      link.parent().remove()
+
+  # Show a notification, if one is present.
+  CloudDevelop.displayFlash()

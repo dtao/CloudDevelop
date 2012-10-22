@@ -1,42 +1,23 @@
 - content_for :stylesheets do
-  = stylesheet("css/codemirror")
   = stylesheet("sass/index")
 
 - content_for :javascript do
-  = javascript("javascript/codemirror-2.34")
-  = javascript("javascript/codemirror/mode/#{@language.file}")
   = javascript("coffeescript/index")
 
-  :javascript
-    CloudDevelop.init("#{@language.key}");
-
-- if @post
-  %input#token(type="hidden" value="#{@post.token}")
+- content_for :instructions do
+  %p Welcome to **CloudDevelop**, an online code editor and testing environment.
+  %p Currently the following features are supported:
+  %ul
+    %li Side-by-side spec mode using Jasmine (JavaScript and CoffeeScript), RSpec (Ruby), and JUnit (Java)
+    %li Server-side compilation/execution of C++, Python, C#, and Visual Basic .NET
+  %p More is on the way, so check back often!
+  %p If you have any questions, feel free to <a href="mailto:daniel.tao@gmail.com">e-mail me</a>!
 
 .languages
+  %h1 Choose a language
   %ul
-    %li Choose a language:
     - Language.each do |language|
-      - if language == @language
-        %li.selected= language.name
-      - else
-        %li= "<a href=\"/mode/#{language.key}\">#{language.name}</a>"
-
-.editor
-  %textarea#source-editor(data-mode="#{@language.mode}")= @source
-
-.result
-  - if @post && @post.output
-    %pre.console= @post.output
-  - elsif !@language.engine.uses_specs?
-    %pre.console
-  - else
-    %textarea#spec-editor(data-mode="#{@language.mode}")= @spec
-
-.label
-  %input#label-input(name="label" placeholder="Add a label" value="#{@post ? @post.label : ''}")
-
-.buttons
-  = empty_link("Clear", :id => "clear")
-  = empty_link(@language.verb, :id => "compile")
-  = empty_link(@post ? "Update" : "Save", :id => "save", :class => (@post && @post.user != current_user) ? "disabled" : "")
+      %li(class="#{language.key}")
+        %a(href="/new/#{language.key}")
+          .icon= language.shorthand
+          .name= language.name

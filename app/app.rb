@@ -14,8 +14,6 @@ configure do
   require "omniauth"
   require "omniauth-github"
 
-  helpers Sinatra::ContentFor
-
   use OmniAuth::Builder do
     provider :github, ENV["GITHUB_CLIENT_ID"], ENV["GITHUB_CLIENT_SECRET"], :scope => "gist"
   end
@@ -33,6 +31,7 @@ configure do
 end
 
 helpers do
+  include Sinatra::ContentFor
   include FormatHelper
   include HtmlHelper
   include PostHelper
@@ -47,21 +46,6 @@ helpers do
 end
 
 get "/" do
-  instructions = <<-MARKDOWN.unindent
-    Welcome to **CloudDevelop**, an online code editor and testing environment.
-    
-    Currently the following features are supported:
-    
-    - Side-by-side spec mode using Jasmine (JavaScript and CoffeeScript), RSpec (Ruby), and JUnit (Java)
-    - Server-side compilation/execution of C++, Python, C#, and Visual Basic .NET
-    
-    More is on the way, so check back often!
-    
-    If you have any questions, feel free to [e-mail me](mailto:daniel.tao@gmail.com)!
-  MARKDOWN
-
-  @language     = Language["cpp"]
-  @instructions = markdown(instructions)
   haml :index
 end
 
@@ -90,12 +74,6 @@ get "/logout" do
   session.delete(:user_id)
   flash[:notice] = "Successfully logged out."
   redirect "/"
-end
-
-get "/editor/:submission_id" do |submission_id|
-  submission = Submission.find(submission_id)
-  language   = Language[submission.language]
-  haml :editor, :locals => { :id => "spec-editor", :mode => language.mode, :content => submission.spec }, :layout => false
 end
 
 get "/haml_result/:submission_id" do |submission_id|
@@ -146,7 +124,7 @@ get "/coffeescript/*.js" do |filename|
   coffee :"coffeescript/#{filename}"
 end
 
-get "/mode/:language_key" do |language_key|
+get "/new/:language_key" do |language_key|
   @language = Language[language_key]
   if @language.nil?
     flash[:notice] = "That isn't a supported language."
@@ -156,7 +134,7 @@ get "/mode/:language_key" do |language_key|
   @source       = @language.snippets[:source]
   @spec         = @language.snippets[:spec]
   @instructions = @language.snippets[:instructions]
-  haml :index
+  haml :edit
 end
 
 get "/auth/:provider/callback" do |provider|
@@ -189,11 +167,16 @@ end
 
 # This needs to go last as it is essentialy the "fall-through" case.
 get "/:token" do |token|
-  @post     = Post.first(:token => token)
+  @post = Post.first(:token => token)
+  if @post.nil?
+    flash[:notice] = "That post does not exist."
+    halt redirect("/")
+  end
+
   @language = @post.language
   @source   = @post.source
   @spec     = @post.spec
-  haml :index
+  haml :edit
 end
 
 delete "/:token" do |token|

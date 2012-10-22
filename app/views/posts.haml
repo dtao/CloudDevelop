@@ -6,6 +6,8 @@
 
 - if @user
   %h1= "Posts by #{@user.name}"
+- else
+  %h1 Posts
 
 %table.posts
   %tr
