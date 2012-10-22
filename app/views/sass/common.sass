@@ -36,6 +36,18 @@ $default-spacing:         20px
   li
     display: inline-block
 
+@mixin clickable
+  color: $light-text-color
+  background-color: $dark-background-color
+
+  &:hover
+    color: $dark-text-color
+    background-color: $light-background-color
+
+  &:active
+    color: $positive-action-color
+    background-color: #000
+
 @mixin responsive-font-size
   font-size: 20px
   line-height: 24px

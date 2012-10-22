@@ -34,20 +34,15 @@
     overflow: auto
 
   .back
+    @include clickable
     position: absolute
     bottom: 10px
     left: 10px
     width: 80px
     line-height: 40px
-    color: white
-    background-color: black
     text-align: center
     opacity: 0.75
     cursor: pointer
-
-  .back:hover
-    color: black
-    background-color: white
 
 .CodeMirror
   @include responsive-font-size
@@ -89,12 +84,11 @@
   overflow: hidden
 
   a
+    @include clickable
     display: inline-block
     height: 40px
     width: 120px
     margin-right: 10px
-    color: $light-text-color
-    background-color: $dark-background-color
     font-size: 20px
     font-weight: bold
     line-height: 40px
@@ -104,11 +98,3 @@
 
   a:nth-last-child(1)
     margin-right: 0
-
-  a:hover
-    color: $dark-text-color
-    background-color: $light-background-color
-
-  a:active
-    color: $positive-action-color
-    background-color: #000
