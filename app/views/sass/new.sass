@@ -1,7 +1,13 @@
 @import "common"
 
+.content
+  margin: 0
+
 .languages
-  width: 50%
+  @include full-height
+  left: 0
+  right: 50%
+  padding: $default-spacing
 
   ul
     @include inline-list
@@ -72,3 +78,9 @@
 
     .vb
       background: url("/images/logos/vb.png") no-repeat center
+
+.right
+  @include full-height
+  left: 50%
+  right: 0
+  background-color: $light-background-color
