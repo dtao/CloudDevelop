@@ -20,6 +20,7 @@ gem "redcarpet"
 gem "rspec"
 gem "sass"
 gem "savon"
+gem "tux"
 
 # Database stuff
 gem "datamapper"
@@ -35,5 +36,4 @@ end
 group :development do
   gem "dm-sqlite-adapter"
   gem "shotgun"
-  gem "tux"
 end
