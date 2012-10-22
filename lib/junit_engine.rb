@@ -13,11 +13,11 @@ class JUnitEngine
     source = params[:source]
     spec   = params[:spec]
 
-    source_classname = source.match(/^\s*public class ([^\s]+)/)[1]
+    source_classname = source.match(/^\s*public class ([a-z0-9_]+)/i)[1]
     source_filename  = "#{source_classname}.java"
     source_filepath  = File.join(@class_path, "org", "clouddevelop", unique_package, source_filename)
 
-    spec_classname = spec.match(/^\s*public class ([^\s]+)/)[1]
+    spec_classname = spec.match(/^\s*public class ([a-z0-9_]+)/i)[1]
     spec_filename  = "#{spec_classname}.java"
     spec_filepath  = File.join(@class_path, "org", "clouddevelop", unique_package, spec_filename)
 
