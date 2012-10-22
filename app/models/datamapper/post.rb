@@ -47,10 +47,10 @@ class Post
   end
 
   def snippet
-    if self.source.length < 200
+    if self.source.length < 100
       self.source
     else
-      self.source[0..197] + "..."
+      self.source[0..97] + "..."
     end
   end
 end

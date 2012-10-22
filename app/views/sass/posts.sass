@@ -5,7 +5,7 @@ table.posts
   width: 100%
 
   tr:hover
-    background-color: #ffe
+    background-color: $highlight-color
 
   th
     background-color: $medium-background-color
@@ -13,13 +13,20 @@ table.posts
   th, td
     padding: 5px $default-spacing
     text-align: left
+    vertical-align: top
 
   th:nth-child(1), td:nth-child(1)
     width: 100px
 
+  th:nth-child(2), td:nth-child(2)
+    width: 200px
+
+  th:nth-child(5), td:nth-child(5)
+    width: 300px
+
   td.token
     font-family: monospace
-    font-weight: bold
 
   td.snippet
     font-family: $code-font
+    white-space: nowrap
