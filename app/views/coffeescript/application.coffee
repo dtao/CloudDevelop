@@ -69,5 +69,8 @@ $(document).ready ->
     else
       link.parent().remove()
 
+  $(".content").one "click", ->
+    $("#instructions").remove()
+
   # Show a notification, if one is present.
   CloudDevelop.displayFlash()

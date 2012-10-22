@@ -78,7 +78,3 @@ CloudDevelop.init = (language) ->
       textarea = $("<textarea>").val(spec).data("mode", CloudDevelop.specEditor.getOption("mode"))
       textarea.appendTo(resultContainer)
       CloudDevelop.specEditor = CloudDevelop.initEditor(resultContainer)
-
-    # Clicking in either of the editors should dismiss the instructions.
-    $(".CodeMirror").one "click", ->
-      $("#instructions").remove()

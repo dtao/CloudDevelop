@@ -1,9 +1,6 @@
 - content_for :stylesheets do
   = stylesheet("sass/index")
 
-- content_for :javascript do
-  = javascript("coffeescript/index")
-
 - unless logged_in?
   - content_for :instructions do
     %p Welcome to **CloudDevelop**, an online code editor and testing environment.
