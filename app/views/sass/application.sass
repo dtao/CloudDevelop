@@ -95,12 +95,22 @@ a.dismiss
 
     li.login
       a
+        @include small-white-icon(github)
         color: $positive-action-color
       a:hover
         color: lighten($positive-action-color, 10%)
 
+    li.home
+      a
+        @include small-white-icon(home)
+
+    li.posts
+      a
+        @include small-white-icon(posts)
+
     li.logout
       a
+        @include small-white-icon(logout)
         color: $negative-action-color
       a:hover
         color: darken($negative-action-color, 10%)
@@ -122,10 +132,12 @@ a.dismiss
   bottom: 40px
   margin: $default-spacing
 
+  h1, h2, h3, h4, h5, h6
+    margin: 0 0 $default-spacing 0
+
   h1
     font-family: Helvetica, Arial, sans-serif
     font-weight: 300
-    margin: 0 0 $default-spacing 0
 
 .loading
   position: absolute

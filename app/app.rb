@@ -35,6 +35,7 @@ helpers do
   include FormatHelper
   include HtmlHelper
   include PostHelper
+  include GravatarHelper
 
   def logged_in?
     !!current_user
@@ -46,7 +47,15 @@ helpers do
 end
 
 get "/" do
-  haml :index
+  if logged_in?
+    haml :home
+  else
+    haml :new
+  end
+end
+
+get "/new" do
+  haml :new
 end
 
 get "/posts" do

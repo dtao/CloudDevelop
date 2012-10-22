@@ -1,0 +1,46 @@
+@import "common"
+
+.left
+  position: absolute
+  left: 0
+  right: 67%
+
+.middle
+  position: absolute
+  left: 33%
+  right: 33%
+
+.right
+  position: absolute
+  left: 67%
+  right: 0
+
+.post-count
+  font-size: 32px
+  margin: $default-spacing 0
+
+  .value
+    font-size: 48px
+
+.posts-breakdown
+  font-size: 24px
+  margin: $default-spacing 0
+
+  .language-count
+    .name
+      display: inline-block
+      width: 50%
+      font-weight: bold
+      color: $dark-text-color
+
+  .language-count:nth-child(even)
+    .name
+      color: $medium-text-color
+
+a.main-action
+  @include icon(pencil)
+  font-size: 32px
+  text-decoration: none
+
+a.main-action:hover
+  text-decoration: underline

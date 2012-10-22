@@ -1,0 +1,24 @@
+- content_for :stylesheets do
+  = stylesheet("sass/home")
+
+.left
+  %h1= current_user.name
+
+  = gravatar(current_user)
+
+  .post-count
+    %span.value= current_user.posts.count
+    posts
+
+  .posts-breakdown
+    - current_user.posts.group_by(&:language).each do |language, posts|
+      .language-count
+        %span.name= "#{language.name}:"
+        %span.value= posts.count
+
+.middle
+  %h2 Things to do
+
+  %a.main-action(href="/new") Create a new post
+
+.right

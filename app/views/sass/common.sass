@@ -47,3 +47,23 @@ $default-spacing:         20px
   @media all and (max-width: 1023px)
     font-size: 12px
     line-height: 16px
+
+@mixin icon-base
+  min-height: 32px
+  padding-left: 40px
+
+@mixin small-icon-base
+  min-height: 16px
+  padding-left: 20px
+
+@mixin icon($name)
+  @include icon-base
+  background: url("/images/icons/" + $name + ".png") no-repeat left center
+
+@mixin white-icon($name)
+  @include icon-base
+  background: url("/images/icons/" + $name + "-white.png") no-repeat left center
+
+@mixin small-white-icon($name)
+  @include small-icon-base
+  background: url("/images/icons/" + $name + "-small-white.png") no-repeat left center
