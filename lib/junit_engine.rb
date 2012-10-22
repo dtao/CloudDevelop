@@ -29,13 +29,12 @@ class JUnitEngine
       io.write "package org.clouddevelop.#{unique_package};\n\n#{spec}"
     end
 
-    system "javac -cp #{@junit_path} #{source_filepath} #{spec_filepath}"
+    output = STDOUTReader.from_command("javac -cp #{@junit_path} #{source_filepath} #{spec_filepath}")
 
-    output = ""
-    if $?.success?
+    if output.blank?
       output = `java -cp #{@junit_path}:#{@class_path} org.junit.runner.JUnitCore org.clouddevelop.#{unique_package}.#{spec_classname}`.strip
     else
-      output = "A compile-time error occurred."
+      output = output.match(/\.java:\d+: (.*)/m)[1]
     end
 
     submission = Submission.create({
