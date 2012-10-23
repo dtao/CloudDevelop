@@ -53,4 +53,8 @@ class Post
       self.source[0..97] + "..."
     end
   end
+
+  def upvotes
+    Upvote.all(:record_type => "Post", :record_id => self.id)
+  end
 end

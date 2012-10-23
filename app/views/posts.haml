@@ -5,7 +5,9 @@
   = javascript("coffeescript/posts")
 
 - if @user
-  %h1= "Posts by #{@user.name}"
+  %h1
+    = gravatar(@user, :s => 50)
+    = "Posts by #{@user.name}"
 - else
   %h1 Posts
 
@@ -16,13 +18,15 @@
     %th Token
     %th Language
     %th Snippet
+    %th Upvotes
     %th Actions
 
   - @posts.each do |post|
     %tr(data-token="#{post.token}")
       %td.created_at= short_date_format(post.created_at)
-      %td.label= "<a href=\"#{post.token}\">#{post.label}</a>"
-      %td.token= "<a href=\"#{post.token}\">#{post.token}</a>"
+      %td.label= "<a href=\"/#{post.token}\">#{post.label}</a>"
+      %td.token= "<a href=\"/#{post.token}\">#{post.token}</a>"
       %td.language= post.language.name
       %td.snippet= post.snippet
+      %td.upvotes= post.upvotes.count
       %td.delete= empty_link("Delete")

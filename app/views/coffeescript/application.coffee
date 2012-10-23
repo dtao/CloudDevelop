@@ -13,6 +13,9 @@ CloudDevelop.ajax = (options) ->
 
   promise = $.ajax(options)
 
+  promise.done (data) ->
+    CloudDevelop.displayFlash(data.message) if data.message?
+
   promise.fail ->
     CloudDevelop.displayError("An unexpected error occurred. <a href='mailto:daniel.tao@gmail.com'>E-mail me</a> and let me know what happened!")
 
@@ -48,6 +51,10 @@ CloudDevelop.displayError = (msg) ->
 
 CloudDevelop.delay = (timeout, callback) ->
   setTimeout(callback, timeout)
+
+CloudDevelop.increment = (element) ->
+  value = parseInt(element.text())
+  element.text(value + 1)
 
 CloudDevelop.getLabel = ->
   $("#label-input").val()

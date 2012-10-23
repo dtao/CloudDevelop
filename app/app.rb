@@ -70,6 +70,11 @@ get "/posts" do
   haml :posts
 end
 
+get "/users" do
+  @users = User.by_score
+  haml :users
+end
+
 get "/posts/:user_id" do |user_id|
   @user  = User.get(user_id)
   if @user.nil?
@@ -213,6 +218,15 @@ post "/:token" do |token|
   post     = Post.first(:token => token)
   language = Language[params[:language]]
   language.engine.process(params, post).to_json
+end
+
+post "/upvote/:token" do |token|
+  content_type :json
+
+  post = Post.first(:token => token)
+  current_user.vote_up(post)
+
+  { :message => "Voted up post #{post.identifier}." }.to_json
 end
 
 post "/save/:token" do |token|

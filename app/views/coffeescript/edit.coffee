@@ -72,6 +72,20 @@ CloudDevelop.init = (language) ->
       promise.done (data) ->
         window.location = "/#{data.token}"
 
+    $(".upvote").click (e) ->
+      element = $(this)
+
+      token = CloudDevelop.getToken()
+
+      promise = CloudDevelop.ajax
+        url: "/upvote/#{token}"
+        type: "POST"
+        dataType: "json"
+
+      promise.done (data) ->
+        element.find(".vote").remove()
+        CloudDevelop.increment(element.find(".count"))
+
     $(".back").live "click", ->
       resultContainer.empty()
       spec = CloudDevelop.specEditor.getValue()

@@ -4,6 +4,7 @@
       %li.status= "Logged in as #{current_user.name}"
       %li.home <a href="/">Home</a>
       %li.posts <a href="/posts">Posts</a>
+      %li.users <a href="/users">Users</a>
       %li.logout <a href="/logout">Log out</a>
     - else
       %li.status Not logged in
@@ -12,4 +13,11 @@
       %li.login-google <a href="/auth/google_oauth2">Google</a>
 
     - if post_belongs_to_someone_else?(@post)
-      %li.owner= "Viewing post '#{@post.identifier}' by <a href=\"/posts/#{@post.user.id}\">#{@post.user.name}</a>"
+      %li.owner= "Viewing post <span>#{@post.identifier}</span> by <a href=\"/posts/#{@post.user.id}\">#{@post.user.name}</a>"
+
+    - if @post
+      %li.upvote
+        %span.count= @post.upvotes.count
+        upvotes
+        - if can_vote_for_post?(@post)
+          = empty_link("(vote up)", :class => "vote")

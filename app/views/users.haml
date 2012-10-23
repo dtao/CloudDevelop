@@ -1,0 +1,18 @@
+- content_for :stylesheets do
+  = stylesheet "sass/users"
+
+%h1 Users
+
+%table.users
+  %tr
+    %th
+    %th Name
+    %th Score
+    %th Posts
+
+  - @users.each do |user|
+    %tr
+      %td= gravatar(user, :s => 50)
+      %td.name= "<a href=\"/posts/#{user.id}\">#{user.name}</a>"
+      %td.score= user.score
+      %td.posts= user.post_count

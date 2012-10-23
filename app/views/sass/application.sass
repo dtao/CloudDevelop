@@ -14,6 +14,21 @@ a:hover
 a.dismiss
   float: right
 
+table
+  border-collapse: collapse
+  width: 100%
+
+  tr:hover
+    background-color: $highlight-color
+
+  th
+    background-color: $medium-background-color
+
+  th, td
+    padding: 5px $default-spacing
+    text-align: left
+    vertical-align: top
+
 #flash
   @include full-width
   top: -50px
@@ -128,10 +143,16 @@ a.dismiss
 
     li.owner
       text-transform: none
+      span
+        font-weight: bold
       a
         color: $neutral-action-color
       a:hover
         color: lighten($neutral-action-color, 10%)
+
+    li.upvote
+      @include small-white-icon(upvote)
+      text-transform: none
 
 .content
   @include full-width
