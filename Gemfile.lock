@@ -155,6 +155,9 @@ GEM
     omniauth-github (1.0.3)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
+    omniauth-google-oauth2 (0.1.13)
+      omniauth (~> 1.0)
+      omniauth-oauth2
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
@@ -236,6 +239,7 @@ DEPENDENCIES
   mongoid (~> 2.1)
   omniauth
   omniauth-github
+  omniauth-google-oauth2
   pg
   pusher
   randy

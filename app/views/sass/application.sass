@@ -93,9 +93,16 @@ a.dismiss
     li.status
       color: darken(#fff, 25%)
 
-    li.login
+    li.login-github
       a
-        @include small-white-icon(github)
+        @include white-icon(github)
+        color: $positive-action-color
+      a:hover
+        color: lighten($positive-action-color, 10%)
+
+    li.login-google
+      a
+        @include white-icon(google)
         color: $positive-action-color
       a:hover
         color: lighten($positive-action-color, 10%)
@@ -107,6 +114,10 @@ a.dismiss
     li.posts
       a
         @include small-white-icon(posts)
+
+    li.users
+      a
+        @include small-white-icon(users)
 
     li.logout
       a

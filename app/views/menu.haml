@@ -7,7 +7,9 @@
       %li.logout <a href="/logout">Log out</a>
     - else
       %li.status Not logged in
-      %li.login <a href="/auth/github">Log in through GitHub</a>
+      %li Log in through:
+      %li.login-github <a href="/auth/github">GitHub</a>
+      %li.login-google <a href="/auth/google_oauth2">Google</a>
 
     - if post_belongs_to_someone_else?(@post)
       %li.owner= "Viewing post '#{@post.identifier}' by <a href=\"/posts/#{@post.user.id}\">#{@post.user.name}</a>"
