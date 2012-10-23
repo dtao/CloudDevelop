@@ -35,7 +35,14 @@
         = @instructions || yield_content(:instructions)
 
   .footer
-    %p CloudDevelop maintained by <a href="http://philosopherdeveloper.wordpress.com">Daniel Tao</a>.
+    %p
+      CloudDevelop uses
+      <a href="http://www.sinatrarb.com/">Sinatra</a>,
+      <a href="http://datamapper.org/">DataMapper</a>,
+      <a href="http://www.mongodb.org/">MongoDB</a>, and
+      <a href="http://codemirror.net/">CodeMirror</a>.
+      Maintained by <a href="http://philosopherdeveloper.wordpress.com">Daniel Tao</a>
+      (<a href="https://github.com/dtao">dtao</a>).
 
   / Hack to make browsers load this image before it's time to show it.
   = image("loading.gif", :class => "off-screen")
