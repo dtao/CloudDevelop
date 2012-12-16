@@ -1,0 +1,18 @@
+- content_for :stylesheets do
+  = stylesheet("sass/challenges")
+
+%h1 Challenges
+
+%table.challenges
+  %tr
+    %th Created
+    %th Label
+    %th Description
+    %th Posts
+
+  - @challenges.each do |challenge|
+    %tr
+      %td.created_at= short_date_format(challenge.created_at)
+      %td.label= "<a href=\"/#{challenge.id}\">#{challenge.label}</a>"
+      %td.description= challenge.description.snippet
+      %td.posts= challenge.posts.count

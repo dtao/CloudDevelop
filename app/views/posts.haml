@@ -27,6 +27,6 @@
       %td.label= "<a href=\"/#{post.token}\">#{post.label}</a>"
       %td.token= "<a href=\"/#{post.token}\">#{post.token}</a>"
       %td.language= post.language.name
-      %td.snippet= post.snippet
+      %td.snippet= post.source.snippet
       %td.upvotes= post.upvotes.count
       %td.delete= empty_link("Delete")

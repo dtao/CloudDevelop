@@ -4,6 +4,7 @@ class User
   has n, :identities
   has n, :posts
   has n, :upvotes
+  has n, :challenges
 
   property :id,    Serial
   property :email, String, :unique_index => true

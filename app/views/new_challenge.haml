@@ -1,0 +1,23 @@
+- content_for :stylesheets do
+  = stylesheet("css/codemirror")
+  = stylesheet("sass/edit")
+
+- content_for :javascript do
+  = javascript("javascript/codemirror-2.34")
+  = javascript("javascript/codemirror/mode/markdown")
+  = javascript("coffeescript/new_challenge")
+
+- content_for :instructions do
+  %p
+    Post a <strong>challenge</strong> for yourself and other programmers to solve, in the
+    languages of your choice. You can then share your challenge with others and vote on one
+    another's solutions.
+
+.challenge-label
+  %input#label(name="label" type="text" placeholder="Enter a title or label")
+
+.challenge-description
+  %textarea#description.editor(data-mode="text/x-markdown")
+
+.buttons
+  = empty_link("Save", :id => "save")

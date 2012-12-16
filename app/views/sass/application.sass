@@ -130,6 +130,10 @@ table
       a
         @include small-white-icon(posts)
 
+    li.challenges
+      a
+        @include small-white-icon(challenges)
+
     li.users
       a
         @include small-white-icon(users)
@@ -188,7 +192,9 @@ table
   color: $error-color !important
 
 .footer
-  @include full-width
+  position: fixed
+  left: 0
+  right: 0
   bottom: 0
   height: 40px
   padding: 0 $default-spacing

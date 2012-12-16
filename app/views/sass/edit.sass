@@ -3,25 +3,27 @@
 @mixin editor
   position: absolute
   border: 1px solid black
-  top: 0
-  bottom: 50px
   overflow: hidden
 
-  iframe
-    height: 100%
-    width: 100%
-
-.editor
+.input
   @include editor
+  top: 0
+  bottom: 50px
   left: 0
   right: 50%
   margin-right: $default-spacing / 2
 
 .result
   @include editor
+  top: 0
+  bottom: 50px
   left: 50%
   right: 0
   margin-left: $default-spacing / 2
+
+  iframe
+    height: 100%
+    width: 100%
 
   pre.console
     @include full-expand
@@ -43,6 +45,31 @@
     text-align: center
     opacity: 0.75
     cursor: pointer
+
+.challenge-label
+  @include full-width
+  top: 0
+  height: 40px
+  font-size: 20px
+  line-height: 40px
+  padding: 10px 0
+  text-align: left
+
+  input
+    position: absolute
+    left: 0
+    right: 0
+    display: block
+    font-size: 20px
+    height: 25px
+    padding: 5px
+
+.challenge-description
+  @include editor
+  top: 60px
+  bottom: 50px
+  left: 0
+  right: 0
 
 .CodeMirror
   @include responsive-font-size

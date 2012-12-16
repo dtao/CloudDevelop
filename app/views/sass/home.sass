@@ -2,24 +2,21 @@
 
 .content
   margin: 0
+  background-color: $light-background-color
 
 .left
   @include full-height
   left: 0
   right: 67%
   padding: $default-spacing
+  background-color: #fff
 
 .middle
   @include full-height
   left: 33%
   right: 33%
   padding: $default-spacing
-
-.right
-  @include full-height
-  left: 67%
-  right: 0
-  background-color: $light-background-color
+  background-color: #fff
 
 .post-count
   font-size: 32px
@@ -43,10 +40,21 @@
     .name
       color: $medium-text-color
 
-a.main-action
-  @include icon(pencil)
-  font-size: 32px
-  text-decoration: none
+ul.actions
+  list-style: none
+  padding-left: 0
 
-a.main-action:hover
-  text-decoration: underline
+  li
+    font-size: 32px
+
+    a
+      text-decoration: none
+
+    a:hover
+      text-decoration: underline
+
+    a.post
+      @include icon(pencil)
+
+    a.challenge
+      @include icon(challenges)

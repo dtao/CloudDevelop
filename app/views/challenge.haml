@@ -1,0 +1,10 @@
+- content_for :stylesheets do
+  = stylesheet("sass/challenge")
+
+%h1= @challenge.label
+
+%h2= "Posted by #{@challenge.user.name}"
+
+= gravatar(current_user)
+
+.challenge= markdown(@challenge.description)

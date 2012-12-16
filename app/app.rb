@@ -56,8 +56,12 @@ get "/" do
   end
 end
 
-get "/new" do
+get "/new/post" do
   haml :new
+end
+
+get "/new/challenge" do
+  haml :new_challenge
 end
 
 get "/posts" do
@@ -68,6 +72,16 @@ get "/posts" do
 
   @posts = current_user.posts(:order => [ :id.desc ])
   haml :posts
+end
+
+get "/challenges" do
+  @challenges = Challenge.all(:order => [ :id.desc ])
+  haml :challenges
+end
+
+get "/challenges/:id" do |id|
+  @challenge = Challenge.get(id)
+  haml :challenge
 end
 
 get "/users" do
@@ -229,6 +243,26 @@ post "/upvote/:token" do |token|
   { :message => "Voted up post #{post.identifier}." }.to_json
 end
 
+post "/save/challenge" do
+  content_type :json
+
+  challenge = if logged_in?
+    current_user.challenges.create({
+      :label       => params[:label],
+      :description => params[:description]
+    })
+  else
+    Challenge.create({
+      :label       => params[:label],
+      :description => params[:description]
+    })
+  end
+
+  flash[:notice] = "Saved challenge <span>#{challenge.label}</span>."
+
+  { :url => challenge.url }.to_json
+end
+
 post "/save/:token" do |token|
   content_type :json
 
@@ -249,10 +283,10 @@ post "/save/:token" do |token|
         properties = {}
         properties[:label] = params[:label] unless params[:label].blank?
           
-        if logged_in?
-          post = current_user.posts.create(properties)
+        post = if logged_in?
+          current_user.posts.create(properties)
         else
-          post = Post.create(properties)
+          Post.create(properties)
         end
       end
 
@@ -270,7 +304,7 @@ post "/save/:token" do |token|
     end
   end
 
-  flash[:notice] = "Saved post <span>#{post.label || post.token}</span>."
+  flash[:notice] = "Saved post <span>#{post.identifier}</span>."
 
   # The browser will redirect after this.
   { :token => post.token }.to_json
