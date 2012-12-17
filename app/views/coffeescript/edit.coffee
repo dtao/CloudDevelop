@@ -1,29 +1,14 @@
 window.CloudDevelop ?= {}
 
-CloudDevelop.initEditor = ($container) ->
-  textarea = $container.find("textarea")[0]
-  if textarea?
-    mode     = $(textarea).data("mode")
-    CodeMirror.fromTextArea textarea,
-      mode: mode
-  else
-    # TODO: Think of a less hacky way of doing this.
-    {
-      setValue: ->
-      getValue: -> ""
-    }
-
 CloudDevelop.init = (language) ->
   $(document).ready ->
-    editorContainer = $(".editor")
+    editors = $(".editor")
     resultContainer = $(".result")
 
-    CloudDevelop.sourceEditor = CloudDevelop.initEditor(editorContainer)
-    CloudDevelop.specEditor   = CloudDevelop.initEditor(resultContainer)
+    CloudDevelop.initEditor(editor) for editor in editors
 
     $("#clear").click ->
-      CloudDevelop.sourceEditor.setValue("")
-      CloudDevelop.specEditor.setValue("")
+      editor.setValue("") for editor in CloudDevelop.getEditors()
 
     $("#compile").click ->
       specEditorHtml  = resultContainer.html()
@@ -36,8 +21,8 @@ CloudDevelop.init = (language) ->
         url: "/#{token}"
         data:
           language: language
-          source:   CloudDevelop.sourceEditor.getValue()
-          spec:     CloudDevelop.specEditor.getValue()
+          source:   CloudDevelop.getEditor("source-editor").getValue()
+          spec:     CloudDevelop.getEditor("spec-editor").getValue()
         type: "POST"
         dataType: "json"
 
@@ -64,8 +49,8 @@ CloudDevelop.init = (language) ->
         data:
           label:    CloudDevelop.getLabel()
           language: language
-          source:   CloudDevelop.sourceEditor.getValue()
-          spec:     CloudDevelop.specEditor.getValue()
+          source:   CloudDevelop.getEditor("source-editor").getValue()
+          spec:     CloudDevelop.getEditor("spec-editor").getValue()
         type: "POST"
         dataType: "json"
 
@@ -88,7 +73,7 @@ CloudDevelop.init = (language) ->
 
     $(".back").live "click", ->
       resultContainer.empty()
-      spec = CloudDevelop.specEditor.getValue()
-      textarea = $("<textarea>").val(spec).data("mode", CloudDevelop.specEditor.getOption("mode"))
+      spec = CloudDevelop.getEditor("spec-editor").getValue()
+      textarea = $("<textarea>").val(spec).data("mode", CloudDevelop.getEditor("spec-editor").getOption("mode"))
       textarea.appendTo(resultContainer)
-      CloudDevelop.specEditor = CloudDevelop.initEditor(resultContainer)
+      CloudDevelop.initEditor(resultContainer)

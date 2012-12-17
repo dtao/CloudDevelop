@@ -13,10 +13,10 @@
 - if @post
   %input#token(type="hidden" value="#{@post.token}")
 
-.editor
+.input.editor
   %textarea#source-editor(data-mode="#{@language.mode}")= @source
 
-.result
+.result.editor
   - if @post && @post.output
     %pre.console= @post.output
   - elsif !@language.engine.uses_specs?

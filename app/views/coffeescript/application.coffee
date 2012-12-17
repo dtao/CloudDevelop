@@ -1,5 +1,31 @@
 window.CloudDevelop ?= {}
 
+editors = {}
+
+mockEditor =
+  setValue: ->
+  getValue: -> ""
+
+CloudDevelop.initEditor = (container) ->
+  $textarea = $(container).find("textarea")
+  editorId  = $textarea.attr("id")
+
+  if $textarea.length > 0
+    mode   = $textarea.data("mode")
+    editor = CodeMirror.fromTextArea $textarea[0],
+      mode: mode
+    editors[editorId] = editor
+
+  CloudDevelop.getEditor(editorId)
+
+CloudDevelop.getEditor = (id) ->
+  editors[id] || mockEditor
+
+CloudDevelop.getEditors = ->
+  array = []
+  array.push(editor) for id, editor in editors
+  array
+
 CloudDevelop.showLoading = (container) ->
   container ?= $("body")
   loadingContainer = $("<div>").addClass("loading").appendTo(container)
