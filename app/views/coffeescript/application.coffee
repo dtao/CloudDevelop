@@ -37,7 +37,11 @@ CloudDevelop.removeLoading = (container) ->
 CloudDevelop.ajax = (options) ->
   CloudDevelop.showLoading(options.container)
 
-  promise = $.ajax(options)
+  defaultOptions =
+    type: "POST"
+    dataType: "json"
+
+  promise = $.ajax($.extend(defaultOptions, options))
 
   promise.done (data) ->
     CloudDevelop.displayFlash(data.message) if data.message?
@@ -104,6 +108,10 @@ $(document).ready ->
 
   $(".content").one "click", ->
     $("#instructions").remove()
+
+  editors = $(".editor")
+
+  CloudDevelop.initEditor(editor) for editor in editors
 
   # Show a notification, if one is present.
   CloudDevelop.displayFlash()

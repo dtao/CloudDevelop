@@ -13,6 +13,6 @@
   - @challenges.each do |challenge|
     %tr
       %td.created_at= short_date_format(challenge.created_at)
-      %td.label= "<a href=\"/#{challenge.id}\">#{challenge.label}</a>"
+      %td.label= "<a href=\"/challenges/#{challenge.id}\">#{challenge.label}</a>"
       %td.description= challenge.description.snippet
       %td.posts= challenge.posts.count

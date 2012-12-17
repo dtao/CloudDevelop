@@ -2,10 +2,7 @@ window.CloudDevelop ?= {}
 
 CloudDevelop.init = (language) ->
   $(document).ready ->
-    editors = $(".editor")
     resultContainer = $(".result")
-
-    CloudDevelop.initEditor(editor) for editor in editors
 
     $("#clear").click ->
       editor.setValue("") for editor in CloudDevelop.getEditors()

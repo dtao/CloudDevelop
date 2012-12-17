@@ -16,8 +16,8 @@
 .challenge-label
   %input#label(name="label" type="text" placeholder="Enter a title or label")
 
-.challenge-description
-  %textarea#description.editor(data-mode="text/x-markdown")
+.challenge-description.editor
+  %textarea#description(data-mode="text/x-markdown")
 
 .buttons
   = empty_link("Save", :id => "save")
