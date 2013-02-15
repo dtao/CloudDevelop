@@ -1,9 +1,10 @@
 .sass-cache/
 config/env/
 db/
-public/images/icons/original/*
-public/images/logos/original/*
-tmp/*
+log/
+public/images/icons/original/
+public/images/logos/original/
+tmp/
 
 .DS_Store
 CloudDevelop.sublime-workspace
