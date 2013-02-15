@@ -1,4 +1,15 @@
 @import "common"
 
+.content
+  margin: 0
+  background-color: $light-background-color
+
 .challenge
-  font-size: 24px
+  @include full-height
+  left: 0
+  right: 50%
+  padding: $default-spacing
+  background-color: #fff
+
+  .description
+    font-size: 24px
