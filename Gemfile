@@ -26,7 +26,7 @@ gem "tux"
 # Database stuff
 gem "datamapper"
 gem "dm-noisy-failures"
-gem "mongoid", "~> 2.1"
+gem "mongoid", "~> 2.1.7"
 gem "bson_ext", "~> 1.3"
 
 group :production do

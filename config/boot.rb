@@ -3,7 +3,6 @@ require "data_mapper"
 require "haml"
 require "mongoid"
 require "pusher"
-require "sass"
 
 environment = ENV["RACK_ENV"] || "development"
 
