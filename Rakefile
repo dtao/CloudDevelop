@@ -13,6 +13,13 @@ namespace :db do
   task :update do
     DataMapper.auto_upgrade!
   end
+
+  desc "Start the mongoDB server"
+  task :start do
+    dbpath = File.join(PROJECT_ROOT, "db")
+    logpath = File.join(PROJECT_ROOT, "log", "mongoid.log")
+    `mongod --dbpath=#{dbpath} --logpath=#{logpath} --fork`
+  end
 end
 
 namespace :heroku do
