@@ -16,3 +16,6 @@
       %td.label= "<a href=\"/challenges/#{challenge.id}\">#{challenge.label}</a>"
       %td.description= challenge.description.snippet
       %td.posts= challenge.posts.count
+
+.buttons
+  %a(href="/new/challenge") New Challenge

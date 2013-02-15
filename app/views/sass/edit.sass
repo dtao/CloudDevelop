@@ -1,4 +1,5 @@
 @import "common"
+@import "buttons"
 
 @mixin editor
   position: absolute
@@ -100,28 +101,3 @@
     font-size: 20px
     height: 25px
     padding: 5px
-
-.buttons
-  @include full-width
-  bottom: 0
-  left: 50%
-  height: 30px
-  padding: 10px 0
-  text-align: right
-  overflow: hidden
-
-  a
-    @include clickable
-    display: inline-block
-    height: 40px
-    width: 120px
-    margin-right: 10px
-    font-size: 20px
-    font-weight: bold
-    line-height: 40px
-    text-align: center
-    text-decoration: none
-    cursor: default
-
-  a:nth-last-child(1)
-    margin-right: 0
